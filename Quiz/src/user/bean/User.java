@@ -1,0 +1,60 @@
+package user.bean;
+
+public class User {
+
+	private int user_id;
+	private String username;
+	private String password;
+	private String email;
+	private String userpic;
+	private String hashedpass;
+	
+
+	public void setUserId(int user_id) {
+		this.user_id = user_id;
+	}
+	
+	public void setUserName(String username) {
+		this.username = username;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setHashedPassword(String HashedPass) {
+		this.hashedpass = HashedPass;
+	}
+	
+	public void setEMail(String mail) {
+		this.email = mail;
+	}
+	
+	public void setPicURL(String pic_url) {
+		this.userpic = pic_url;
+	}
+	
+	public int getUserId() {
+		return this.user_id;
+	}
+	
+	public String getUserName() {
+		return this.username;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public String getHashedPassword() {
+		return this.hashedpass;
+	}
+	
+	public String getEMail() {
+		return this.email;
+	}
+	
+	public String getUserpic() {
+		return this.userpic;
+	}
+}
