@@ -1,0 +1,45 @@
+package connection;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+
+import manager.UserManager;
+
+/**
+ * Application Lifecycle Listener implementation class ServletListener
+ *
+ */
+@WebListener
+public class ServletListener implements ServletContextListener {
+
+    /**
+     * Default constructor. 
+     */
+    public ServletListener() {
+    }
+
+	/**
+     * @see ServletContextListener#contextDestroyed(ServletContextEvent)
+     */
+    public void contextDestroyed(ServletContextEvent arg0)  { 
+    }
+
+	/**
+     * @see ServletContextListener#contextInitialized(ServletContextEvent)
+     */
+    public void contextInitialized(ServletContextEvent event)  { 
+    	ServletContext sc = event.getServletContext();
+    	DataBase db = new DataBase();
+    	
+    	UserManager userM = null;
+    	
+    	try {
+			userM = new UserManager(db);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+       	sc.setAttribute("userM", userM);
+    }
+}

@@ -1,5 +1,7 @@
 package user.bean;
 
+import action.Hasher;
+
 public class User {
 
 	private int user_id;
@@ -8,7 +10,6 @@ public class User {
 	private String email;
 	private String userpic;
 	private String hashedpass;
-	
 
 	public void setUserId(int user_id) {
 		this.user_id = user_id;
@@ -18,12 +19,12 @@ public class User {
 		this.username = username;
 	}
 	
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String p) {
+		this.password = p;
 	}
 	
-	public void setHashedPassword(String HashedPass) {
-		this.hashedpass = HashedPass;
+	public void setHashedPassword(String hashedPass) {
+		this.hashedpass = hashedPass;
 	}
 	
 	public void setEMail(String mail) {
@@ -56,5 +57,10 @@ public class User {
 	
 	public String getUserpic() {
 		return this.userpic;
+	}
+	
+	public String GenerateHashedPassword(String password) {
+		Hasher hashing = new Hasher();
+		return this.hashedpass = hashing.getHashedPassword(password);
 	}
 }
