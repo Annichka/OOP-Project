@@ -44,7 +44,6 @@ public class QuestionDao {
 			stmt.setInt(1, id);
 			try(ResultSet rslt = stmt.executeQuery()) {
 				ArrayList <Question> question_list = new ArrayList<Question>();
-
 				while (rslt.next()) {
 					Question curr_quest = new Question();
 					curr_quest.setQuestionId(rslt.getInt("id"));
@@ -60,6 +59,5 @@ public class QuestionDao {
 				return question_list;
 			}
 		}
-	}
-	
+	}	
 }

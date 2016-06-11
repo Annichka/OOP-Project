@@ -43,7 +43,7 @@ public class UserDao {
 		}
 	}
 	
-	public List<User> AllUsers() throws SQLException {
+	public List<User> allUsers() throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Users")) {
 			try (ResultSet rslt = stmt.executeQuery()) {
 				List<User> lst = new ArrayList<User>();
@@ -61,6 +61,23 @@ public class UserDao {
 		}
 	}
 	
+	public ArrayList<User> allUserExcept(int id) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Users Where user_id != " + id)) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				ArrayList<User> lst = new ArrayList<User>();
+				while (rslt.next()) {
+					User usr = new User();
+					usr.setUserId(rslt.getInt("user_id"));
+	 				usr.setUserName(rslt.getString("username"));
+					usr.setHashedPassword(rslt.getString("pass"));
+					usr.setEMail(rslt.getString("e_mail"));
+					usr.setPicURL(rslt.getString("pic_url"));
+					lst.add(usr);
+				}
+				return lst;
+			}
+		}
+	}
 	public User getUserById(int id) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Users WHERE user_id = ?")) {
 			stmt.setInt(1, id);

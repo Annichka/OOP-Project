@@ -5,7 +5,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import manager.UserManager;
+import manager.*;
 
 /**
  * Application Lifecycle Listener implementation class ServletListener
@@ -34,12 +34,17 @@ public class ServletListener implements ServletContextListener {
     	DataBase db = new DataBase();
     	
     	UserManager userM = null;
-    	
+    	FriendManager friM = null;
+    	MessageManager mesM = null;
     	try {
 			userM = new UserManager(db);
+			friM = new FriendManager(db);
+			mesM = new MessageManager(db);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
        	sc.setAttribute("userM", userM);
+       	sc.setAttribute("friM", friM);
+       	sc.setAttribute("mesM", mesM);
     }
 }

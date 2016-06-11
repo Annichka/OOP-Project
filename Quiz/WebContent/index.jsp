@@ -2,94 +2,68 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
-
 <head>
-
-<script type="text/javascript">
-	function newPopup(url) {
-		popupWindow = window.open(
-			url,'popUpWindow','height=30px, width=50px,left=250,top=150,resizable=no,status=yes')
-	}
-</script>
-
-		<title>Quiz Web site</title>
-		<meta charset="utf-8" />
-		
+	<link rel="stylesheet" type="text/css" href="mystyles.css" />
+	<script type="text/javascript">
+		function newPopup(url) {
+			popupWindow = window.open(
+				url,'popUpWindow','height=30px, width=50px,left=250,top=150,resizable=no,status=yes')
+		}
+	</script>
 </head>
+<body>
 
-	<body class="homepage">
-		<div id="page-wrapper">
-		
-		<% if (session.getAttribute("authorized") != null) { %>
-				<!-- Logo -->
-				<header id="header" class="container">
-					<div id="logo">
-						<font size = "1">
-							<h1><a href="index.jsp">
-								<%= session.getAttribute("username") %>'s Wall
-							</a></h1>
-						</font>
-					</div>
-				</header>
-				
+<header>
+<h1>Quiz Web Site</h1>
+</header>
+		<%if (session.getAttribute("authorized") == null) { %>
+			<nav>
+			<a href="login.jsp"  >Login</a> <br>
+			<a href="register.jsp" >Register</a>
+			</nav>
+			<section>
+				<p>- He saved Klaus to save me, and then he stole the coffins to get even,</p>
+				<p>- Damon, if he did it to protect you, why would he even do that? What does that even mean?</p>
+				<p>- What does it mean? It means I'm an idiot cuz I thought for one second that I wouldn't heave to feel guilty anymore...</p>
+				<p>- Wait, what are you talking about? Guilty for what?</p>
+				<p>- For wanting what I want.</p>
+				<p>- Damon...</p>
+				<p>- No, I know. Believe me, I get it. Brother's girl and all.</p>
+				<p>...</p>
+				<p>- No, no, you know what? If I'm going to feel guilty about something, I'm going to feel guilty about this?</p>
+				<p>I take her head into my hands and kiss her. I act on those feelings pent up inside me and I show them to her through a passionate yet gentle kiss...</p>
+				<p>- Goodnight. - I whisper leaving her on that porch while I walk away, barely able to keep myself from looking back.</p>
+			</section>
+			
+		<% } else { %>
+			<nav>
+				<% ServletContext sCont = request.getServletContext(); %>
+				<h1><a href="index.jsp">
+					<%= sCont.getAttribute("username") %>
+				</a></h1>
+				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;">
+				<a href="Friendship">Friend List</a><br>
+				<a href="#">Messages</a><br>
+				<a href="#">History</a><br>
 				<div class="form">
-				  <form action="Logout" method="get">
+				  <forms action="Logout" method="get">
 				    <button> Logout </button>
 				  </form>
 				</div>
-       	<% } else { %>				
-		<!-- Banner -->
-				<div id="banner-wrapper">
-					<div id="banner" class="box container">
-						<div class="row">
-							<div class="7u 12u(medium)">
-								<h2>Hello. This is Quiz Web site.</h2>
-							</div>
-							<div class="5u 12u(medium)">
-								<ul>
-									<li><a href="login.jsp" class="button big icon fa-arrow-circle-right">Login</a></li>
-									<li><a href="register.jsp" class="button alt big icon fa-question-circle">Register</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			<% } %>
+			</nav>
+		<section>
+			<%if (session.getAttribute("getfriends") != null) { %>
+				<%@ include file = "friend_list.jsp" %>
+				<% session.removeAttribute("getfriends"); %>
+				<% session.removeAttribute("friends");  %>
+			<%} %>
+				
+		</section>
+		<% } %>
 
-			
-			<!-- Footer -->
-				<div id="footer-wrapper">
-					<footer id="footer" class="container">
-						<div class="row">
-							<div class="3u 6u(medium) 12u$(small)">
+<footer>
+<a href="index.jsp">Home page</a>
+</footer>
 
-								<!-- Links -->
-									<section class="widget links">
-										<ul class="style2">
-											<li><a href="index.jsp">Home page</a></li>
-										</ul>
-									</section>
-
-							</div>
-							
-							<div class="3u 6u$(medium) 12u$(small)">
-
-								<!-- Contact -->
-									<section class="widget contact last">
-										<h3>Contact Us</h3>
-										<ul>
-											<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-										</ul>
-									</section>
-
-							</div>
-						</div>
-	
-					</footer>
-				</div>
-
-			</div>
-
-	</body>
+</body>
 </html>
