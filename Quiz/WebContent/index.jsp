@@ -16,7 +16,7 @@
 <header>
 <h1>Quiz Web Site</h1>
 </header>
-		<%if (session.getAttribute("authorized") == null) { %>
+		<%if (session.getAttribute("authorized") == null || session.getAttribute("logout") != null){ %>
 			<nav>
 			<a href="login.jsp"  >Login</a> <br>
 			<a href="register.jsp" >Register</a>
@@ -46,8 +46,8 @@
 				<a href="#">Messages</a><br>
 				<a href="#">History</a><br>
 				<div class="form">
-				  <forms action="Logout" method="get">
-				    <button> Logout </button>
+				  <form action="Logout" method="get">
+				    <button > Logout </button>
 				  </form>
 				</div>
 			</nav>

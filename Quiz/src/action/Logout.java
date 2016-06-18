@@ -23,10 +23,12 @@ public class Logout extends HttpServlet {
     public Logout() {
         super();
     }
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
-        HttpSession session = request.getSession();
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
         session.setAttribute("logout", true);
         session.removeAttribute("authorized");
         session.removeAttribute("username");
@@ -35,14 +37,6 @@ public class Logout extends HttpServlet {
         sCont.removeAttribute("user");
         session.invalidate();
         response.sendRedirect("index.jsp");
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
