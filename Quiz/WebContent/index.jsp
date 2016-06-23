@@ -45,6 +45,7 @@
 				<a href="Friendship">Friend List</a><br>
 				<a href="#">Messages</a><br>
 				<a href="#">History</a><br>
+				<a href="#">Find Friends</a><br>
 				<div class="form">
 				  <form action="Logout" method="get">
 				    <button > Logout </button>
@@ -56,8 +57,9 @@
 				<%@ include file = "friend_list.jsp" %>
 				<% session.removeAttribute("getfriends"); %>
 				<% session.removeAttribute("friends");  %>
-			<%} %>
-				
+			<%} else {%>
+				<%@ include file = "user_list.jsp" %>
+			<% } %>
 		</section>
 		<% } %>
 

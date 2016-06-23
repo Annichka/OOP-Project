@@ -3,9 +3,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="mystyles.css" />
+	<script type="text/javascript">
+		function newPopup(url) {
+			popupWindow = window.open(
+				url,'popUpWindow','height=30px, width=50px,left=250,top=150,resizable=no,status=yes')
+		}
+	</script>
 </head>
+
 <body>
 	<%@ page import="java.util.List" %>
 	<%@ page import="user.bean.*" %>
@@ -35,15 +41,10 @@
 	%>
 	
 	<% /* User-ის სახელი, სურათი */ %>
-	<header id="header" class="container">
-		<div id="logo">
-			<font size = "1">
-				<h1><a href="index.jsp">
-					<%= request.getParameter("profile") %>'s Profile
-				</a></h1>
-			</font>
-		</div>
+	<header>
+		<%= request.getParameter("profile") %>'s Profile
 	</header>
+	
 	<img src="<%= curr_user.getUserpic() %>" alt="<%= curr_user.getUserName()%>" style="width:90px;height:90px;">
 				
 	<% /* მეგობრობა */ %>
@@ -56,6 +57,11 @@
 			</form>
 		</div>
 	<% } %>
+
+
+<footer>
+<a href="index.jsp">Home page</a>
+</footer>
 
 </body>
 </html>
