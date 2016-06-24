@@ -61,9 +61,9 @@ public class MessagesDao {
 	}
 	
 	/* მიბრუნებს ჩემთან გამოგზავნილ მესიჯებს (და არა ჩემგან გაგზავნილებს!) [[წესით]]*/
-	public List<Messages> getUserMessages(User usr) throws SQLException {
+	public List<Messages> getUserMessages(int usrId) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = ?")) {
-			stmt.setInt(1, usr.getUserId());
+			stmt.setInt(1, usrId);
 			try (ResultSet rslt = stmt.executeQuery()) {
 				List<Messages> user_messages = new ArrayList<>();
 				while(rslt.next()) {
@@ -74,6 +74,25 @@ public class MessagesDao {
 					msg.setMessage(rslt.getString("message"));
 					msg.setMType(rslt.getString("m_type"));
 					msg.setQuizId(rslt.getInt("quiz_id"));
+					user_messages.add(msg);
+				}
+				return user_messages;
+			}
+		}
+	}
+	
+	public List<Messages> getFriendRequests(int usrId) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = ? AND m_type = \"friendrequest\"")) {
+			stmt.setInt(1, usrId);
+			try (ResultSet rslt = stmt.executeQuery()) {
+				List<Messages> user_messages = new ArrayList<>();
+				while(rslt.next()) {
+					Messages msg = new Messages();
+					msg.setId(rslt.getInt("id"));
+					msg.setSender(rslt.getInt("u_from"));
+					msg.setReceiver(rslt.getInt("u_to"));
+					msg.setMessage(rslt.getString("message"));
+					msg.setMType(rslt.getString("m_type"));
 					user_messages.add(msg);
 				}
 				return user_messages;

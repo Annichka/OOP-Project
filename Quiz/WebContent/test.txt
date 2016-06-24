@@ -1,78 +1,106 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;
-}
-nav {
-    line-height:30px;
-    background-color:#eeeeee;
-    height:300px;
-    width:100px;
-    float:right;
-    padding:5px;
-}
-section {
-    width:350px;
-    float:left;
-    padding:10px;
-}
-footer {
-    background-color:black;
-    color:white;
-    clear:both;
-    text-align:center;
-    padding:5px;
-}
-</style>
-</head>
-<body>
-
-<header>
-<h1>Quiz Web Site</h1>
-</header>
-		<%if (session.getAttribute("authorized") != null) { %>
-			<section>
-			<%if (session.getAttribute("getfriends") != null) { %>
-				<%@ include file = "friend_list.jsp" %>
-				<% session.removeAttribute("getfriends"); %>
-				<% session.removeAttribute("friends");  %>
-			<%} %>
-			<% ServletContext sCont = request.getServletContext(); %>
-				<h1><a href="index.jsp">
-					<%= sCont.getAttribute("username") %>'s Wall
-				</a></h1>
+<nav>
+				<% ServletContext sCont = request.getServletContext(); %>
+				<h2><a href="index.jsp">
+					<%= sCont.getAttribute("username") %>
+				</a></h2>
 				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;">
+				<a href="Friendship">Friend List</a><br>
 				
-				<section class="widget links">
-					<ul class="style2">
-						<li><a href="Friendship">Friend List</a></li>
-					</ul>
-				</section>
-				
+				<button onclick="testfunk()">Requests</button>
+				<button>Messages</button>
+				<button>Scores</button>
+				<button>History</button><br>
 				<div class="form">
 				  <form action="Logout" method="get">
-				    <button> Logout </button>
+				    <button > Logout </button>
 				  </form>
 				</div>
-				
-				<%@ include file = "user_list.jsp" %> 
-		</section>
-
-		<% } else { %>
-			<nav>
-			<a href="login.jsp"  >Login</a> <br>
-			<a href="register.jsp" >Register</a>
 			</nav>
-		<% } %>
-
-<footer>
-<a href="index.jsp">Home page</a>
-</footer>
-
-</body>
-</html>
+			<div id="test">
+				<section>
+					<%if (session.getAttribute("getfriends") != null) { %>
+						<%@ include file = "friend_list.jsp" %>
+						<% session.removeAttribute("getfriends"); %>
+						<% session.removeAttribute("friends");  %>
+					<%} else {%>
+						<%@ include file = "user_list.jsp" %>
+					<% } %>
+				</section>
+				
+				
+				
+					<%@ page import="java.util.List" %>
+	<%@ page import="user.bean.*" %>
+	<%@ page import="java.util.ArrayList" %>
+	<%@ page import="manager.*" %>
+	<%@ page import="user.dao.*" %>
+	<%@ page import="javax.servlet.ServletContext" %>
+	<%@ page import="java.io.IOException" %>
+	<%@ page import="java.sql.SQLException" %>
+	
+	<%
+		String user = (String) getServletContext().getAttribute("username");
+		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
+		UserDao usrD = usrM.getPersonDao();
+		User me = null;
+		
+		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
+		MessagesDao msgD = msgM.getMessageDao();
+		List<user.bean.Messages> msg = null;
+		try {
+			me = usrD.getUserByName(user);
+			msg =  msgD.getUserMessages(me.getUserId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	%>
+	
+	<% for (int i=0; i< msg.size(); i++) { %>
+		<p><%= msg.get(i).getSender() %> </p>
+		<p><%= msg.get(i).getMessage() %> </p>
+	<% } %>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<nav>
+				<% ServletContext sCont = request.getServletContext(); %>
+				<h2><a href="index.jsp">
+					<%= sCont.getAttribute("username") %>
+				</a></h2>
+				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;">
+				<a href="Friendship">Friend List</a><br>
+				
+				<a href = "messages.jsp">Requests</a>
+				<button>Messages</button>
+				<button>Scores</button>
+				<button>History</button><br>
+				<div class="form">
+				  <form action="Logout" method="get">
+				    <button > Logout </button>
+				  </form>
+				</div>
+			</nav>
+				<section>
+					<%if (session.getAttribute("getfriends") != null) { %>
+						<%@ include file = "friend_list.jsp" %>
+						<% session.removeAttribute("getfriends"); %>
+						<% session.removeAttribute("friends");  %>
+					<%} else {%>
+						<%@ include file = "user_list.jsp" %>
+					<% } %>
+				</section>

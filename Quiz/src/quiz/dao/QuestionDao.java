@@ -16,14 +16,14 @@ public class QuestionDao {
 		this.conn = conn;
 	}
 	
-	public void addQuestion(Question q) throws SQLException {
+	/*public void addQuestion(Question q) throws SQLException {
 		Statement stmt = (Statement) conn.createStatement();
 		
 		String sql = "INSERT INTO Questions (question, quest_type, c_answer, w_answer, answer_count, pic_url, quiz_id) " + "VALUES('" + q.getQuestion()
 		+ "', '" + q.getType() + "', '" + q.getCAnswer()+ "', '"+ q.getWAnswers() + "', '" + q.getAnswerCount() +
 		"', '"+ q.getPicUrl() +"', '"+ q.getQuizId() +"')";
 		stmt.executeUpdate(sql);
-	}
+	}*/
 	
 	public void deleteQuestionById(int id) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Questions WHERE id = ?")) {
@@ -38,7 +38,7 @@ public class QuestionDao {
 			stmt.executeUpdate();
 		}
 	}
-	
+	/*
 	public ArrayList <Question> getQuestionsByQuizId(int id) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Questions WHERE quiz_id = ?")) {
 			stmt.setInt(1, id);
@@ -59,5 +59,5 @@ public class QuestionDao {
 				return question_list;
 			}
 		}
-	}	
+	}	*/
 }

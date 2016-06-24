@@ -71,10 +71,10 @@ public class FriendsDao {
 	
 	/* to ვარ მე, და ეს მეთოდი მიბრუნებს ვიღაც ტიპმა (from)-მა თუ გამომიგზავნა მეგობრობა. */ 
 	/* ასევე შემიძლია გავარკვიო, გაგზავნილი მაქვს თუ არა ვიღაც ტიფთან რიქუესთი. (აქ From-ი ვარ მე.) */
-	public boolean isRequested(User from, User to) throws SQLException {
+	public boolean isRequested(int from, int to) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_from = ? && u_to = ? && m_type = 'friendrequest'")) {
-			stmt.setInt(1, from.getUserId());
-			stmt.setInt(2, to.getUserId());
+			stmt.setInt(1, from);
+			stmt.setInt(2, to);
 			try (ResultSet rslt = stmt.executeQuery()) {
 				if(rslt.next())
 					return true;

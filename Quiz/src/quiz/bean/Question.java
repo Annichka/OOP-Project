@@ -15,11 +15,9 @@ public class Question {
 	protected int questionid;
 	protected String question;
 	protected String c_answer;
-	protected String w_answer;
 	protected int type;
 	protected int quizid;
 	protected int answer_count;
-	protected String picurl;
 	
 	public void setQuestionId(int id) {
 		this.questionid = id;
@@ -45,14 +43,6 @@ public class Question {
 		this.c_answer = ans;
 	}
 
-	public String getWAnswers() {
-		return this.w_answer;
-	}
-
-	public void setWAnswers(String ans) {
-		this.w_answer = ans;
-	}
-	
 	public void setType(int tp) {
 		this.type = tp;
 	}
@@ -69,10 +59,6 @@ public class Question {
 		return this.quizid;
 	}
 
-	public int getQuestionID() {
-		return this.questionid;
-	}
-	
 	public void setAnswerCount(int c) {
 		this.answer_count = c;
 	}
@@ -80,14 +66,4 @@ public class Question {
 	public int getAnswerCount() {
 		return this.answer_count;
 	}
-	
-	public void setPicUrl(String url) {
-		this.picurl = url;
-	}
-	
-	public String getPicUrl() {
-		return this.picurl;
-	}
-	
-
 }

@@ -47,6 +47,7 @@ public class Login extends HttpServlet {
 			UserDao dao = usrM.getPersonDao();
 			FriendsDao fDao = (new FriendManager(DataBase.db)).getFriendDao();
 			User found_acc = dao.getUserByName(acc.getUserName());
+
 			if (found_acc != null && found_acc.getHashedPassword().equals(acc.getHashedPassword())) {
 				HttpSession session = request.getSession();
 		        session.setAttribute("authorized", true);

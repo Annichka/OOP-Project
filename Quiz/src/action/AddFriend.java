@@ -37,8 +37,6 @@ public class AddFriend extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -51,24 +49,21 @@ public class AddFriend extends HttpServlet {
 		try {
 			String name = (String) sCont.getAttribute("username");
 			User me = usrD.getUserByName(name);
-			String fr_name =  request.getParameter("action");
+			String fr_name =  (String) request.getParameter("messageTo");
 			User user = usrD.getUserByName(fr_name);
 			
 			String text = "You Have Friend Request from " + me.getUserName();
 			String type = "friendrequest";
 			SendFriendRequest(me, user, text, type);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("friendrequest", user.getUserName());
-
-			response.sendRedirect("index.jsp?profile=" + user.getUserName());
+		
+			response.sendRedirect("profile.jsp?profile=" + user.getUserName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void SendFriendRequest(User from, User to, String text, String type) throws SQLException {
-		MessageManager msgM = (MessageManager) getServletContext().getAttribute("messageM");
+		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
 		MessagesDao msgD = msgM.getMessageDao();
 		Messages sms = new Messages();
 		

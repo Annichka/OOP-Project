@@ -10,11 +10,26 @@
 				url,'popUpWindow','height=30px, width=50px,left=250,top=150,resizable=no,status=yes')
 		}
 	</script>
+	
+	<style>
+	input[type=button] {
+	     background:none!important;
+	     border:none; 
+	     padding:0!important;
+	     font-family:arial,sans-serif;
+	     font-size: 15px;
+	     color:green;
+	     display:inline-block
+	     text-decoration:underline;
+	     cursor:pointer;
+	
+	}
+</style>
 </head>
 <body>
 
 <header>
-<h1>Quiz Web Site</h1>
+<a href="index.jsp"><h1>Quiz Web Site</h1></a>
 </header>
 		<%if (session.getAttribute("authorized") == null || session.getAttribute("logout") != null){ %>
 			<nav>
@@ -36,35 +51,62 @@
 			</section>
 			
 		<% } else { %>
+			<script src="myscripts.js"></script>
+
 			<nav>
 				<% ServletContext sCont = request.getServletContext(); %>
-				<h1><a href="index.jsp">
+				<h2><a href="index.jsp">
 					<%= sCont.getAttribute("username") %>
-				</a></h1>
-				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;">
-				<a href="Friendship">Friend List</a><br>
-				<a href="#">Messages</a><br>
-				<a href="#">History</a><br>
-				<a href="#">Find Friends</a><br>
+				</a></h2>
+				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
+								
+				<input type="button" value="Friend List" name="Friend List" onClick="friendFunc()"><br>
+				
+				<input type="button" value="Requests" name="Requests" onClick="messageFunc()"><br>
+				<button >Messages</button><br>
+				<button >Scores</button><br>
+				
 				<div class="form">
 				  <form action="Logout" method="get">
-				    <button > Logout </button>
+				    <button> Logout </button><br>
 				  </form>
 				</div>
 			</nav>
-		<section>
-			<%if (session.getAttribute("getfriends") != null) { %>
-				<%@ include file = "friend_list.jsp" %>
-				<% session.removeAttribute("getfriends"); %>
-				<% session.removeAttribute("friends");  %>
-			<%} else {%>
-				<%@ include file = "user_list.jsp" %>
+			<section>
+				<div id="content">
+					<%if (session.getAttribute("friendrequests") == null) { %>
+						<%if (session.getAttribute("getfriends") != null) { %>
+							<% session.removeAttribute("getfriends"); %>
+							<% session.removeAttribute("friends");  %>
+						<%} else {%>
+							<%@ include file = "user_list.jsp" %>
+						<% } %>
+					<% } %>
+				</div>
+			</section>
+			
+			<% if (session.getAttribute("friendrequests") != null) { %>
+				<script>
+						var xhttp = new XMLHttpRequest();
+						xhttp.onreadystatechange = function() {
+							if (xhttp.readyState == 4 && xhttp.status == 200) {
+								document.getElementById("content").innerHTML = xhttp.responseText;
+							}
+						};
+						xhttp.open("GET", "FriendRequests", true)
+						xhttp.send()
+			    </script>
 			<% } %>
-		</section>
+			<% session.removeAttribute("friendrequests"); %>
 		<% } %>
-
+		
+<aside>
+	<input type="search" id="mySearch" placeholder="Search for friends..">
+	<input type="submit" onclick="searchFunc()"/>
+</aside>
+		
 <footer>
-<a href="index.jsp">Home page</a>
+	<a href="index.jsp">Home page</a>
 </footer>
 
 </body>
