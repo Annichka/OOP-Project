@@ -80,5 +80,38 @@ public class QuestionDao {
 			stmt.executeUpdate();
 		}
 	}
+	public ArrayList<Question> getQuestionsByQuizId(int id) throws SQLException {
+		try (PreparedStatement stmt = conn
+				.prepareStatement("SELECT * FROM Questions WHERE quiz_id = ?")) {
+			stmt.setInt(1, id);
+			try (ResultSet rslt = stmt.executeQuery()) {
+				ArrayList<Question> question_list = new ArrayList<Question>();
+				while (rslt.next()) {
+					Question curr_quest = new Question();
+					curr_quest.setQuizId(rslt.getInt("quiz_id"));
+					curr_quest.setType(rslt.getString("quest_type"));
+					curr_quest.setQuestionId(rslt.getInt("id"));
+					curr_quest.setQuestion(rslt.getString("question"));
+					curr_quest.setCAnswer(rslt.getString("c_answer"));
+					curr_quest.setAnswerCount(rslt.getInt("answer_count"));
+					if (curr_quest.getType().equalsIgnoreCase("MultipleChoice")
+							|| curr_quest.getType().equalsIgnoreCase(
+									"ultiAnswerQuestions"))
+						((MultipleChoice) curr_quest).setWAnswers(rslt
+								.getString("w_answer"));
+					if (curr_quest.getType()
+							.equalsIgnoreCase("PictureResponse"))
+						((PictureResponse) curr_quest).setPicUrl(rslt
+								.getString("pic_url"));
+					if (curr_quest.getType().equalsIgnoreCase(
+							"ultiAnswerQuestions"))
+						((MultiAnswerQuestions) curr_quest).setIsOrdered(rslt
+								.getInt("ordered"));
 
+					question_list.add(curr_quest);
+				}
+				return question_list;
+			}
+		}
+	}
 }
