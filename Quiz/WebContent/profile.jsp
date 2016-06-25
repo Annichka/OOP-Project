@@ -69,16 +69,20 @@
 				   </form>
 				 </div>
 			<% } %>
-			<div class="form">
-				<form action="SendNote" method="post">
-				  	<input type="hidden" name="noteTo" value="<%=curr_user.getUserName() %>">
-				    <input type="submit" value="Send note" />
-				</form>
-			</div>
 			<a href="#">Friends</a><br>
 			<a href="#">Scores</a><br>
 		</nav>
 	<% } %>
+
+	<section>
+	<div class="form">
+		<form action="SendNote" method="Post">
+		    <input type="text" placeholder="Write message..." name="note" />
+		    <input type="hidden" name="user" value=<%= curr_user.getUserName() %> />
+		    <button> Send note </button>
+		</form>
+	</div>
+	</section>
 	
 	<footer>
 	<a href="index.jsp">Home page</a>

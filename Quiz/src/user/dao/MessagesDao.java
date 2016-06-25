@@ -61,8 +61,8 @@ public class MessagesDao {
 	}
 	
 	/* მიბრუნებს ჩემთან გამოგზავნილ მესიჯებს (და არა ჩემგან გაგზავნილებს!) [[წესით]]*/
-	public List<Messages> getUserMessages(int usrId) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = ?")) {
+	public List<Messages> getUserNotes(int usrId) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = ? AND m_type = \"note\"")) {
 			stmt.setInt(1, usrId);
 			try (ResultSet rslt = stmt.executeQuery()) {
 				List<Messages> user_messages = new ArrayList<>();

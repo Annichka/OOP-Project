@@ -55,7 +55,6 @@ public class AcceptRequest extends HttpServlet {
 			u_to = usrD.getUserByName(req_to);
 			friendD.acceptRequest(u_from, u_to);
 			
-			
 			HttpSession session = request.getSession();
 			session.setAttribute("friendrequests", true);
 			response.sendRedirect("index.jsp");

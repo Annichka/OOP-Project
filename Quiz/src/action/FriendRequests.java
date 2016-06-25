@@ -65,9 +65,13 @@ public class FriendRequests extends HttpServlet {
 						  "<ul><li>" + msg.get(i).getMessage() + 
 						  "<div class=\"form\">" +
 						  "<form action=\"AcceptRequest\" method=\"post\">" +
-						  "<input type=\"hidden\" name=\"acceptfrom\" value=\"" + sender_name + "\">"+ 
+						  		"<input type=\"hidden\" name=\"acceptfrom\" value=\"" + sender_name + "\">"+ 
 							    "<input type=\"submit\" value=\"Accept\" />"+
-							   "</form></div></li></ul>";
+						"</form>" +
+						"<form action=\"CancelReceivedRequest\" method=\"post\">" +
+					  		"<input type=\"hidden\" name=\"cancelTo\" value=\"" + sender_name + "\">"+ 
+						    "<input type=\"submit\" value=\"Cancel\" />"+
+						 "</form></div></li></ul>";
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

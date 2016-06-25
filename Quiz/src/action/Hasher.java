@@ -15,7 +15,7 @@ public class Hasher {
 	 * Given a byte[] array, produces a hex String, such as "234a6f". with 2
 	 * chars for each byte in the array. (provided code)
 	 */
-	public static String hexToString(byte[] bytes) {
+	public String hexToString(byte[] bytes) {
 		StringBuffer buff = new StringBuffer();
 		for (int i = 0; i < bytes.length; i++) {
 			int val = bytes[i];

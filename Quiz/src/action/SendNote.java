@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import manager.MessageManager;
 import manager.UserManager;
@@ -42,11 +41,9 @@ public class SendNote extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		StringBuffer text = new StringBuffer(request.getParameter("note"));
-		
-	    String msg_to = (String) request.getAttribute("noteTo");
+
+	    String msg_to = (String) request.getParameter("user");
 		String from_me = (String) getServletContext().getAttribute("username");
-		
-		request.getSession().removeAttribute("prof_n");
 		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
 		MessagesDao msgD = msgM.getMessageDao();
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
@@ -63,16 +60,11 @@ public class SendNote extends HttpServlet {
 			msg.setReceiver(to.getUserId());
 			msg.setMessage(new String(text));
 			msg.setMType("note");
-			
 			msgD.addMessage(msg);
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		HttpSession session = request.getSession();
-		session.setAttribute("prof_n", to.getUserName());
-		
-		response.sendRedirect("writeMessage.jsp");
+		response.sendRedirect("profile.jsp?profile="+msg_to);
 	}
 
 }

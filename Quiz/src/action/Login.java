@@ -45,7 +45,6 @@ public class Login extends HttpServlet {
 			DataBase.db = db;
 			UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 			UserDao dao = usrM.getPersonDao();
-			FriendsDao fDao = (new FriendManager(DataBase.db)).getFriendDao();
 			User found_acc = dao.getUserByName(acc.getUserName());
 
 			if (found_acc != null && found_acc.getHashedPassword().equals(acc.getHashedPassword())) {
@@ -66,7 +65,7 @@ public class Login extends HttpServlet {
 				session.setAttribute("wronguser", true);
 				response.sendRedirect("login.jsp");
 			}
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

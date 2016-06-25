@@ -62,8 +62,9 @@
 								
 				<input type="button" value="Friend List" name="Friend List" onClick="friendFunc()"><br>
 				
-				<input type="button" value="Requests" name="Requests" onClick="messageFunc()"><br>
-				<button >Messages</button><br>
+				<input type="button" value="Requests" name="Requests" onClick="requestFunc()"><br>
+				<input type="button" value="Notes" name="Notes" onClick="noteFunc()"><br>
+				<input type="button" value="Send Note" name="sendNote" onClick="sendNote()"><br>
 				<button >Scores</button><br>
 				
 				<div class="form">
@@ -74,7 +75,7 @@
 			</nav>
 			<section>
 				<div id="content">
-					<%if (session.getAttribute("friendrequests") == null) { %>
+					<%if (session.getAttribute("friendrequests") == null && session.getAttribute("notes") == null) { %>
 						<%if (session.getAttribute("getfriends") != null) { %>
 							<% session.removeAttribute("getfriends"); %>
 							<% session.removeAttribute("friends");  %>
@@ -98,6 +99,20 @@
 			    </script>
 			<% } %>
 			<% session.removeAttribute("friendrequests"); %>
+			
+			<% if (session.getAttribute("notes") != null) { %>
+				<script>
+						var xhttp = new XMLHttpRequest();
+						xhttp.onreadystatechange = function() {
+							if (xhttp.readyState == 4 && xhttp.status == 200) {
+								document.getElementById("content").innerHTML = xhttp.responseText;
+							}
+						};
+						xhttp.open("GET", "Notes", true)
+						xhttp.send()
+			    </script>
+			<% } %>
+			<% session.removeAttribute("notes"); %>
 		<% } %>
 		
 <aside>
