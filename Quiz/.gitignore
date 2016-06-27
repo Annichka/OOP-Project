@@ -1,2 +1,6 @@
 /build/
+<<<<<<< HEAD
 *.classpath
+=======
+*.classpath
+>>>>>>> branch 'master' of https://github.com/Annichka/OOP-Project.git
