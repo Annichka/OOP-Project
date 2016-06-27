@@ -65,6 +65,7 @@
 				<input type="button" value="Requests" name="Requests" onClick="requestFunc()"><br>
 				<input type="button" value="Notes" name="Notes" onClick="noteFunc()"><br>
 				<input type="button" value="Send Note" name="sendNote" onClick="sendNote()"><br>
+				<input type="button" value="Create Quiz" name="Quiz" onClick="quizTypes()"><br>
 				<button >Scores</button><br>
 				
 				<div class="form">
@@ -84,6 +85,7 @@
 						<% } %>
 					<% } %>
 				</div>
+				<div id="questions"> </div>
 			</section>
 			
 			<% if (session.getAttribute("friendrequests") != null) { %>

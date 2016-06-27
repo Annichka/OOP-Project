@@ -33,20 +33,22 @@ public class QuestionForm extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String type = (String)request.getParameter("type");
 		String ordered = "-1";
+		String an = (String)request.getParameter("ansc");
+		System.out.println(type + "    AIII AQANA    " + an);
 		String question = "";
 		if (type.equals("QR") || type.equals("FB")) {
 			question += General("question");
 		} else if(type.equals("MC")) {
-			Integer wAnswCount = Integer.parseInt((String)request.getParameter("wrong"));
+			Integer wAnswCount = Integer.parseInt(an);
 			question = MultipleChoice(wAnswCount);
 		} else if(type.equals("PR")) {
 			question += General("picture url");
 		} else if(type.equals("MA")){ 
-			Integer cAnswCount = Integer.parseInt((String)request.getParameter("correct"));
+			Integer cAnswCount = Integer.parseInt(an);
 			ordered = (String)request.getParameter("ordered");
 			question += MultiAnswer(cAnswCount);
 		} else if(type.equals("MCA")){ 
-			Integer cAnswCount = Integer.parseInt((String)request.getParameter("correct"));
+			Integer cAnswCount = Integer.parseInt(an);
 			ordered = (String)request.getParameter("ordered");
 			question += MultiAnswer(cAnswCount);
 		} else if(type.equals("M")) {

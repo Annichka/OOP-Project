@@ -60,3 +60,35 @@ function sendNote() {
     }
 }
 
+function quizTypes() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		document.getElementById("content").innerHTML = xhttp.responseText;
+   		}
+   	};
+   	xhttp.open("GET", "QuestionTypes", true)
+   	xhttp.send() 
+}
+
+function addQuestion(btn) {
+	var wansw = "0";
+	var ordered = "0";
+	if(btn.name === "MC") {
+		wansw = window.prompt("Wrong answer count");
+		
+	} else if(btn.name === "MCA") {
+		wansw = window.prompt("Correct answer count");
+	}
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		var qst = document.getElementById("questions")
+    		qst.innerHTML = qst.innerHTML + xhttp.responseText;
+   		}
+    };
+   	xhttp.open("GET", "QuestionForm?type=" + btn.name + "&ansc=" + wansw + "&ord=" + ordered, true)
+   	xhttp.send()
+}
+
+
