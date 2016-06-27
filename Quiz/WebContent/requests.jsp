@@ -64,8 +64,6 @@
 				<a href="requests.jsp"> Requests </a><br>
 				<a href="notes.jsp"> Notes </a><br>
 				<a href="sendNote.jsp"> Send Note </a><br>
-				<input type="button" value="Notes" name="Notes" onClick="noteFunc()"><br>
-				<input type="button" value="Send Note" name="sendNote" onClick="sendNote()"><br>
 				<a href="createQuiz.jsp"> Create Quiz </a><br>
 				<button >Scores</button><br>
 				

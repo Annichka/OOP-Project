@@ -60,11 +60,12 @@
 				</a></h2>
 				<img src="<%= sCont.getAttribute("image") %>" alt="<%=sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
 								
-				<input type="button" value="Friend List" name="Friend List" onClick="friendFunc()"><br>
-				<input type="button" value="Requests" name="Requests" onClick="requestFunc()"><br>
-				<input type="button" value="Notes" name="Notes" onClick="noteFunc()"><br>
-				<input type="button" value="Send Note" name="sendNote" onClick="sendNote()"><br>
-				<input type="button" value="Create Quiz" name="Quiz" onClick="quizTypes()"><br>
+				<a href="friendList.jsp"> Friend List </a><br>
+				<a href="requests.jsp"> Requests </a><br>
+				<a href="notes.jsp"> Notes </a><br>
+				<a href="sendNote.jsp"> Send Note </a><br>
+				<a href="createQuiz.jsp"> Create Quiz </a><br>
+				<button >Scores</button><br>
 				<button >Scores</button><br>
 				
 				<div class="form">
