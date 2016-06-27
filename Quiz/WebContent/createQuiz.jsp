@@ -60,11 +60,12 @@
 				</a></h2>
 				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
 				
-				<a href="friendList.jsp"> Friend List </a><br>
+				<a href="friendList.jsp"> Friend List </a>
+				<a href="createQuiz.jsp"> Create Quiz </a>
 				<input type="button" value="Requests" name="Requests" onClick="requestFunc()"><br>
 				<input type="button" value="Notes" name="Notes" onClick="noteFunc()"><br>
 				<input type="button" value="Send Note" name="sendNote" onClick="sendNote()"><br>
-				<a href="createQuiz.jsp"> Create Quiz </a><br>
+				<input type="button" value="Create Quiz" name="Quiz" onClick="quizTypes()"><br>
 				<button >Scores</button><br>
 				
 				<div class="form">
@@ -75,45 +76,10 @@
 			</nav>
 			<section>
 				<div id="content">
-					<%if (session.getAttribute("friendrequests") == null && session.getAttribute("notes") == null) { %>
-						<%if (session.getAttribute("getfriends") != null) { %>
-							<% session.removeAttribute("getfriends"); %>
-							<% session.removeAttribute("friends");  %>
-						<%} else {%>
-							<%@ include file = "user_list.jsp" %>
-						<% } %>
-					<% } %>
+					<script> quizTypes(); </script>
 				</div>
 				<div id="questions"> </div>
 			</section>
-			
-			<% if (session.getAttribute("friendrequests") != null) { %>
-				<script>
-						var xhttp = new XMLHttpRequest();
-						xhttp.onreadystatechange = function() {
-							if (xhttp.readyState == 4 && xhttp.status == 200) {
-								document.getElementById("content").innerHTML = xhttp.responseText;
-							}
-						};
-						xhttp.open("GET", "FriendRequests", true)
-						xhttp.send()
-			    </script>
-			<% } %>
-			<% session.removeAttribute("friendrequests"); %>
-			
-			<% if (session.getAttribute("notes") != null) { %>
-				<script>
-						var xhttp = new XMLHttpRequest();
-						xhttp.onreadystatechange = function() {
-							if (xhttp.readyState == 4 && xhttp.status == 200) {
-								document.getElementById("content").innerHTML = xhttp.responseText;
-							}
-						};
-						xhttp.open("GET", "Notes", true)
-						xhttp.send()
-			    </script>
-			<% } %>
-			<% session.removeAttribute("notes"); %>
 		<% } %>
 		
 <aside>

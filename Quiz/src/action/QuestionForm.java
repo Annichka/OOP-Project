@@ -26,15 +26,26 @@ public class QuestionForm extends HttpServlet {
     public QuestionForm() {
         super();
     }
-
+    
+    private Integer formId;
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ServletContext context = getServletContext();
+		Integer formId = 1;
+		if(context.getAttribute("formid") == null)
+			context.setAttribute("formid", formId);
+		else {
+			formId = (Integer) context.getAttribute("formid") + 1;
+			context.setAttribute("formid", formId);
+		}
+		this.formId = formId;
+		
 		String type = (String)request.getParameter("type");
 		String ordered = "-1";
 		String an = (String)request.getParameter("ansc");
-		System.out.println(type + "    AIII AQANA    " + an);
 		String question = "";
 		if (type.equals("QR") || type.equals("FB")) {
 			question += General("question");
@@ -59,7 +70,7 @@ public class QuestionForm extends HttpServlet {
 	}
 	
 	private String General(String qst){
-		String html = "<div class=\"form\">" +
+		String html = "<div class=\"form" + this.formId + "\">" +
 				"<form action=\"#\" method=\"post\">"+
 				"<input type=\"text\" placeholder=\"Write "+ qst +"..\" name=\"quest\" /><br>" +
 				"<input type=\"text\" placeholder=\"Correct answer..\" name=\"cansw\" /><br>"+
@@ -68,7 +79,7 @@ public class QuestionForm extends HttpServlet {
 	}
 	
 	private String MultiAnswer(int cAnswCount) {
-		String html = "<div class=\"form\">" +
+		String html = "<div class=\"form" + this.formId + "\">"  +
 				"<form action=\"#\" method=\"post\">"+
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>"+
 				GenerateMultipleCorrect(cAnswCount)+
@@ -77,20 +88,20 @@ public class QuestionForm extends HttpServlet {
 	}
 	
 	private String MultipleChoice(int wAnswCount) {
-		String html = "<div class=\"form\">" +
+		String html = "<div class=\"form" + this.formId + "\">"  +
 				"<form action=\"#\" method=\"post\">"+
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
 				"<input type=\"text\" placeholder=\"Correct answer..\" name=\"cansw\" /><br>"+
 				GenerateMultipleWrong(wAnswCount)+
 				"<button> Submit </button></form></div>";
-		
 		return html;
 	}
 	
 	private String GenerateMultipleCorrect(int count){
 		String content = "";
 		for (int i=0; i<count; i++) {
-			content += "<input type\"text\" placeholder=\"Wrong answer\" name=\"cansw" + (i+1) + "\" /><br>";
+			content += "<input type\"text\" placeholder=\"Wrong answer\" name=\"cansw" + (i+1) + "\" "
+					+ "id=\"cansw" + (i+1) + "\" /><br>";
 		}
 		return content;
 	}
@@ -98,7 +109,8 @@ public class QuestionForm extends HttpServlet {
 	private String GenerateMultipleWrong(int count){
 		String content = "";
 		for (int i=0; i<count; i++) {
-			content += "<input type\"text\" placeholder=\"Wrong answer\" name=\"wansw" + (i+1) + "\" /><br>";
+			content += "<input type\"text\" placeholder=\"Wrong answer\" name=\"wansw" + (i+1) + "\" "
+					+ "id=\"wansw" + (i+1) + "\" /><br>";
 		}
 		return content;
 	}

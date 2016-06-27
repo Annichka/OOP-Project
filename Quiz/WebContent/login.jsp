@@ -44,6 +44,5 @@
   <footer>
   		<a href="index.jsp">Home page</a>
   </footer>
-</div>
 </body>
 </html>

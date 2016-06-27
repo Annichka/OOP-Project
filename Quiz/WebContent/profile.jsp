@@ -31,7 +31,7 @@
 	%>
 	
 	<header>
-		<a href="index.jsp"><h1>Quiz Web Site</h1></a>
+		<a href="index.jsp">Quiz Web Site</a>
 	</header>
 
 	<% /* მეგობრობა */ %>
