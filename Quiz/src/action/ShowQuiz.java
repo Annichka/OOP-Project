@@ -38,7 +38,7 @@ public class ShowQuiz extends HttpServlet {
 		int quizId = (Integer)getServletContext().getAttribute("quizprocess");
 		QuestionDao qDao = uM.getQuestionDao();
 		try {
-			ArrayList<Question> quesList = qDao.getQuestionsByQuizId(8);   // edit !!!!!
+			ArrayList<Question> quesList = qDao.getQuestionsByQuizId(quizId);
 			request.setAttribute("questionlist", quesList);
 		} catch (SQLException e) {
 			e.printStackTrace();

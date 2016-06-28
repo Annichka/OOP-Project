@@ -64,11 +64,11 @@ public class EditQuestion extends HttpServlet {
 		
 		int quizId = q.getQuizId();
 		
-		quizId = 8;
+		//quizId = 8;
 		
 		ArrayList<Question> quesList;
 		try {
-			quesList = qDao.getQuestionsByQuizId(quizId);  		// edit !!
+			quesList = qDao.getQuestionsByQuizId(quizId);  		
 			request.setAttribute("questionlist", quesList);
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -1,13 +1,9 @@
 package action;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import manager.UserManager;
-import quiz.bean.Question;
 import quiz.dao.QuestionDao;
 
 /**
@@ -43,16 +38,12 @@ public class QuestionForm extends HttpServlet {
 		String type = (String) request.getParameter("type");
 		int ansc =  Integer.parseInt((String) request.getParameter("cansc"));
 		int wansc = Integer.parseInt((String) request.getParameter("wansc"));
-		int ordered =  Integer.parseInt((String) request.getParameter("ord"));
 				
 		String question = "";
 		
-		if (type.equals("QR")) {
+		if (type.equals("QR") || type.equals("FB")) {
 			question = General(type); 
-		} 
-		else if (type.equals("FB")) {
-			question += FillBlank(type);
-		} 
+		}
 		else if(type.equals("MC")) {
 			Integer wAnswCount = wansc;
 			question = MultipleChoice(wAnswCount, type);
@@ -62,7 +53,8 @@ public class QuestionForm extends HttpServlet {
 		} 
 		else if(type.equals("MA")){ 
 			Integer cAnswCount = ansc;
-			question += MultiAnswer(cAnswCount, type);
+			int ordered =  Integer.parseInt((String) request.getParameter("ord"));
+			question += MultiAnswer(cAnswCount, ordered, type);
 		} 
 		else if(type.equals("MCA")){ 
 			Integer cAnswCount = ansc;
@@ -95,24 +87,6 @@ public class QuestionForm extends HttpServlet {
 		return html;
 	}
 	
-	private String FillBlank(String tp)
-	{
-		String html = 
-				"<div class=\"form\">" +
-					"<form action=\"AddQuestion\" method=\"post\">"+ 
-						"<i>Question</i>"
-						+ "<input type=\"text\" placeholder=\"Write question...\" name=\"quest\" /><br>" +
-						"<i>Answer:</i>"
-						+ "<input type=\"text\" placeholder=\"Write answer\" name=\"cansw\" /><br>"+
-						"<input type=\"hidden\" name=\"correctC\" value=\"1\" />"+
-						"<input type=\"hidden\" name=\"correctC\" value=\"0\" />"+
-						"<input type=\"hidden\" name=\"type\" value=\"" + tp + "\" />"+
-						"<button> Submit <button>" +
-					"</form> " +
-			    "<div> <br>";
-		return html;
-	}
-	
 	private String PictureResponse(String tp)
 	{
 		String html = 
@@ -133,13 +107,14 @@ public class QuestionForm extends HttpServlet {
 		return html;
 	}
 	
-	private String MultiAnswer(int cAnswCount, String type) 
+	private String MultiAnswer(int cAnswCount, int ordered, String type) 
 	{
 		String html = 
 				"<div class=\"form\">"  +
 				"<form action=\"AddQuestion\" method=\"post\">"+ "<i>Question:  </i>" +
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>"+
 				"<input type=\"hidden\" name=\"type\" value=\"" + type + "\" />"+
+				"<input type=\"hidden\" name=\"ordered\" value=\"" + ordered + "\" />"+
 				GenerateMultipleCorrect(cAnswCount) + 
 				"<button> Submit <button>";
 		return html;
@@ -165,8 +140,6 @@ public class QuestionForm extends HttpServlet {
 				"<div class=\"form\">"  +
 				"<form action=\"AddQuestion\" method=\"post\">"+ "<i>Question</i>" +
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
-				"<i>Correct answer:</i><input type=\"text\" p"
-				+ "laceholder=\"Correct answer..\" name=\"cansw\" /><br>"+
 				"<input type=\"hidden\" name=\"type\" value=\"" + type + "\" />"+
 				GenerateMultipleCorrectWrong(cAnswCount, wAnswCount) + 
 				"<button> Submit <button>";

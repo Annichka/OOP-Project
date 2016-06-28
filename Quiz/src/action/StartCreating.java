@@ -45,9 +45,9 @@ public class StartCreating extends HttpServlet {
 	    } else 
 	    	isRandom = 1;
 		Integer authorId = (Integer)getServletContext().getAttribute("id");
-		int quizid = qzDao.createNewQuiz(quizName, authorId, category, isRandom, isFinished);
+		String quizid = "" + qzDao.createNewQuiz(quizName, authorId, category, isRandom, isFinished);
 		getServletContext().setAttribute("quizprocess", quizid);
-		
+			
 		response.sendRedirect("startQuestionTypes.jsp"); //gadasvla questenebis gasaketebel page-ze
 	}
 

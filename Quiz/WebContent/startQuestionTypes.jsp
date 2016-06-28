@@ -83,9 +83,10 @@
 						questionTypes();
 				</script>
 				
-				<input type="submit" value="addQuestion" onClick="questionTypes()">
-					<form action="FinishQuizCreating" method="post">
-				    	<button> Finish Quiz </button><br>
+				<br> <br> <br>
+				<input type="submit" value="View" onClick="questionTypes()">
+					<form action="#" method="post">
+				    	<button> View Quiz </button> 
 					</form>
 				
 				<form action="FinishQuizCreating" method="post">

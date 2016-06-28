@@ -20,8 +20,21 @@ public class QuestionDao {
 	public void addQuestion(Question q) throws SQLException {
 		Statement stmt = (Statement) conn.createStatement();
 
-		if (q.getType().equals("MultipleChoice")||q.getType().equals("MultiAnswer")) {
-			String sql = "INSERT INTO Questions (question, quest_type, c_answer, w_answer, answer_count, quiz_id) "
+		if (q.getType().equals("QR") || q.getType().equals("FB")) {
+			String sql = "INSERT INTO Questions (question, type, c_answer, answer_count, quiz_id) "
+					+ "VALUES('"
+					+ q.getQuestion()
+					+ "', '"
+					+ q.getType()
+					+ "', '"
+					+ q.getCAnswer()
+					+ "', '"
+					+ q.getAnswerCount()
+					+ "', '"
+					+ q.getQuizId() + "')";
+			stmt.executeUpdate(sql);
+		} else if (q.getType().equals("MC") || q.getType().equals("MCA")) {
+			String sql = "INSERT INTO Questions (question, type, c_answer, w_answer, answer_count, quiz_id) "
 					+ "VALUES('"
 					+ q.getQuestion()
 					+ "', '"
@@ -33,9 +46,21 @@ public class QuestionDao {
 					+ "', '"
 					+ q.getAnswerCount() + "', '" + q.getQuizId() + "')";
 			stmt.executeUpdate(sql);
-		}
-		if (q.getType().equals("PictureResponse")) {
-			String sql = "INSERT INTO Questions (question, quest_type, c_answer, answer_count, pic_url, quiz_id) "
+		} else if (q.getType().equals("MA")) {
+			String sql = "INSERT INTO Questions (question, type, c_answer, ordered, answer_count, quiz_id) "
+					+ "VALUES('"
+					+ q.getQuestion()
+					+ "', '"
+					+ q.getType()
+					+ "', '"
+					+ q.getCAnswer()
+					+ "', '"
+					+ ((MultiAnswer) q).getIsOrderd()
+					+ "', '"
+					+ q.getAnswerCount() + "', '" + q.getQuizId() + "')";
+			stmt.executeUpdate(sql);
+		} else if (q.getType().equals("PR")) {
+			String sql = "INSERT INTO Questions (question, type, c_answer, answer_count, pic_url, quiz_id) "
 					+ "VALUES('"
 					+ q.getQuestion()
 					+ "', '"
@@ -48,20 +73,6 @@ public class QuestionDao {
 					+ ((PictureResponse) q).getPicUrl()
 					+ "', '"
 					+ q.getQuizId() + "')";
-			stmt.executeUpdate(sql);
-		}
-		if (!q.getType().equals("PictureResponse")
-				&& !q.getType().equals("MultipleChoice")) {
-			String sql = "INSERT INTO Questions (question, quest_type, c_answer, answer_count, quiz_id) "
-					+ "VALUES('"
-					+ q.getQuestion()
-					+ "', '"
-					+ q.getType()
-					+ "', '"
-					+ q.getCAnswer()
-					+ "', '"
-					+ q.getAnswerCount()
-					+ "', '" + q.getQuizId() + "')";
 			stmt.executeUpdate(sql);
 		}
 	}
