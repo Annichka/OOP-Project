@@ -30,9 +30,8 @@ public class QuestionTypes extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext context = getServletContext();
-		String path = context.getRealPath("quizTypes.jsp"); 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		String path = (request.getSession()).getServletContext().getRealPath("questionTypes.jsp"); 
 		File file = new File(path);
 		FileReader fileReader = new FileReader(file);
         BufferedReader buffReader = new BufferedReader(fileReader);

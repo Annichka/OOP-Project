@@ -2,6 +2,7 @@ package action;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import manager.UserManager;
+import quiz.bean.Question;
+import quiz.dao.QuestionDao;
 
 /**
  * Servlet implementation class AddQuestion
@@ -26,34 +31,35 @@ public class QuestionForm extends HttpServlet {
     public QuestionForm() {
         super();
     }
-    
-    private Integer formId;
-    
+        
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext context = getServletContext();
-		Integer formId = 1;
-		if(context.getAttribute("formid") == null)
-			context.setAttribute("formid", formId);
-		else {
-			formId = (Integer) context.getAttribute("formid") + 1;
-			context.setAttribute("formid", formId);
-		}
-		this.formId = formId;
 		
-		String type = (String)request.getParameter("type");
-		String ordered = "-1";
-		String an = (String)request.getParameter("ansc");
-		String question = "";
-		if (type.equals("QR") || type.equals("FB")) {
-			question += General("question");
+		UserManager uM =(UserManager) getServletContext().getAttribute("userM");
+		QuestionDao qDao = uM.getQuestionDao();
+		int questid = Integer.parseInt((String)request.getParameter("questid"));
+		
+		Question curr = qDao.getQuestionById(questid);
+		
+		String qstDispl = "";
+		if (curr.getType().equals("QR")) {
+			qstDispl = General(curr); //getTypeJsp(request, curr, "questionResponseT.jsp");
+		} else if (curr.getType().equals("FB")) {
+			qstDispl = getTypeJsp(request, curr, "fillBlankT.jsp");
+		}		
+		
+		/*if (type.equals("QR")) {
+			response.sendRedirect("questionResponseT.jsp");
+		} else if (type.equals("FB")) {
+			response.sendRedirect("fillBlankT.jsp");
+			question += General("question", "FB");
 		} else if(type.equals("MC")) {
 			Integer wAnswCount = Integer.parseInt(an);
 			question = MultipleChoice(wAnswCount);
 		} else if(type.equals("PR")) {
-			question += General("picture url");
+			question += General("picture url", "PR");
 		} else if(type.equals("MA")){ 
 			Integer cAnswCount = Integer.parseInt(an);
 			ordered = (String)request.getParameter("ordered");
@@ -64,54 +70,88 @@ public class QuestionForm extends HttpServlet {
 			question += MultiAnswer(cAnswCount);
 		} else if(type.equals("M")) {
 			System.out.println("TODO: MATCHING TYPE");
-		}
+		} */
         PrintWriter out = response.getWriter();
-	    out.write(question);
+	    out.write(qstDispl);
 	}
 	
-	private String General(String qst){
-		String html = "<div class=\"form" + this.formId + "\">" +
-				"<form action=\"#\" method=\"post\">"+
-				"<input type=\"text\" placeholder=\"Write "+ qst +"..\" name=\"quest\" /><br>" +
-				"<input type=\"text\" placeholder=\"Correct answer..\" name=\"cansw\" /><br>"+
-				"<button> Submit </button></form></div>";
+	
+	private String getTypeJsp(HttpServletRequest request, Question qst, String jsp) {
+		String path = (request.getSession()).getServletContext().getRealPath(jsp); 
+		File file = new File(path);
+		FileReader fileReader;
+		String content = "";
+		try {
+			fileReader = new FileReader(file);
+	        BufferedReader buffReader = new BufferedReader(fileReader);
+	        String buffer = new String();
+	        while( (buffer = buffReader.readLine() ) != null)
+	            content += buffer;
+	        buffReader.close();	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return content;
+	}
+	
+	
+	private String General(Question curr){
+		String html = 
+				"<div class=\"form\">" +
+					"<form action=\"EditQuestion\" method=\"post\">"+ 
+						"<i>Question</i>"
+						+ "<input type=\"text\" value=\""+ curr.getQuestion() +
+						"\" name=\"quest\" /><br>" +
+						"<i>Answer</i>"
+						+ "<input type=\"text\" value=\"" + curr.getCAnswer() +"\" name=\"cansw\" /><br>"+
+						"<input type=\"hidden\" name=\"answcount\" value=\"1\" /><br>"+
+						"<input type=\"hidden\" name=\"questid\" value=\"" + curr.getQuestionId() + "\" /><br>"+
+						"<button> Edit <button>" +
+					"</form> " +
+			    "<div> <br>";
 		return html;
 	}
 	
 	private String MultiAnswer(int cAnswCount) {
-		String html = "<div class=\"form" + this.formId + "\">"  +
-				"<form action=\"#\" method=\"post\">"+
+		String html = "<div class=\"form\">"  +
+				"<form action=\"#\" method=\"post\">"+ "<small>Question</small>" +
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>"+
-				GenerateMultipleCorrect(cAnswCount)+
-				"<button> Submit </button></form></div>";
+				GenerateMultipleCorrect(cAnswCount) + 
+				"<input type=\"submit\" value=\"Submit\" onClick=\"test(this)\"><br>";
 		return html;
 	}
 	
 	private String MultipleChoice(int wAnswCount) {
-		String html = "<div class=\"form" + this.formId + "\">"  +
-				"<form action=\"#\" method=\"post\">"+
+		String html = "<div class=\"form\">"  +
+				"<form action=\"#\" method=\"post\">"+ "<small>Question</small>" +
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
-				"<input type=\"text\" placeholder=\"Correct answer..\" name=\"cansw\" /><br>"+
-				GenerateMultipleWrong(wAnswCount)+
-				"<button> Submit </button></form></div>";
+				"<small>Correct answer</small><input type=\"text\" placeholder=\"Correct answer..\" name=\"cansw\" /><br>"+
+				GenerateMultipleWrong(wAnswCount) + 
+				"<input type=\"submit\" value=\"Submit\" onClick=\"test(this)\"><br>";
 		return html;
 	}
 	
 	private String GenerateMultipleCorrect(int count){
 		String content = "";
 		for (int i=0; i<count; i++) {
-			content += "<input type\"text\" placeholder=\"Wrong answer\" name=\"cansw" + (i+1) + "\" "
+			content += "<small>Correct answer " + (i+1) + "</small>" +
+					"<input type\"text\" placeholder=\"Correct answer\" name=\"cansw" + (i+1) + "\" "
 					+ "id=\"cansw" + (i+1) + "\" /><br>";
 		}
+		content += "<input type=\"hidden\" name=\"counter\" value=\"" +count + "\" /><br>";
 		return content;
 	}
 	
 	private String GenerateMultipleWrong(int count){
 		String content = "";
 		for (int i=0; i<count; i++) {
-			content += "<input type\"text\" placeholder=\"Wrong answer\" name=\"wansw" + (i+1) + "\" "
+			content += "<small>Wrong answer " + (i+1) + "</small>" +
+					"<input type\"text\" placeholder=\"Wrong answer\" name=\"wansw" + (i+1) + "\" "
 					+ "id=\"wansw" + (i+1) + "\" /><br>";
 		}
+		content += "<input type=\"hidden\" name=\"counter\" value=\"" +count + "\" /><br>";
 		return content;
 	}
 	

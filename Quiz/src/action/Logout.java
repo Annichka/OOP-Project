@@ -31,10 +31,10 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession();
         session.setAttribute("logout", true);
         session.removeAttribute("authorized");
-        session.removeAttribute("username");
         session.removeAttribute("id");
         ServletContext sCont = request.getServletContext();
-        sCont.removeAttribute("user");
+        sCont.removeAttribute("username");
+        sCont.removeAttribute("quizprocess");
         session.invalidate();
         response.sendRedirect("index.jsp");
 	}

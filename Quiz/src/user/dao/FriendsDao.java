@@ -18,7 +18,7 @@ public class FriendsDao {
 	public FriendsDao(Connection conn) {
 		this.conn = conn;
 	}
-	/* ვეუბნები User-ის სახელს და მიბრუნებს მაგის მეგობრების ლისტს. */
+
 	public List<Friends> getFriendList(int usr_id) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Friends WHERE user_id = ?")) {
 			stmt.setInt(1, usr_id);
@@ -35,7 +35,6 @@ public class FriendsDao {
 		}
 	}
 	
-	/* მეგობრებში ჩავამატება/წაშლა */
 	public void addFriend(Friends fr) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Friends (user_id, friend_id) "
 				+ "VALUE(" + fr.getUserId() + ", " + fr.getFriendId() + ")")) {
@@ -48,18 +47,18 @@ public class FriendsDao {
 	}
 	
 	public void deleteFriend(Friends fr) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Friends WHERE user_id = ? && friend_id = ?")) {
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Friends WHERE user_id = ? AND friend_id = ?")) {
 			stmt.setInt(1, fr.getUserId());
 			stmt.setInt(2, fr.getFriendId());
 			stmt.executeUpdate();
 		}
-		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Friends WHERE user_id = ? && friend_id = ?")) {
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Friends WHERE user_id = ? AND friend_id = ?")) {
 			stmt.setInt(1, fr.getFriendId());
 			stmt.setInt(2, fr.getUserId());
 			stmt.executeUpdate();
 		}
 	}
-	/* მეუბნება 2 ადამიანი არიან თუ არა მეგობრები. */
+
 	public boolean isFriend(int usr_id, int friend_id) throws SQLException {
 		List<Friends> friend_list = getFriendList(usr_id);
 		for(int i = 0; i < friend_list.size(); i++) {
@@ -69,10 +68,8 @@ public class FriendsDao {
 		return false;
 	}
 	
-	/* to ვარ მე, და ეს მეთოდი მიბრუნებს ვიღაც ტიპმა (from)-მა თუ გამომიგზავნა მეგობრობა. */ 
-	/* ასევე შემიძლია გავარკვიო, გაგზავნილი მაქვს თუ არა ვიღაც ტიფთან რიქუესთი. (აქ From-ი ვარ მე.) */
 	public boolean isRequested(int from, int to) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_from = ? && u_to = ? && m_type = 'friendrequest'")) {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_from = ? AND u_to = ? AND m_type = 'friendrequest'")) {
 			stmt.setInt(1, from);
 			stmt.setInt(2, to);
 			try (ResultSet rslt = stmt.executeQuery()) {
@@ -84,19 +81,15 @@ public class FriendsDao {
 	}
 	
 	public void acceptRequest(User from, User to) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE u_from = ? && u_to = ? && m_type = 'friendrequest'")) {
-			stmt.setInt(1, from.getUserId());
-			stmt.setInt(2, to.getUserId());
-			stmt.executeUpdate();
-		}
+		deleteRequest(from, to);
 		Friends fr = new Friends();
 		fr.setUserId(to.getUserId());
 		fr.setFriendId(from.getUserId());
 		addFriend(fr);
 	}
-	/* აქ შეიძლება MessageDao-ს მეთოდი გამომეყენებინა მარა ასე უფრო მარტივია. */
+
 	public void deleteRequest(User from, User to) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE u_from = ? && u_to = ? && m_type = 'friendrequest'")) {
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE u_from = ? AND u_to = ? AND m_type = 'friendrequest'")) {
 			stmt.setInt(1, from.getUserId());
 			stmt.setInt(2, to.getUserId());
 			stmt.executeUpdate();

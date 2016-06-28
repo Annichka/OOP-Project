@@ -1,12 +1,13 @@
 package quiz.bean;
 
 public class MultipleChoice extends Question {
-	private String w_answers;
+
 
 	public MultipleChoice(String question, String type, int questionid,
-			int quizid, String wronganswers, String c_answer, int answer_count) {
+			int quizid, String c_answer, int answer_count,  String wronganswers, int ordered) {
 		super(question, type, questionid, quizid, c_answer, answer_count);
 		this.w_answers = wronganswers;
+		this.ordered = ordered;
 	}
 
 	public MultipleChoice(String question,String type, int questionid,
@@ -24,5 +25,13 @@ public class MultipleChoice extends Question {
 
 	public String getWAnswers() {
 		return this.w_answers;
+	}
+	
+	public void setOrdered(int ord) {
+		this.ordered = ord;
+	}
+	
+	public int getOrdered() {
+		return this.ordered;
 	}
 }

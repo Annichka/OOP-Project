@@ -67,53 +67,16 @@
 				<a href="createQuiz.jsp"> Create Quiz </a><br>
 				<button >Scores</button><br>
 				
-				<div class="form">
-				  <form action="Logout" method="get">
+				<form action="Logout" method="get">
 				    <button> Logout </button><br>
-				  </form>
-				</div>
+		 		</form>
+				
 			</nav>
 			<section>
 				<div id="content">
-					<%if (session.getAttribute("friendrequests") == null && session.getAttribute("notes") == null) { %>
-						<%if (session.getAttribute("getfriends") != null) { %>
-							<% session.removeAttribute("getfriends"); %>
-							<% session.removeAttribute("friends");  %>
-						<%} else {%>
-							<%@ include file = "user_list.jsp" %>
-						<% } %>
-					<% } %>
+					<%@ include file = "user_list.jsp" %>
 				</div>
-				<div id="questions"> </div>
 			</section>
-			
-			<% if (session.getAttribute("friendrequests") != null) { %>
-				<script>
-						var xhttp = new XMLHttpRequest();
-						xhttp.onreadystatechange = function() {
-							if (xhttp.readyState == 4 && xhttp.status == 200) {
-								document.getElementById("content").innerHTML = xhttp.responseText;
-							}
-						};
-						xhttp.open("GET", "FriendRequests", true)
-						xhttp.send()
-			    </script>
-			<% } %>
-			<% session.removeAttribute("friendrequests"); %>
-			
-			<% if (session.getAttribute("notes") != null) { %>
-				<script>
-						var xhttp = new XMLHttpRequest();
-						xhttp.onreadystatechange = function() {
-							if (xhttp.readyState == 4 && xhttp.status == 200) {
-								document.getElementById("content").innerHTML = xhttp.responseText;
-							}
-						};
-						xhttp.open("GET", "Notes", true)
-						xhttp.send()
-			    </script>
-			<% } %>
-			<% session.removeAttribute("notes"); %>
 		<% } %>
 		
 <aside>

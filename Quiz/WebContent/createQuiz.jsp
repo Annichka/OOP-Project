@@ -73,11 +73,36 @@
 				  </form>
 				</div>
 			</nav>
+
 			<section>
 				<div id="content">
-					<script> quizTypes(); </script>
+				<br>
+				<br>
+				<%if (session.getAttribute("quizfinish") != null) { %>
+					<p> Your quiz is added. </p>
+				<%} else if (getServletContext().getAttribute("quizprocess") != null){ %>
+					
+					
+					<form action="ShowQuiz" method="get">
+						<button>Continue Started Quiz</button>
+					</form> 
+					<br>
+					<br>
+					<p> OR </p>
+					<br>
+					<br>
+				<%} %>
+					<form action="StartCreating" method="post">
+						<input type="text" name="quizName">
+						<input type="checkbox" name="isRandom" value="random">Random Order<br>
+						<select name="category">
+							<option value="Art" selected="selected">Art</option>
+							<option value="History">History</option>
+							<option value="Music">Music</option>
+						</select>
+						<button>Start new Quiz</button>
+					</form>
 				</div>
-				<div id="questions"> </div>
 			</section>
 		<% } %>
 		

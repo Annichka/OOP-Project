@@ -49,7 +49,6 @@ public class FriendRequests extends HttpServlet {
 			if (me == null)
 				return;
 			msg =  msgD.getFriendRequests(me.getUserId());
-			
 			HttpSession session = request.getSession();
 			session.setAttribute("message_list", msg);
 		} catch (SQLException e) {

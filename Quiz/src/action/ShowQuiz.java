@@ -2,27 +2,31 @@ package action;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import manager.MessageManager;
-import user.dao.MessagesDao;
+import manager.UserManager;
+import quiz.bean.Question;
+import quiz.dao.QuestionDao;
+import quiz.dao.QuizDao;
 
 /**
- * Servlet implementation class DeleteNote
+ * Servlet implementation class showQuiz
  */
-@WebServlet("/DeleteNote")
-public class DeleteNote extends HttpServlet {
+@WebServlet("/ShowQuiz")
+public class ShowQuiz extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteNote() {
+    public ShowQuiz() {
         super();
     }
 
@@ -30,25 +34,24 @@ public class DeleteNote extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UserManager uM = (UserManager)getServletContext().getAttribute("userM");
+		int quizId = (Integer)getServletContext().getAttribute("quizprocess");
+		QuestionDao qDao = uM.getQuestionDao();
+		try {
+			ArrayList<Question> quesList = qDao.getQuestionsByQuizId(8);   // edit !!!!!
+			request.setAttribute("questionlist", quesList);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		response.sendRedirect("showQuiz.jsp");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String msg_id = (String) request.getParameter("noteId");
-
-		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
-		MessagesDao msgD = msgM.getMessageDao();
-	
-		int msgid = Integer.parseInt(msg_id);
-		
-		try {
-			msgD.deleteMessageById(msgid);
-			
-			response.sendRedirect("notes.jsp");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
+
 }

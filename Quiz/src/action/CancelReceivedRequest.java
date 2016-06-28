@@ -52,8 +52,7 @@ public class CancelReceivedRequest extends HttpServlet {
 			friendD.deleteRequest(u_from, u_to);
 			
 			HttpSession session = request.getSession();
-			session.setAttribute("friendrequests", true);
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("requests.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

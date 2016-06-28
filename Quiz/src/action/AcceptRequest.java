@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import manager.FriendManager;
 import manager.UserManager;
@@ -44,7 +43,7 @@ public class AcceptRequest extends HttpServlet {
 		String req_to = (String) getServletContext().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
-
+		
 		FriendManager friendM = (FriendManager) getServletContext().getAttribute("friM");
 		FriendsDao friendD = friendM.getFriendDao();
 		User u_from = null;
@@ -54,10 +53,7 @@ public class AcceptRequest extends HttpServlet {
 			u_from = usrD.getUserByName(req_from);
 			u_to = usrD.getUserByName(req_to);
 			friendD.acceptRequest(u_from, u_to);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("friendrequests", true);
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("requests.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

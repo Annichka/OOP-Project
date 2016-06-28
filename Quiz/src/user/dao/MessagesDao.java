@@ -39,9 +39,9 @@ public class MessagesDao {
 			stmt.executeUpdate();
 		}
 	}
-	/* ტიპით და სენდერ/რისივერით შლის მესიჯს. Note-ების წასაშლელი*/
+
 	public void deleteMessage(Messages msg) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE u_from = ? && u_to = ? && message = ? && m_type = ?")) {
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE u_from = ? AND u_to = ? AND message = ? AND m_type = ?")) {
 			stmt.setInt(1, msg.getSender());
 			stmt.setInt(2, msg.getReceiver());
 			stmt.setString(3, msg.getMessage());
@@ -49,9 +49,9 @@ public class MessagesDao {
 			stmt.executeUpdate();
 		}
 	}
-	/* ჩელენჯების წასაშლელი */
+
 	public void deleteMessageByQuiz(Messages msg) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE u_from = ? && u_to = ? && m_type = ? && quiz_id = ? ")) {
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE u_from = ? AND u_to = ? AND m_type = ? AND quiz_id = ? ")) {
 			stmt.setInt(1, msg.getSender());
 			stmt.setInt(2, msg.getReceiver());
 			stmt.setString(3, msg.getMType());
@@ -60,7 +60,6 @@ public class MessagesDao {
 		}
 	}
 	
-	/* მიბრუნებს ჩემთან გამოგზავნილ მესიჯებს (და არა ჩემგან გაგზავნილებს!) [[წესით]]*/
 	public List<Messages> getUserNotes(int usrId) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = ? AND m_type = \"note\"")) {
 			stmt.setInt(1, usrId);

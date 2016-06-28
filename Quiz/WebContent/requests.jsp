@@ -28,6 +28,8 @@
 </head>
 <body>
 
+	<% if (getServletContext().getAttribute("formid") != null) %>
+		<% getServletContext().removeAttribute("formid"); %>
 <header>
 <a href="index.jsp">Quiz Web Site</a>
 </header>
@@ -77,7 +79,6 @@
 				<div id="content">
 					<script>requestFunc();</script>
 				</div>
-				<div id="questions"> </div>
 			</section>
 		<% } %>
 		

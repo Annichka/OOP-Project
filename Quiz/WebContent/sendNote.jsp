@@ -77,7 +77,6 @@
 				<div id="content">
 					<script>sendNote();</script>
 				</div>
-				<div id="questions"> </div>
 			</section>
 		<% } %>
 		

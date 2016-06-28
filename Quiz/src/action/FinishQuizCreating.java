@@ -1,28 +1,26 @@
 package action;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import manager.MessageManager;
-import user.dao.MessagesDao;
+import manager.UserManager;
+import quiz.dao.QuizDao;
 
 /**
- * Servlet implementation class DeleteNote
+ * Servlet implementation class FinishQuizCreating
  */
-@WebServlet("/DeleteNote")
-public class DeleteNote extends HttpServlet {
+@WebServlet("/FinishQuizCreating")
+public class FinishQuizCreating extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteNote() {
+    public FinishQuizCreating() {
         super();
     }
 
@@ -30,25 +28,20 @@ public class DeleteNote extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int quizid = (Integer) getServletContext().getAttribute("quizprocess");
+		UserManager uM = (UserManager)getServletContext().getAttribute("userM");
+		QuizDao qzDao = uM.getQuizDao();
+		qzDao.setQuizFinished(quizid);
+		getServletContext().removeAttribute("quizprocess");
+		request.getSession().setAttribute("quizfinished", true);
+		response.sendRedirect("createQuiz.jsp");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String msg_id = (String) request.getParameter("noteId");
-
-		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
-		MessagesDao msgD = msgM.getMessageDao();
-	
-		int msgid = Integer.parseInt(msg_id);
-		
-		try {
-			msgD.deleteMessageById(msgid);
-			
-			response.sendRedirect("notes.jsp");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		doGet(request, response);
 	}
+
 }

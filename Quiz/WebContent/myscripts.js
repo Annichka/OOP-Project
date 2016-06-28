@@ -60,7 +60,7 @@ function sendNote() {
     }
 }
 
-function quizTypes() {
+function questionTypes() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
     	if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -76,19 +76,43 @@ function addQuestion(btn) {
 	var ordered = "0";
 	if(btn.name === "MC") {
 		wansw = window.prompt("Wrong answer count");
-		
 	} else if(btn.name === "MCA") {
 		wansw = window.prompt("Correct answer count");
 	}
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
     	if (xhttp.readyState == 4 && xhttp.status == 200) {
-    		var qst = document.getElementById("questions")
-    		qst.innerHTML = qst.innerHTML + xhttp.responseText;
+    		var qst = document.getElementById("content")
+    		qst.innerHTML = xhttp.responseText;
    		}
     };
    	xhttp.open("GET", "QuestionForm?type=" + btn.name + "&ansc=" + wansw + "&ord=" + ordered, true)
    	xhttp.send()
 }
 
+function displayQuestions() {
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		var qst = document.getElementById("questions")
+    		qst.innerHTML = xhttp.responseText;
+   		}
+    };
+   	xhttp.open("GET", "DisplayQuestions", true)
+   	xhttp.send()
+}
 
+function editQuestion(obj) {
+	var questid = obj.id
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		var qst = document.getElementById("questions")
+    		qst.innerHTML = xhttp.responseText;
+   		}
+    };
+    
+   	xhttp.open("GET", "DisplayQuestions?questid=" +questid, true)
+   	// unda gadaikvanos im gverdze sadac question ketdeba, + show whole quiz button
+   	xhttp.send()
+}

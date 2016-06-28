@@ -22,7 +22,7 @@ public class Question {
 	protected int quizid;
 	protected int answer_count;
 	protected String picurl;
-	protected String w_answer;
+	protected String w_answers;
 	protected int ordered;
 	
 	public void setQuestionId(int id) {

@@ -120,4 +120,40 @@ public class QuizDao {
 			}
 		}
 	}
+	
+	
+	// es dasatestia !!!
+	public void setQuizFinished(int quizId) {
+		String sql = "UPDATE Quizes SET finished=1 where quiz_id = " + quizId + ";";
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public int createNewQuiz(String quizName, int authorId, String category, int isRandom, int finished) {
+		try {
+			Statement stmt = (Statement) conn.createStatement();
+			String sql = "INSERT INTO Quizes(quiz_name, author_id, category, isRandom, pages, correction, practice, finished)"
+				+ "VALUES('" + quizName +"', "+ authorId + ", '" +category +"', "+ isRandom + ", "
+						+ "1, 0, 0, " + finished + ")";
+			stmt.executeUpdate(sql);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		int lastid = -1;
+		try (Statement stmt2 = conn.createStatement()) {
+			try(ResultSet rslt = stmt2.executeQuery("SELECT * FROM Quizes WHERE author_id = " + authorId +" "
+					+ "ORDER BY quiz_id DESC;")) {
+				if(rslt.next()) {
+					lastid = rslt.getInt("quiz_id");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lastid;
+	}
 }

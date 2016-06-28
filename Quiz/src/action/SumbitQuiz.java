@@ -1,28 +1,23 @@
 package action;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import manager.MessageManager;
-import user.dao.MessagesDao;
-
 /**
- * Servlet implementation class DeleteNote
+ * Servlet implementation class SumbitQuiz
  */
-@WebServlet("/DeleteNote")
-public class DeleteNote extends HttpServlet {
+@WebServlet("/SumbitQuiz")
+public class SumbitQuiz extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteNote() {
+    public SumbitQuiz() {
         super();
     }
 
@@ -30,25 +25,15 @@ public class DeleteNote extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer questCount = (Integer)getServletContext().getAttribute("formid");
+		String x = (String)request.getParameter("");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String msg_id = (String) request.getParameter("noteId");
-
-		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
-		MessagesDao msgD = msgM.getMessageDao();
-	
-		int msgid = Integer.parseInt(msg_id);
-		
-		try {
-			msgD.deleteMessageById(msgid);
-			
-			response.sendRedirect("notes.jsp");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		doGet(request, response);
 	}
+
 }
