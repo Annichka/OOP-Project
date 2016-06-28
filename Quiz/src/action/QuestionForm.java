@@ -36,18 +36,18 @@ public class QuestionForm extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		UserManager uM =(UserManager) getServletContext().getAttribute("userM");
-		QuestionDao qDao = uM.getQuestionDao();
-		int questid = Integer.parseInt((String)request.getParameter("questid"));
+		QuestionDao qDao = uM.getQuestionDao();		
 		
-		Question curr = qDao.getQuestionById(questid);
-		
+		String qtype = (String) request.getParameter("type");
+		int ansc =  Integer.parseInt((String) request.getParameter("ansc"));
+		int ord =  Integer.parseInt((String) request.getParameter("ord"));
+				
 		String qstDispl = "";
-		if (curr.getType().equals("QR")) {
-			qstDispl = General(curr); //getTypeJsp(request, curr, "questionResponseT.jsp");
-		} else if (curr.getType().equals("FB")) {
-			qstDispl = getTypeJsp(request, curr, "fillBlankT.jsp");
+		if (qtype.equals("QR")) {
+			qstDispl = General(); //getTypeJsp(request, curr, "questionResponseT.jsp");
+		} else if (qtype.equals("FB")) {
+			//qstDispl = getTypeJsp(request, curr, "fillBlankT.jsp");
 		}		
 		
 		/*if (type.equals("QR")) {
@@ -76,39 +76,17 @@ public class QuestionForm extends HttpServlet {
 	}
 	
 	
-	private String getTypeJsp(HttpServletRequest request, Question qst, String jsp) {
-		String path = (request.getSession()).getServletContext().getRealPath(jsp); 
-		File file = new File(path);
-		FileReader fileReader;
-		String content = "";
-		try {
-			fileReader = new FileReader(file);
-	        BufferedReader buffReader = new BufferedReader(fileReader);
-	        String buffer = new String();
-	        while( (buffer = buffReader.readLine() ) != null)
-	            content += buffer;
-	        buffReader.close();	
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return content;
-	}
-	
-	
-	private String General(Question curr){
+	private String General(String tp){
 		String html = 
 				"<div class=\"form\">" +
-					"<form action=\"EditQuestion\" method=\"post\">"+ 
+					"<form action=\"AddQuestion\" method=\"post\">"+ 
 						"<i>Question</i>"
-						+ "<input type=\"text\" value=\""+ curr.getQuestion() +
-						"\" name=\"quest\" /><br>" +
+						+ "<input type=\"text\" placeholder=\"Write question...\" name=\"quest\" /><br>" +
 						"<i>Answer</i>"
-						+ "<input type=\"text\" value=\"" + curr.getCAnswer() +"\" name=\"cansw\" /><br>"+
-						"<input type=\"hidden\" name=\"answcount\" value=\"1\" /><br>"+
-						"<input type=\"hidden\" name=\"questid\" value=\"" + curr.getQuestionId() + "\" /><br>"+
-						"<button> Edit <button>" +
+						+ "<input type=\"text\" placeholder=\"Write answer\" name=\"cansw\" /><br>"+
+						"<input type=\"hidden\" name=\"answcount\" value=\"1\" />"+
+						"<input type=\"hidden\" name=\"type\" value=\"" + tp + "\" />"+
+						"<button> Submit <button>" +
 					"</form> " +
 			    "<div> <br>";
 		return html;

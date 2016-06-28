@@ -48,7 +48,7 @@ public class StartCreating extends HttpServlet {
 		int quizid = qzDao.createNewQuiz(quizName, authorId, category, isRandom, isFinished);
 		getServletContext().setAttribute("quizprocess", quizid);
 		
-	//	response.sendRedirect("QuestionForm.jsp"); gadasvla questenebis gasaketebel page-ze
+		response.sendRedirect("startQuestionTypes.jsp"); //gadasvla questenebis gasaketebel page-ze
 	}
 
 	/**
