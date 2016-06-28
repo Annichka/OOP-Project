@@ -72,12 +72,16 @@ function questionTypes() {
 }
 
 function addQuestion(btn) {
+	var cansw = "0";
 	var wansw = "0";
 	var ordered = "0";
 	if(btn.name === "MC") {
 		wansw = window.prompt("Wrong answer count");
 	} else if(btn.name === "MCA") {
-		wansw = window.prompt("Correct answer count");
+		cansw = window.prompt("Correct answer count");
+		wansw = window.prompt("Wrong answer count");
+	} else if(btn.name === "MA") {
+		cansw = window.prompt("Correct answer count");
 	}
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -86,7 +90,7 @@ function addQuestion(btn) {
     		qst.innerHTML = xhttp.responseText;
    		}
     };
-   	xhttp.open("GET", "QuestionForm?type=" + btn.name + "&ansc=" + wansw + "&ord=" + ordered, true)
+   	xhttp.open("GET", "QuestionForm?type=" + btn.name + "&cansc=" + cansw + "&wansc=" + wansw + "&ord=" + ordered, true)
    	xhttp.send()
 }
 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import manager.UserManager;
+import quiz.bean.PictureResponse;
 import quiz.bean.Question;
 import quiz.dao.QuestionDao;
 
@@ -49,7 +50,21 @@ public class AddQuestion extends HttpServlet {
 		newquestion.setAnswerCount(count);
 		newquestion.setType(qtype);
 		
-		try {
+		if(qtype.equals("PR")) 
+		{
+			String url = (String) request.getParameter("picurl");
+			((PictureResponse)newquestion).setPicUrl(url);
+		} else if (qtype.equals("MC"))
+		{
+			int counter = Integer.parseInt((String) request.getParameter("counter"));
+			for (int i=0; i< counter; i++) 
+			{
+				
+			}
+		}
+		
+		try 
+		{
 			qdao.addQuestion(newquestion);
 	
 		} catch (SQLException e) {
