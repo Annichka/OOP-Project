@@ -76,7 +76,30 @@
 			</nav>
 			<section>
 				<div id="content">
-					Newly added quizes.
+					<%@ page import="java.util.List" %>
+					<%@ page import="quiz.dao.*" %>
+					<%@ page import="java.util.ArrayList" %>
+					<%@ page import="manager.*" %>
+					<%@ page import="quiz.bean.*" %>
+					<%@ page import="java.io.IOException" %>
+					<%@ page import="java.sql.SQLException" %>
+					<%@ page import ="javax.servlet.ServletContext" %>
+					<%@ page import ="java.util.*" %>
+					
+					
+					<h2> TOP QUIZES </h2>
+					<% try { %>
+						<% ServletContext cont = request.getServletContext();
+							UserManager uM = (UserManager) cont.getAttribute("userM");
+							QuizDao qzDao = uM.getQuizDao();
+							ArrayList<Quiz> top = qzDao.getTopQuizes();
+						%>
+						<% for (int i = 0; i < top.size(); i++) { %>
+							<a href=<%= "###.jsp?quizid=" + top.get(i).getQuizId()%>> <%= top.get(i).getQuizName() %></a><br>
+						<% } %>
+					<%} catch (NullPointerException e) { %>
+						<a> Nobody </a>
+					<%}%>
 				</div>
 			</section>
 		<% } %>

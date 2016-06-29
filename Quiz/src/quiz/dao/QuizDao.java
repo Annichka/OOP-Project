@@ -121,8 +121,7 @@ public class QuizDao {
 		}
 	}
 	
-	
-	// es dasatestia !!!
+
 	public void setQuizFinished(int quizId) {
 		String sql = "UPDATE Quizes SET finished=1 where quiz_id = " + quizId + ";";
 		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -155,5 +154,26 @@ public class QuizDao {
 		}
 		
 		return lastid;
+	}
+	
+	public ArrayList<Quiz> getTopQuizes() {
+		ArrayList<Quiz> top= new ArrayList<>();
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes ORDER BY filled DESC;")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				for(int i=0; i<5; i++) {
+					if (rslt.next()) {
+						Quiz curr_quiz = new Quiz();
+						curr_quiz.setQuizId(rslt.getInt("quiz_id"));
+						curr_quiz.setQuizName(rslt.getString("quiz_name"));
+						curr_quiz.setAuthorId(rslt.getInt("author_id"));
+						top.add(curr_quiz);
+					}
+				}
+				return top;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return top;
 	}
 }

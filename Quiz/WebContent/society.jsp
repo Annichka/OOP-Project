@@ -76,7 +76,7 @@
 			</nav>
 			<section>
 				<div id="content">
-					Newly added quizes.
+					<%@ include file = "user_list.jsp" %>
 				</div>
 			</section>
 		<% } %>
