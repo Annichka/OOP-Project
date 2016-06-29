@@ -42,6 +42,11 @@ public class AddFriend extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 *  Send friend request to user. 
+		 *  Adds new request message to database.
+		 *  
+		 *  */
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
 		ServletContext sCont = request.getServletContext();

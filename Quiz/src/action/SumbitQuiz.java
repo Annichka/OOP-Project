@@ -25,6 +25,11 @@ public class SumbitQuiz extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * Servlet for user, who filled chosen quiz.
+		 * Saves user's history, score, quiz_data.
+		 *  */
+		
 		Integer questCount = (Integer)getServletContext().getAttribute("formid");
 		String x = (String)request.getParameter("");
 	}

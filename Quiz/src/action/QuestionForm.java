@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import manager.UserManager;
-import quiz.dao.QuestionDao;
 
 /**
  * Servlet implementation class AddQuestion
@@ -32,10 +31,10 @@ public class QuestionForm extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		UserManager uM =(UserManager) getServletContext().getAttribute("userM");
-		QuestionDao qDao = uM.getQuestionDao();		
-	
-		
+		/* 
+		 * Called from javascript function.
+		 * Display question form for creator.
+		 * */
 		String type = (String) request.getParameter("type");
 		int ansc =  Integer.parseInt((String) request.getParameter("cansc"));
 		int wansc = Integer.parseInt((String) request.getParameter("wansc"));

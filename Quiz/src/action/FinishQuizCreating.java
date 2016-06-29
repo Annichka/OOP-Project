@@ -28,6 +28,11 @@ public class FinishQuizCreating extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Checks in Database that chosen quiz is finished.
+		 * 
+		 * */
+		
 		String q = (String) getServletContext().getAttribute("quizprocess");
 		Integer quizid = Integer.parseInt(q);
 		

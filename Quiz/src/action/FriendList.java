@@ -38,6 +38,12 @@ public class FriendList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Logged User's Friend list.
+		 * Returns html string to javascript. Displays dynamically.
+		 * 
+		 * */
+		
 		ServletContext sCont = request.getServletContext();
     	String user = (String) sCont.getAttribute("username");
 	    UserManager usrM = null;

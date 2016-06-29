@@ -35,6 +35,13 @@ public class Notes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Servlet is called from Javascript function.
+		 * Finds received notes in DataBase.
+		 * Generates output html string and sends to Javascript to display dynamically. 
+		 *
+		 * */
+		
 		String user = (String) getServletContext().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();

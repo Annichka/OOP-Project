@@ -39,6 +39,14 @@ public class CancelRequest extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * Canceling Friend Request.
+		 * Removes request message from Database.
+		 * Calling from user's profile page !
+		 * Called by javascript.
+		 *
+		 *  */
+		
 		String req_to = (String) request.getParameter("cancelTo");
 		String me = (String) getServletContext().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");

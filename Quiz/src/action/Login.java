@@ -35,6 +35,12 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * User Sing In.
+		 * Creates main session attributes and saves in servlet context.
+		 * 
+		 * */
+		
 		String user = (String)request.getParameter("user");
 		String password = (String)request.getParameter("pass");
 		User acc = new User();		// Input user object

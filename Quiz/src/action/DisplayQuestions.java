@@ -18,7 +18,6 @@ import quiz.dao.QuestionDao;
 import quiz.bean.PictureResponse;
 import quiz.bean.MultiAnswer;
 import quiz.bean.MultipleChoice;
-import quiz.bean.Matching;
 
 /**
  * Servlet implementation class DisplayQuestions
@@ -38,6 +37,12 @@ public class DisplayQuestions extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Servlet is called by Javascript function.
+		 * Generates html string for each type of question.
+		 * 
+		 * */
+		
 		UserManager uM = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qDao = uM.getQuestionDao();
 		String q = (String) getServletContext().getAttribute("quizprocess");

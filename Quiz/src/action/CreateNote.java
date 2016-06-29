@@ -36,6 +36,12 @@ public class CreateNote extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Note Create servlet.
+		 * Called by javscript and returns status, sent or not generated note.
+		 * 
+		 * */
+		
 		String msg_to = (String) request.getParameter("user");
 		String text = (String) request.getParameter("note");
 		String from_me = (String) getServletContext().getAttribute("username");

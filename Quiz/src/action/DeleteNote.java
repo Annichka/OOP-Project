@@ -36,6 +36,11 @@ public class DeleteNote extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Called by javascript.
+		 * Removing note.
+		 * 
+		 * */
 		String msg_id = (String) request.getParameter("noteId");
 
 		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");

@@ -26,7 +26,12 @@ public class SaveUnfinishedQuiz extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		/*
+		 * Removes global attribute that saves which quiz is in process.
+		 * Doesn't change Database.
+		 * 
+		 * */
 		ServletContext sCont = getServletContext();
 		sCont.removeAttribute("quizprocess");
 		response.sendRedirect("createQuiz.jsp");

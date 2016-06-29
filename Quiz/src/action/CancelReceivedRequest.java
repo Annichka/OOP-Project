@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import manager.FriendManager;
 import manager.UserManager;
@@ -35,6 +34,12 @@ public class CancelReceivedRequest extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Called from requests page.
+		 * Delete friend request.
+		 *  
+		 * */
+		
 		String req_from = (String) request.getParameter("cancelTo");
 		String me = (String) getServletContext().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
@@ -51,7 +56,6 @@ public class CancelReceivedRequest extends HttpServlet {
 			u_to = usrD.getUserByName(me);
 			friendD.deleteRequest(u_from, u_to);
 			
-			HttpSession session = request.getSession();
 			response.sendRedirect("requests.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();

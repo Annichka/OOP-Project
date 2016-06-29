@@ -39,6 +39,12 @@ public class AcceptRequest extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Accept friend request.
+		 * Removes request message.
+		 * Adds new Friendship.
+		 * */
+		
 		String req_from = (String) request.getParameter("acceptfrom");
 		String req_to = (String) getServletContext().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");

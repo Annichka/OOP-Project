@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +30,13 @@ public class QuestionTypes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		/*
+		 * Called from javascript function.
+		 * Reads questionTypes.jsp and 
+		 * return tu javascript to display dynamically.
+		 * 
+		 * */
+		
 		String path = (request.getSession()).getServletContext().getRealPath("questionTypes.jsp"); 
 		File file = new File(path);
 		FileReader fileReader = new FileReader(file);

@@ -36,6 +36,13 @@ public class FriendRequests extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Calling Javascript.
+		 * Takes User's friend requests from database and returns
+		 * html string to javascript.
+		 * 
+		 * */
+		
 		String user = (String) getServletContext().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();

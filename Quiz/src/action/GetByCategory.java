@@ -34,6 +34,12 @@ public class GetByCategory extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Servlet is called from Javascript function.
+		 * Generates Quiz list by requested category.
+		 * Returns html string to Javascript to display dynamically.
+		 * */
+		
 		UserManager uM = (UserManager) getServletContext().getAttribute("userM");
 		QuizDao qDao = uM.getQuizDao();
 		

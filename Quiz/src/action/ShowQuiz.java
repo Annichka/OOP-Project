@@ -32,6 +32,11 @@ public class ShowQuiz extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Servlet for showing whole quiz.
+		 * Shows for creator and able to edit.
+		 * 
+		 * */
 		UserManager uM = (UserManager)getServletContext().getAttribute("userM");
 		String q = (String) getServletContext().getAttribute("quizprocess");
 		Integer quizId = Integer.parseInt(q);

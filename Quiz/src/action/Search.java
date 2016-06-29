@@ -32,6 +32,13 @@ public class Search extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Search for another users.
+		 * Calls Javascript.
+		 * Returns user's data if found or nothing otherwise.
+		 * 
+		 * */
+		
 		String search_name = (String)request.getParameter("searching");
 		String myname = (String) getServletContext().getAttribute("username");
 		String resp = "";

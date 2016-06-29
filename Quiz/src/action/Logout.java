@@ -28,6 +28,11 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Logout.
+		 * Removing all session attributes.
+		 * */
+		
 		HttpSession session = request.getSession();
         session.setAttribute("logout", true);
         session.removeAttribute("authorized");

@@ -40,6 +40,12 @@ public class SendNote extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * Calls Javascript.
+		 * Sends note to user. Redirects to profile page.
+		 * 
+		 * */
+		
 		StringBuffer text = new StringBuffer(request.getParameter("note"));
 
 	    String msg_to = (String) request.getParameter("user");

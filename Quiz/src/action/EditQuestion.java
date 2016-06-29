@@ -35,13 +35,18 @@ public class EditQuestion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Question editing during test view.
+		 * Redirects to main page, where is shown all questions.
+		 * 
+		 * */
+		
 		UserManager uM = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qDao = uM.getQuestionDao();
 		
 		String qst = (String) request.getParameter("quest");
 		String answ = (String) request.getParameter("cansw");
 		int qstid = Integer.parseInt((String)request.getParameter("questid"));
-		String picurl = "";
 		String wansw = "";
 		int ordered = 0;
 		int answCount = Integer.parseInt((String)request.getParameter("answcount"));
@@ -64,7 +69,6 @@ public class EditQuestion extends HttpServlet {
 		
 		int quizId = q.getQuizId();
 		
-		//quizId = 8;
 		
 		ArrayList<Question> quesList;
 		try {
@@ -77,7 +81,6 @@ public class EditQuestion extends HttpServlet {
 		// wavides mtliani quizis naxvaze
 		
 		response.sendRedirect("showQuiz.jsp");
-		
 	}
 
 	/**
@@ -86,5 +89,4 @@ public class EditQuestion extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

@@ -29,6 +29,11 @@ public class StartCreating extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Servlet is called after clicking Start Quiz Create button.
+		 * Redirects to Types-Page.
+		 * 
+		 * */
 		if (getServletContext().getAttribute("quizprocess") != null)
 			getServletContext().removeAttribute("quizprocess");
 		

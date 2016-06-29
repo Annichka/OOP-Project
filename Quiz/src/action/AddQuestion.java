@@ -34,8 +34,11 @@ public class AddQuestion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// unda chaagdos bazashi axali kitxva
-		// gadaviyvano kategoriebis gverdze
+		/* 
+		 * Adds new question into DataBase.
+		 * Redirects to Category Page.
+		 * 
+		 * */
 		
 		UserManager man = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qdao = man.getQuestionDao();

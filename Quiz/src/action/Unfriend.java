@@ -40,6 +40,11 @@ public class Unfriend extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 
+		 * Unfriend user.
+		 * 
+		 * */
+		
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
 
