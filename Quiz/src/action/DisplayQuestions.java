@@ -42,13 +42,11 @@ public class DisplayQuestions extends HttpServlet {
 		QuestionDao qDao = uM.getQuestionDao();
 		String q = (String) getServletContext().getAttribute("quizprocess");
 		Integer quizid = Integer.parseInt(q);
-		System.out.println("DISPLAYquestion     " + quizid);
 		ArrayList<Question> qList = null;
 		
 		try {
 			qList = qDao.getQuestionsByQuizId(quizid);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

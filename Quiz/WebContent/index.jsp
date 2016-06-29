@@ -76,7 +76,7 @@
 			</nav>
 			<section>
 				<div id="content">
-					Newly added quizes.
+					New Quizes
 				</div>
 			</section>
 		<% } %>
