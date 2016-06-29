@@ -66,6 +66,19 @@ public class QuizDao {
 		}
 	}
 	
+	public String getNameByQuizId(int id) throws SQLException {
+		String name = "Quiz Not Found";
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE quiz_id = "
+				+ id + ";")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if (rslt.next()) {
+					name = rslt.getString("quiz_name");
+				}
+			}
+		}
+		return name;
+	}
+	
 	/*
 	 * Return quiz list by Author 
 	 * */
@@ -210,6 +223,29 @@ public class QuizDao {
 			e.printStackTrace();
 		}
 		return cat;
+	}
+	
+	public ArrayList<History> getUserHistory(int userid) {
+		ArrayList<History> hist= new ArrayList<>();
+		
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History Where user_id = " 
+				+ userid + ";")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				while (rslt.next()) {
+						History h = new History();
+						h.setId(rslt.getInt("id"));
+						h.setQuiz_id(rslt.getInt("quiz_id"));
+						h.setUser_id(rslt.getInt("user_id"));
+						h.setScore(rslt.getInt("score"));
+						hist.add(h);
+					}
+				}
+				return hist;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return hist;
 	}
 	
 	
