@@ -212,4 +212,18 @@ public class QuizDao {
 		return cat;
 	}
 	
+	
+	public void addUserHostory(History h) {
+		Statement stmt;
+		try {
+			stmt = (Statement) conn.createStatement();
+			String sql = "INSERT INTO History(user_id, quiz_id, score)" 
+					+ "VALUES("+ h.getUser_id() + ", " + h.getQuiz_id() +", "+ h.getScore() + ")";
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
 }

@@ -66,9 +66,8 @@
 				<a href="sendNote.jsp"> Send Note </a><br>
 				<a href="createQuiz.jsp"> Create Quiz </a><br>
 				<a href="society.jsp"> Society </a><br>
-				
-				<button >Scores</button><br>
-				
+				<a href="History"> History </a><br>
+								
 				<form action="Logout" method="get">
 				    <button> Logout </button><br>
 		 		</form>
@@ -101,7 +100,9 @@
 							<% if (i > 10) {
 								break; 
 							}%>							
-								<a href=<%= "#.jsp?quizid=" +  allquiz.get(i).getQuizId() %>><%= (i+1) +". " + allquiz.get(i).getQuizName() %></a><br>	  
+								<a href=<%= "startQuiz.jsp?quizid=" +  allquiz.get(i).getQuizId() 
+								+ "&quizname=" + allquiz.get(i).getQuizName()
+								%>><%= (i+1) +". " + allquiz.get(i).getQuizName() %></a><br>	  
 						<% } %>
 					</div>
 					
@@ -109,7 +110,8 @@
 					
 					<p> Top Quizes </p>
 						<% for (int i = 0; i < topquiz.size(); i++) { %>						
-								<a href=<%= "#.jsp?quizid=" +  topquiz.get(i).getQuizId() %>><%= (i+1) +". " + topquiz.get(i).getQuizName() %></a><br>	  
+								<a href=<%= "startQuiz.jsp?quizid=" +  topquiz.get(i).getQuizId() 
+								%>><%= (i+1) +". " + topquiz.get(i).getQuizName() %></a><br>	  
 						<% } %>
 					</div> 
 					
@@ -117,7 +119,9 @@
 					
 					<p> New Quizes </p>
 						<% for (int i = 0; i < newquiz.size(); i++) { %>						
-								<a href=<%= "#.jsp?quizid=" +  newquiz.get(i).getQuizId() %>><%= (i+1) +". " + newquiz.get(i).getQuizName() %></a><br>	  
+								<a href=<%= "startQuiz.jsp?quizid=" +  newquiz.get(i).getQuizId()
+								+ "&quizname=" + allquiz.get(i).getQuizName()
+								%>><%= (i+1) +". " + newquiz.get(i).getQuizName() %></a><br>	  
 						<% } %>
 					</div>
 					

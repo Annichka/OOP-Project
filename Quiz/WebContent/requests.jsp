@@ -67,7 +67,8 @@
 				<a href="notes.jsp"> Notes </a><br>
 				<a href="sendNote.jsp"> Send Note </a><br>
 				<a href="createQuiz.jsp"> Create Quiz </a><br>
-				<button >Scores</button><br>
+				<a href="society.jsp"> Society </a><br>
+				<a href="History"> History </a><br>
 				
 				<div class="form">
 				  <form action="Logout" method="get">
