@@ -74,11 +74,25 @@
 				</div>
 			</nav>
 			
-			<section>			
+			<section>	
+				<div id="content">
+					
+				</div>		
 				<div id="questions">
+				
 				</div>
-				<script> displayQuestions(); </script>
+				
+				<script> 
+					displayQuestions();
+				</script>
+				
+				<br> <br>
 				<input type="submit" value="addQuestion" onClick="questionTypes()">
+				<br> <br>
+				<form action="SaveUnfinishedQuiz" method="post">
+				    <button> Save and Continue later </button><br>
+				</form>
+				<br> <br>
 				<form action="FinishQuizCreating" method="post">
 				    <button> Finish Quiz </button><br>
 				</form>

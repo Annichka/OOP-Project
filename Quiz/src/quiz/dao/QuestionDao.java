@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import quiz.bean.*;
 
@@ -19,8 +18,8 @@ public class QuestionDao {
 
 	public void addQuestion(Question q) throws SQLException {
 		Statement stmt = (Statement) conn.createStatement();
-
-		if (q.getType().equals("QR") || q.getType().equals("FB")) {
+		String type = q.getType();
+		if (type.equals("QR") || type.equals("FB")) {
 			String sql = "INSERT INTO Questions (question, type, c_answer, answer_count, quiz_id) "
 					+ "VALUES('"
 					+ q.getQuestion()
@@ -33,7 +32,8 @@ public class QuestionDao {
 					+ "', '"
 					+ q.getQuizId() + "')";
 			stmt.executeUpdate(sql);
-		} else if (q.getType().equals("MC") || q.getType().equals("MCA")) {
+		} 
+		else if (type.equals("MC") || type.equals("MCA")) {
 			String sql = "INSERT INTO Questions (question, type, c_answer, w_answer, answer_count, quiz_id) "
 					+ "VALUES('"
 					+ q.getQuestion()
@@ -46,7 +46,8 @@ public class QuestionDao {
 					+ "', '"
 					+ q.getAnswerCount() + "', '" + q.getQuizId() + "')";
 			stmt.executeUpdate(sql);
-		} else if (q.getType().equals("MA")) {
+		} 
+		else if (type.equals("MA")) {
 			String sql = "INSERT INTO Questions (question, type, c_answer, ordered, answer_count, quiz_id) "
 					+ "VALUES('"
 					+ q.getQuestion()
@@ -59,7 +60,8 @@ public class QuestionDao {
 					+ "', '"
 					+ q.getAnswerCount() + "', '" + q.getQuizId() + "')";
 			stmt.executeUpdate(sql);
-		} else if (q.getType().equals("PR")) {
+		} 
+		else if (type.equals("PR")) {
 			String sql = "INSERT INTO Questions (question, type, c_answer, answer_count, pic_url, quiz_id) "
 					+ "VALUES('"
 					+ q.getQuestion()
@@ -163,23 +165,30 @@ public class QuestionDao {
 			stmt.setInt(1, id);
 			try (ResultSet rslt = stmt.executeQuery()) {
 				ArrayList<Question> question_list = new ArrayList<Question>();
+				
 				while (rslt.next()) {
 					Question curr_quest = null;
 					String type = rslt.getString("type");
 					
-					if (type.equalsIgnoreCase("PR")) {
+					if (type.equalsIgnoreCase("PR")) 
+					{
 						curr_quest = new PictureResponse();
 						((PictureResponse) curr_quest).setPicUrl(rslt.getString("pic_url"));
-					} else if (type.equalsIgnoreCase("MA")) {
+					} 
+					else if (type.equalsIgnoreCase("MA")) 
+					{
+						curr_quest = new MultiAnswer();
 						((MultiAnswer) curr_quest).setIsOrdered(rslt.getInt("ordered"));
-					} else if (type.equalsIgnoreCase("MC")
-							|| type.equalsIgnoreCase("MCA")) {
+					} 
+					else if (type.equalsIgnoreCase("MC") || type.equalsIgnoreCase("MCA")) 
+					{
 						curr_quest = new MultipleChoice();
 						((MultipleChoice) curr_quest).setWAnswers(rslt.getString("w_answer"));
+					} 
+					else if (type.equalsIgnoreCase("QR") || type.equalsIgnoreCase("FB"))
+					{
+						curr_quest = new QuestionResponse();
 					}
-					
-					curr_quest = new QuestionResponse();
-					question_list.add(curr_quest);
 					
 					curr_quest.setQuestionId(rslt.getInt("id"));
 					curr_quest.setQuestion(rslt.getString("question"));
@@ -187,6 +196,9 @@ public class QuestionDao {
 					curr_quest.setAnswerCount(rslt.getInt("answer_count"));
 					curr_quest.setQuizId(rslt.getInt("quiz_id"));
 					curr_quest.setType(rslt.getString("type"));
+					
+					question_list.add(curr_quest);
+
 				}
 				return question_list;
 			}

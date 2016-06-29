@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import manager.UserManager;
 import quiz.bean.Question;
 import quiz.dao.QuestionDao;
-import quiz.dao.QuizDao;
 
 /**
  * Servlet implementation class showQuiz
@@ -35,7 +33,9 @@ public class ShowQuiz extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserManager uM = (UserManager)getServletContext().getAttribute("userM");
-		int quizId = (Integer)getServletContext().getAttribute("quizprocess");
+		String q = (String) getServletContext().getAttribute("quizprocess");
+		Integer quizId = Integer.parseInt(q);
+		
 		QuestionDao qDao = uM.getQuestionDao();
 		try {
 			ArrayList<Question> quesList = qDao.getQuestionsByQuizId(quizId);

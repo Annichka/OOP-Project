@@ -65,6 +65,7 @@ function questionTypes() {
     xhttp.onreadystatechange = function() {
     	if (xhttp.readyState == 4 && xhttp.status == 200) {
     		document.getElementById("content").innerHTML = xhttp.responseText;
+    		document.getElementById("questions").innerHTML = "";
    		}
    	};
    	xhttp.open("GET", "QuestionTypes", true)
@@ -82,6 +83,7 @@ function addQuestion(btn) {
 		wansw = window.prompt("Wrong answer count");
 	} else if(btn.name === "MA") {
 		cansw = window.prompt("Correct answer count");
+		ordered = window.prompt("If answers are ORDERED - write 1 otherwise - 0");
 	}
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {

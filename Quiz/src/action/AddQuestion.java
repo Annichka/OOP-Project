@@ -2,7 +2,6 @@ package action;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,10 +40,8 @@ public class AddQuestion extends HttpServlet {
 		UserManager man = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qdao = man.getQuestionDao();
 				
-		String test = (String) getServletContext().getAttribute("quizprocess");
-		System.out.println("ADD QUESTION      QUIZID      "   +  test);
-		
-		Integer quizid = Integer.parseInt(test);
+		String q = (String) getServletContext().getAttribute("quizprocess");
+		Integer quizid = Integer.parseInt(q);
 		
 		String qtype = (String) request.getParameter("type");
 		String question = (String) request.getParameter("quest");
@@ -89,10 +86,6 @@ public class AddQuestion extends HttpServlet {
 			newquestion.setAnswerCount(1);
 			newquestion.setType(qtype);
 			((MultipleChoice)newquestion).setWAnswers(wrongs);
-			
-			System.out.println(wrongs);
-			System.out.println(answer);
-			
 		} else if (qtype.equals("MCA"))
 		{
 			newquestion = new MultipleChoice();
@@ -108,11 +101,10 @@ public class AddQuestion extends HttpServlet {
 			{
 				corrects += (String) request.getParameter("cansw" + (i+1)) + ";";
 			}
-			System.out.println(wrongs);
-			System.out.println(corrects);
 			
 			newquestion.setQuestion(question);
 			newquestion.setCAnswer(corrects);
+			newquestion.setType(qtype);
 			((MultipleChoice)newquestion).setWAnswers(wrongs);
 			newquestion.setAnswerCount(correct_c);
 		} else if (qtype.equals("MA"))
@@ -126,8 +118,7 @@ public class AddQuestion extends HttpServlet {
 			{
 				corrects += (String) request.getParameter("cansw" + (i+1)) + ";";
 			}
-			System.out.println(corrects);
-			
+			newquestion.setType(qtype);			
 			newquestion.setQuestion(question);
 			newquestion.setCAnswer(corrects);
 			((MultiAnswer)newquestion).setIsOrdered(ordered);
@@ -135,7 +126,7 @@ public class AddQuestion extends HttpServlet {
 		}
 		
 		newquestion.setQuizId(quizid);
-		
+
 		try 
 		{
 			qdao.addQuestion(newquestion);
@@ -144,6 +135,7 @@ public class AddQuestion extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		getServletContext().removeAttribute("questionshown");
 		response.sendRedirect("startQuestionTypes.jsp");
 	}
 

@@ -28,10 +28,13 @@ public class FinishQuizCreating extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int quizid = (Integer) getServletContext().getAttribute("quizprocess");
+		String q = (String) getServletContext().getAttribute("quizprocess");
+		Integer quizid = Integer.parseInt(q);
+		
 		UserManager uM = (UserManager)getServletContext().getAttribute("userM");
 		QuizDao qzDao = uM.getQuizDao();
 		qzDao.setQuizFinished(quizid);
+		
 		getServletContext().removeAttribute("quizprocess");
 		request.getSession().setAttribute("quizfinished", true);
 		response.sendRedirect("createQuiz.jsp");

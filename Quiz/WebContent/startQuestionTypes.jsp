@@ -76,22 +76,28 @@
 
 			<section>
 				<div id="content"> 
-					
+				
 				</div>
-
+				
 				<script >
 						questionTypes();
 				</script>
-				
+
 				<br> <br> <br>
-				<input type="submit" value="View" onClick="questionTypes()">
-					<form action="#" method="post">
-				    	<button> View Quiz </button> 
-					</form>
-				
+
+				<form action="ShowQuiz" method="get">
+				    <button> View Quiz </button> 
+				</form>
+				<br> <br>
+				<form action="SaveUnfinishedQuiz" method="post">
+				    <button> Save and Continue later </button><br>
+				</form>
+				<br> <br>
 				<form action="FinishQuizCreating" method="post">
 				    <button> Finish Quiz </button><br>
 				</form>
+				
+				
 			</section>
 		<% } %>
 		

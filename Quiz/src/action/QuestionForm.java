@@ -34,6 +34,7 @@ public class QuestionForm extends HttpServlet {
 	{
 		UserManager uM =(UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qDao = uM.getQuestionDao();		
+	
 		
 		String type = (String) request.getParameter("type");
 		int ansc =  Integer.parseInt((String) request.getParameter("cansc"));
@@ -64,6 +65,9 @@ public class QuestionForm extends HttpServlet {
 		else if(type.equals("M")) {
 			System.out.println("TODO: MATCHING TYPE");
 		}
+		
+		getServletContext().setAttribute("questionshown", true);
+		
         PrintWriter out = response.getWriter();
 	    out.write(question);
 	}
