@@ -75,8 +75,59 @@
 				
 			</nav>
 			<section>
+			
+			<%@ page import="java.util.List" %>
+			<%@ page import="quiz.bean.*" %>
+			<%@ page import="java.util.ArrayList" %>
+			<%@ page import="manager.*" %>
+			<%@ page import="quiz.dao.*" %>
+			<%@ page import="java.io.IOException" %>
+			<%@ page import="java.sql.SQLException" %>
+			<%@ page import ="javax.servlet.ServletContext" %>
+			<%@ page import ="java.util.*" %>
+			
+			<% UserManager uM = (UserManager) getServletContext().getAttribute("userM");
+				QuizDao qDao = uM.getQuizDao();
+				ArrayList<Quiz> allquiz = qDao.getQuizList();
+				ArrayList<Quiz> topquiz = qDao.getTopQuizes();
+				ArrayList<Quiz> newquiz = qDao.getNewQuizes();
+				ArrayList<String> categ = qDao.getCategories();
+			%>
 				<div id="content">
-					New Quizes
+					<div class="boxes">
+					
+					<p> Quiz List </p>
+						<% for (int i = 0; i < allquiz.size(); i++) { %>
+							<% if (i > 10) {
+								break; 
+							}%>							
+								<a href=<%= "#.jsp?quizid=" +  allquiz.get(i).getQuizId() %>><%= (i+1) +". " + allquiz.get(i).getQuizName() %></a><br>	  
+						<% } %>
+					</div>
+					
+					<div class="boxes">
+					
+					<p> Top Quizes </p>
+						<% for (int i = 0; i < topquiz.size(); i++) { %>						
+								<a href=<%= "#.jsp?quizid=" +  topquiz.get(i).getQuizId() %>><%= (i+1) +". " + topquiz.get(i).getQuizName() %></a><br>	  
+						<% } %>
+					</div> 
+					
+					<div class="boxes">
+					
+					<p> New Quizes </p>
+						<% for (int i = 0; i < newquiz.size(); i++) { %>						
+								<a href=<%= "#.jsp?quizid=" +  newquiz.get(i).getQuizId() %>><%= (i+1) +". " + newquiz.get(i).getQuizName() %></a><br>	  
+						<% } %>
+					</div>
+					
+					<div class="boxes">
+					
+					<p> Quiz Categories </p>
+						<% for (int i = 0; i < categ.size(); i++) { %>						
+									<input type="submit" value="<%=categ.get(i) %>" name="<%=categ.get(i) %>" onClick="categoryQuizes(this)"><br>	  
+						<% } %>
+					</div>
 				</div>
 			</section>
 		<% } %>

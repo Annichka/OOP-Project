@@ -122,3 +122,17 @@ function editQuestion(obj) {
    	// unda gadaikvanos im gverdze sadac question ketdeba, + show whole quiz button
    	xhttp.send()
 }
+
+function categoryQuizes(obj) {
+	var cat = obj.name
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		var qst = document.getElementById("content")
+    		qst.innerHTML = xhttp.responseText;
+   		}
+    };
+    
+   	xhttp.open("GET", "GetByCategory?cat=" +cat, true)
+   	xhttp.send()
+}
