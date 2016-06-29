@@ -65,8 +65,8 @@
 				</form>
 			</div>
 			
-			<input type="button" value="Friends" name= <%= curr_user.getUserName() %> onClick="friendList(this)"><br>
-			<a href="History?username">History</a><br>
+			<a href=<%= "showFriends.jsp?profile=" +  curr_user.getUserName() %>> Friends </a><br>
+			<a href=<%= "showHistory.jsp?profile=" +  curr_user.getUserName() %>> History </a><br>
 		</nav>
 	<% } else if (reverseRequested){%>
 			<nav>		
@@ -82,8 +82,8 @@
 			   </form>
 			</div>
 			
-			<input type="button" value="Friends" name= <%= curr_user.getUserName() %> onClick="friendList(this)"><br>
-			<a href="History?username">History</a><br>
+			<a href=<%= "showFriends.jsp?profile=" +  curr_user.getUserName() %>> Friends </a><br>
+			<a href=<%= "showHistory.jsp?profile=" +  curr_user.getUserName() %>> History </a><br>
 		</nav>
 				
 	<% } else { %>
@@ -109,8 +109,8 @@
 			<% } %>
 			
 			
-			<input type="button" value="Friends" name= <%= curr_user.getUserName() %> onClick="friendList(this)"><br>
-			<a href="History?username">History</a><br>
+			<a href=<%= "showFriends.jsp?profile=" +  curr_user.getUserName() %>> Friends </a><br>
+			<a href=<%= "showHistory.jsp?profile=" +  curr_user.getUserName() %>> History </a><br>
 		</nav>
 	<% } %>
 
