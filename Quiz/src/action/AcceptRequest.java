@@ -44,6 +44,9 @@ public class AcceptRequest extends HttpServlet {
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
 		
+		String redirect = "requests.jsp";
+		if ((String) request.getParameter("returntouser") != null)
+			redirect = "profile.jsp?profile=" + req_from;
 		FriendManager friendM = (FriendManager) getServletContext().getAttribute("friM");
 		FriendsDao friendD = friendM.getFriendDao();
 		User u_from = null;
@@ -53,7 +56,7 @@ public class AcceptRequest extends HttpServlet {
 			u_from = usrD.getUserByName(req_from);
 			u_to = usrD.getUserByName(req_to);
 			friendD.acceptRequest(u_from, u_to);
-			response.sendRedirect("requests.jsp");
+			response.sendRedirect(redirect);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
