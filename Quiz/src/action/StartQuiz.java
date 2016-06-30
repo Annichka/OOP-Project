@@ -57,7 +57,7 @@ public class StartQuiz extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		String html = "<form action=SubmitQuiz method=post>";
+		String html = "<form action=\"SubmitQuiz\" method=\"post\">";
 		
 		for (int i=0; i< qstlist.size(); i++) {
 			html += QuestionForm(qstlist.get(i), i);

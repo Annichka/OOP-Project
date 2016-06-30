@@ -95,16 +95,10 @@
 					%>
 					
 					<br> 
-					
+					<br>
 					<input type="button" value="Show Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
 					<br>
-					
-					<br>
-					
-					<form action=StartQuiz method="get">
-						<input type="hidden" name="quizid" id="quizid" value=<%= qid %>> 
-						<button> Start Quiz</button>
-					</form>
+
 				</div>
 			</section>
 		<% } %>

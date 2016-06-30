@@ -3,7 +3,6 @@ package action;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +17,6 @@ import quiz.bean.MultipleChoice;
 import quiz.bean.Question;
 import quiz.bean.Scoring;
 import quiz.dao.QuestionDao;
-import quiz.dao.QuizDao;
 
 /**
  * Servlet implementation class SumbitQuiz
@@ -44,7 +42,6 @@ public class SubmitQuiz extends HttpServlet {
 		 *  */
 		System.out.println("MODIS AQ?");
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
-		QuizDao qd = um.getQuizDao();
 		QuestionDao qsd = um.getQuestionDao();
 	
 		int qid = Integer.parseInt((String) request.getParameter("quizid"));
