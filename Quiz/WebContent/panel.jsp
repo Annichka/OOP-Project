@@ -7,6 +7,7 @@
 
 	<a href="myFriends.jsp"> Friend List </a><br>
 	<a href="requests.jsp"> Requests </a><br>
+	<a href="myChallenges.jsp"> Challenges </a><br>
 	<a href="notes.jsp"> Notes </a><br>
 	<a href= "myHistory.jsp?"> History </a><br>
 	<a href="#"> My Quizes </a><br>

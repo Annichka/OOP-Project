@@ -37,7 +37,6 @@ public class DeleteNote extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* 
-		 * Called by javascript.
 		 * Removing note.
 		 * 
 		 * */

@@ -71,7 +71,6 @@ public class SubmitQuiz extends HttpServlet {
 			{
 				ArrayList<String> s = new ArrayList<>();
 				ans = (String)request.getParameter(i + "");
-				System.out.println(ans);
 				s.add(ans);
 				answers.add(s);
 			} 
@@ -91,7 +90,6 @@ public class SubmitQuiz extends HttpServlet {
 			{
 				ArrayList<String> s = new ArrayList<>();
 				ans = (String)request.getParameter(i + "");
-				System.out.println(ans);
 				s.add(ans);
 				answers.add(s);
 			}

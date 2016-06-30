@@ -88,6 +88,44 @@ public class MessagesDao {
 		}
 	}
 	
+	public List<Messages> getUserChallenges(int usrId) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = ? AND m_type = \"challenge\"")) {
+			stmt.setInt(1, usrId);
+			try (ResultSet rslt = stmt.executeQuery()) {
+				List<Messages> user_messages = new ArrayList<>();
+				while(rslt.next()) {
+					Messages msg = new Messages();
+					msg.setId(rslt.getInt("id"));
+					msg.setSender(rslt.getInt("u_from"));
+					msg.setReceiver(rslt.getInt("u_to"));
+					msg.setMessage(rslt.getString("message"));
+					msg.setMType(rslt.getString("m_type"));
+					msg.setQuizId(rslt.getInt("quiz_id"));
+					user_messages.add(msg);
+				}
+				return user_messages;
+			}
+		}
+	}
+	
+	public Messages getMessageById(int id) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE id = " + id + ";")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if(rslt.next()) {
+					Messages msg = new Messages();
+					msg.setId(rslt.getInt("id"));
+					msg.setSender(rslt.getInt("u_from"));
+					msg.setReceiver(rslt.getInt("u_to"));
+					msg.setMessage(rslt.getString("message"));
+					msg.setMType(rslt.getString("m_type"));
+					msg.setQuizId(rslt.getInt("quiz_id"));
+					return msg;
+				}
+				return null;
+			}
+		}
+	}
+	
 	public List<Messages> getFriendRequests(int usrId) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = ? AND m_type = \"friendrequest\"")) {
 			stmt.setInt(1, usrId);

@@ -85,8 +85,11 @@
 					QuizDao qd = um.getQuizDao();
 					QuestionDao qsd = um.getQuestionDao();
 					Integer qid = Integer.parseInt((String) request.getParameter("quizid"));
+					String quiz_name = qd.getNameByQuizId(qid);
 					ArrayList<Question> qstlist = qsd.getQuestionsByQuizId(qid); 
 					%>
+					
+					<h2> <%="Quiz:   " + quiz_name %></h2>
 					
 					<br>
 					<input type="button" value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
