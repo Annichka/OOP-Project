@@ -111,6 +111,7 @@
 			
 			<a href=<%= "showFriends.jsp?profile=" +  curr_user.getUserName() %>> Friends </a><br>
 			<a href=<%= "showHistory.jsp?profile=" +  curr_user.getUserName() %>> History </a><br>
+			<a href="society.jsp"> Society </a><br>
 		</nav>
 	<% } %>
 
@@ -118,6 +119,7 @@
 	<br>
 	<br>
 	<div class="content">
+		<h2> Send Message</h2>
 		<form action="SendNote" method="Post">
 		    <input type="text" placeholder="Write message..." name="note" />
 		    <input type="hidden" name="user" value=<%= curr_user.getUserName() %> />

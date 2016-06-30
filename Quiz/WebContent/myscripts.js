@@ -187,17 +187,22 @@ function showQuiz(obj) {
 }
 
 
-function challengeUser() {
-    var person = window.prompt("Challenge..");
+function challengeUser(obj) {
+	while(true) {
+		var person = window.prompt("Challenge..");
+		if (person != null && person != "")
+			break;
+	}
+	
     var quizid = obj.name;
-    if (person != null && note != null) {
-    	var xhttp = new XMLHttpRequest();
-    	xhttp.onreadystatechange = function() {
-    		if (xhttp.readyState == 4 && xhttp.status == 200) {
-    			document.getElementById("content").innerHTML = xhttp.responseText;
-    		}
-    	};
-    	xhttp.open("POST", "Challenge?user="+person + "&quizid=" + quizid, true)
-    	xhttp.send() 
-    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		window.location = "http://localhost:8080/Quiz/myHistory.jsp?challenged="+xhttp.responseText;
+    	}
+   	};
+   	
+   	xhttp.open("POST", "Challenge?user="+person + "&quizid=" + quizid, true)
+   	xhttp.send()
 }
+

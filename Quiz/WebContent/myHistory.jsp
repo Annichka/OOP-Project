@@ -101,11 +101,10 @@
 			<section>
 				<div id="content">
 					<br> 
-					<% if(request.getAttribute("challenged") != null) { %>
+					<% if(request.getParameter("challenged") != null) { %>
 						<p style="color:red" > <i>
-				  			<font size="2"> <%= request.getAttribute("challenged") %> </font> 
+				  			<font size="2"> <%= request.getParameter("challenged") %> </font> 
 				  		</i> </p>
-				  		<% request.removeAttribute("challenged"); %>
 					<%}%>
 					
 					<h2> My History </h2>

@@ -141,17 +141,16 @@
 					 </div>
 				<% } %>
 				
-				
-				<input type="button" value="Friends" name= <%= usr.getUserName() %> onClick="friendList(this)"><br>
+				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href="society.jsp"> Society </a><br>
 			</nav>
 		<% } %>
 			
 			<section>
 				<div id="content">
-					<br>
 					<br> 
-					<i> History </i>
+					<h2> History </h2>
 					<% for (int i=0; i<hist.size(); i++) { %>
 						<% String name = qdao.getNameByQuizId(hist.get(i).getQuiz_id()); %>				
 						<p> <%= (i+1) + ". " + name %> </p> <br>

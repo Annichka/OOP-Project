@@ -116,6 +116,8 @@
 				
 				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href="society.jsp"> Society </a><br>
+				
 			</nav>
 					
 		<% } else { %>
@@ -143,17 +145,17 @@
 				
 				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href="society.jsp"> Society </a><br>
 			</nav>
 		<% } %>
 			
 			<section>
 				<div id="content">
-					<br>
 					<br> 
 					<% if(frs.size() == 0) {  %>
-						<h1><%= username + " has no friends." %> </h1>
+						<h2><%= username + " has no friends." %> </h2>
 					<% } else { %>
-						<h1> <%= username + "'s Friend List" %></h1>
+						<h2> <%= username + "'s Friend List" %></h2>
 						<% for (int i = 0; i < frs.size(); i++) { %>
 							<%User f =  udao.getUserById(frs.get(i).getFriendId());
 							String f_name = f.getUserName(); %>
