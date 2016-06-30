@@ -28,9 +28,6 @@
 </head>
 <body>
 
-<% if (getServletContext().getAttribute("formid") != null) %>
-		<% getServletContext().removeAttribute("formid"); %>
-
 <header>
 <a href="index.jsp">Quiz Web Site</a>
 </header>
@@ -61,28 +58,21 @@
 				<h2><a href="index.jsp">
 					<%= sCont.getAttribute("username") %>
 				</a></h2>
-				<img src="<%= sCont.getAttribute("image") %>" alt="<%=sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
-								
-				<a href="friendList.jsp"> Friend List </a><br>
-				<a href="requests.jsp"> Requests </a><br>
-				<a href="notes.jsp"> Notes </a><br>
-				<a href="sendNote.jsp"> Send Note </a><br>
-				<a href="createQuiz.jsp"> Create Quiz </a><br>
-				<a href="society.jsp"> Society </a><br>
-				<a href="History"> History </a><br>
+				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
 				
-				<div class="form">
-				  <form action="Logout" method="get">
+				<%@ include file="panel.jsp" %>
+								
+				<form action="Logout" method="get">
 				    <button> Logout </button><br>
-				  </form>
-				</div>
+		 		</form>
+				
 			</nav>
 			<section>
-				<div id="content">
-					<script>friendFunc();</script>
-				</div>
+				<br>
+				<i> <%= "Your Score is " + request.getParameter("score") %> </i>
 			</section>
 		<% } %>
+		
 <aside>
 	<input type="search" id="mySearch" placeholder="Search for friends..">
 	<input type="submit" onclick="searchFunc()"/>

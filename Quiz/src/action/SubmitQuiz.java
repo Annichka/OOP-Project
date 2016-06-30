@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import manager.UserManager;
 import quiz.bean.FillInTheBlank;
+import quiz.bean.History;
 import quiz.bean.MultiAnswer;
 import quiz.bean.MultipleChoice;
 import quiz.bean.Question;
 import quiz.bean.Scoring;
 import quiz.dao.QuestionDao;
+import quiz.dao.QuizDao;
+import user.dao.UserDao;
 
 /**
  * Servlet implementation class SumbitQuiz
@@ -40,25 +43,31 @@ public class SubmitQuiz extends HttpServlet {
 		 * Servlet for user, who filled chosen quiz.
 		 * Saves user's history, score, quiz_data.
 		 *  */
-		System.out.println("MODIS AQ?");
+
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
-		QuestionDao qsd = um.getQuestionDao();
+		UserDao ud = um.getPersonDao();
 	
-		int qid = Integer.parseInt((String) request.getParameter("quizid"));
-		ArrayList<Question> qstlist = null;
+		String me = (String) getServletContext().getAttribute("username");
+		int uid = -1;;
 		try {
-			qstlist = qsd.getQuestionsByQuizId(qid);
+			uid = ud.getUserByName(me).getUserId();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		int qid = Integer.parseInt((String) request.getParameter("quizid"));
+
+		ArrayList<Question> qstlist = (ArrayList<Question>) getServletContext().getAttribute("qstlist");
+		getServletContext().removeAttribute("qstlist");
 		
 		int quest_count = qstlist.size();
 		ArrayList<ArrayList<String>> answers = new ArrayList<>();
 		
 		for(int i=0; i<quest_count; i++) {
 			String ans = "";
+			
 			Question q = qstlist.get(i);
+			
 			if(q.getType().equals("QR")) 
 			{
 				ArrayList<String> s = new ArrayList<>();
@@ -71,7 +80,8 @@ public class SubmitQuiz extends HttpServlet {
 			{
 				FillInTheBlank q2 = (FillInTheBlank)q;
 				ArrayList<String> s = new ArrayList<>();
-				int count = q2.getAnswerCount();
+				
+				int count = q2.getCorrectAnsweList().size();
 				for(int j=0; j<count; j++) {
 					ans = (String)request.getParameter(i + "x" + j);
 					s.add(ans);
@@ -97,10 +107,10 @@ public class SubmitQuiz extends HttpServlet {
 			{
 				MultipleChoice q2 = (MultipleChoice)q;
 				ArrayList<String> s = new ArrayList<>();
-				int count = q2.countCorrectAnswers() + q2.countWrongAnswers();
-				for(int j=0; j<count; j++) {
-					ans = request.getParameter(i + "x" + j);
-					s.add(ans);
+				
+				String[] checked = request.getParameterValues(i+"");				
+				for(int j=0; j<checked.length; j++) {
+					s.add(checked[j]);
 				}
 				answers.add(s);
 			}
@@ -119,8 +129,22 @@ public class SubmitQuiz extends HttpServlet {
 		
 		Scoring sc = new Scoring();
 		int score = sc.countForQuiz(qstlist, answers);
+		int time = 0;
 		
-		System.out.println("SCORE FOR QUIZ     = = = =     " + score);
+		SaveData(uid, qid, score, time);
+		response.sendRedirect("quizFinished.jsp?score="+score);
+	}
+	
+	private void SaveData(int userid, int quizid, int score, int time) {
+		UserManager um = (UserManager) getServletContext().getAttribute("userM");
+		QuizDao qd = um.getQuizDao();
+		History h = new History();
+		
+		h.setQuiz_id(quizid);
+		h.setUser_id(userid);
+		h.setScore(score);
+		h.setTime(time);
+		qd.addUserHostory(h);
 	}
 
 	/**

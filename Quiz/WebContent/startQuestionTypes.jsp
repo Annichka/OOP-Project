@@ -60,12 +60,7 @@
 				</a></h2>
 				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
 				
-				<a href="friendList.jsp"> Friend List </a><br>
-				<a href="requests.jsp"> Requests </a><br>
-				<a href="notes.jsp"> Notes </a><br>
-				<a href="sendNote.jsp"> Send Note </a><br>
-				<a href="createQuiz.jsp"> Create Quiz </a><br>
-				<button >Scores</button><br>
+				<%@ include file="panel.jsp" %>
 				
 				<div class="form">
 				  <form action="Logout" method="get">
@@ -75,6 +70,7 @@
 			</nav>
 
 			<section>
+			
 				<div id="content"> 
 				
 				</div>
@@ -84,15 +80,15 @@
 				</script>
 
 				<br> <br> <br>
-
+				
 				<form action="ShowQuiz" method="get">
 				    <button> View Quiz </button> 
 				</form>
-				<br> <br>
+				<br> 
 				<form action="SaveUnfinishedQuiz" method="post">
 				    <button> Save and Continue later </button><br>
 				</form>
-				<br> <br>
+				<br>
 				<form action="FinishQuizCreating" method="post">
 				    <button> Finish Quiz </button><br>
 				</form>

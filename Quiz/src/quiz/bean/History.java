@@ -6,6 +6,7 @@ public class History {
 	private int user_id;
 	private int quiz_id;
 	private int score;
+	private int time;
 	/**
 	 * @return the score
 	 */
@@ -53,6 +54,18 @@ public class History {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+	/**
+	 * @return the time
+	 */
+	public int getTime() {
+		return time;
+	}
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(int time) {
+		this.time = time;
 	}
 
 }

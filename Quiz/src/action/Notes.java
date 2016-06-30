@@ -64,7 +64,8 @@ public class Notes extends HttpServlet {
 			for (int i = 0; i < notes.size(); i++) {
 				try {
 					String sender_name = usrD.getUserById(notes.get(i).getSender()).getUserName();
-					resp +=  "<li>User: " + sender_name +
+					resp +=  "<li>User: "
+							 + "<a href=\"profile.jsp?profile=" + sender_name + "\">"+ sender_name + "</a>" +
 							  "<ul><li>" + notes.get(i).getMessage() + 
 							  "<div>" +
 								"<form action=\"DeleteNote\" method=\"post\">" +

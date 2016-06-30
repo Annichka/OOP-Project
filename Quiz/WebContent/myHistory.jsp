@@ -28,6 +28,18 @@
 </head>
 <body>
 
+	<%@ page import="java.util.List" %>
+	<%@ page import="quiz.bean.*" %>
+	<%@ page import="user.dao.*" %>
+	<%@ page import="user.bean.*" %>
+	<%@ page import="java.util.ArrayList" %>
+	<%@ page import="manager.*" %>
+	<%@ page import="quiz.dao.*" %>
+	<%@ page import="java.io.IOException" %>
+	<%@ page import="java.sql.SQLException" %>
+	<%@ page import ="javax.servlet.ServletContext" %>
+	
+
 <header>
 <a href="index.jsp">Quiz Web Site</a>
 </header>
@@ -58,8 +70,8 @@
 				<h2><a href="index.jsp">
 					<%= sCont.getAttribute("username") %>
 				</a></h2>
-				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
-				
+				<img src="<%= sCont.getAttribute("image") %>" alt="<%=sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
+								
 				<%@ include file="panel.jsp" %>
 				
 				<div class="form">
@@ -68,13 +80,37 @@
 				  </form>
 				</div>
 			</nav>
+			
+			<%
+			UserManager man = (UserManager) getServletContext().getAttribute("userM");
+			QuizDao qdao = man.getQuizDao();
+			UserDao udao = man.getPersonDao();
+			
+			String me = (String) getServletContext().getAttribute("username");
+			int uid = -1;;
+			try {
+				uid = udao.getUserByName(me).getUserId();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			ArrayList<quiz.bean.History> hist = null;
+			hist = qdao.getUserHistory(uid);
+			%>
+			
 			<section>
 				<div id="content">
-					<script>sendNote();</script>
-				</div>
+					<br>
+					<br> 
+					<i> My History </i>
+					<% for (int i=0; i<hist.size(); i++) { %>
+						<% String name = qdao.getNameByQuizId(hist.get(i).getQuiz_id()); %>				
+						<p> <%= (i+1) + ". " + name %> </p> <br>
+						<i>  <%= "     Score:  " + hist.get(i).getScore() %></i> <br> <br>	
+					 <% } %>
+				</div>								
 			</section>
 		<% } %>
-		
 <aside>
 	<input type="search" id="mySearch" placeholder="Search for friends..">
 	<input type="submit" onclick="searchFunc()"/>

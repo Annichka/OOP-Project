@@ -21,7 +21,7 @@ public class Scoring {
 	}
 	
 	public int getScore(String c_answ, ArrayList<String> input, String qtype, int ordered) {
-		int score = 0;
+		int score = 0;		
 		
 		if(qtype.equals("QR")) {
 			score += qrScoring(c_answ, input);
@@ -48,11 +48,16 @@ public class Scoring {
 	
 	private int qrScoring(String c_answ, ArrayList<String> input) {
 		int score = 0;
-		if(input.equals(c_answ))
+			
+		if(input.get(0) == null || input.get(0) == "")
+			return score;
+		if(input.get(0).equals(c_answ))
 			score++;
 		else {
 			int c = 0;
 			for (int i=0; i<input.size(); i++) {
+				if (input.get(i) == null  || input.get(i) == "")
+					continue;
 				if(c_answ.contains(input.get(i)))
 					c++;
 			}
@@ -65,10 +70,13 @@ public class Scoring {
 	private int fbScoring(String c_answ, ArrayList<String> input) {
 		int score = 0;
 		String[] corr = c_answ.split(";");
-		
-		for (int i=0; i< corr.length; i++) {
+		for (int i=0; i < corr.length; i++) {
+			if (input.get(i) == null  || input.get(i) == "")
+				continue;
 			if(corr[i].equals(input.get(i))) {
 				score++;
+			} else {
+				score--;
 			}
 		}
 		return score;
@@ -81,6 +89,8 @@ public class Scoring {
 		else {
 			int c = 0;
 			for (int i=0; i<input.size(); i++) {
+				if (input.get(i) == null || input.get(i) == "")
+					continue;
 				if(c_answ.contains(input.get(i)))
 					c++;
 			}
@@ -92,8 +102,9 @@ public class Scoring {
 
 	private int mcScoring(String c_answ, ArrayList<String> input) {
 		int score = 0;
-		if(c_answ.equals(input.get(0)))
-			score++;
+		if (input.get(0) != null)
+			if(c_answ.equals(input.get(0)))
+				score++;
 		return score;
 	}
 	
@@ -101,13 +112,17 @@ public class Scoring {
 		int score = 0;
 		String[] corr = c_answ.split(";");
 		List<String> listed = Arrays.asList(corr);
-		for (int i=0; i<listed.size(); i++) {
+		if(input.get(0) == null) {
+			return score;
+		}
+		for (int i=0; i<input.size(); i++) {
+			System.out.println("INP    _  " + input.get(i) + "   Cont??   " + listed.contains(input.get(i)));
 			if (listed.contains(input.get(i))) 
 				score++;
 			else 
 				score--;
 		}
-		
+		System.out.println("MCA   _   " + score);
 		return score;
 	}
 	
@@ -118,6 +133,8 @@ public class Scoring {
 		
 		if(ordered == 1) {
 			for (int i=0; i<listed.size(); i++) {
+				if(input.get(i) == null || input.get(i) == "")
+					continue;
 				if (listed.get(i).equals(input.get(i))) 
 					score++;
 				else 
@@ -126,6 +143,8 @@ public class Scoring {
 		}
 		else {
 			for (int i=0; i<listed.size(); i++) {
+				if(input.get(i) == "" || input.get(i) == null)
+					continue;
 				if (listed.contains(input.get(i))) 
 					score++;
 				else 

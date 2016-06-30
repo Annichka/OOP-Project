@@ -51,7 +51,7 @@ public class Search extends HttpServlet {
 				if(myname.equals(search_name)){
 					resp += "<h1> haha vapshe ar mecineba. </h1>";
 				} else {
-					resp += "<h1> Friend Found </h1>";
+					resp += "<h1> User Found </h1>";
 					resp += "<div class=\"friends\">" +
 					"<a href= \"profile.jsp?profile=" + found.getUserName() + 
 					"\">" + found.getUserName() +"</a><br>"+
@@ -60,7 +60,7 @@ public class Search extends HttpServlet {
 				    "style=\"width:70px;height:70px;\"></a></div>";
 				}
 			} else {
-				resp += "<h1> Friend " + search_name  + " not found </h1>";
+				resp += "<h1> User " + search_name  + " not found </h1>";
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

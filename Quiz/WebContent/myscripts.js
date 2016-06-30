@@ -77,13 +77,33 @@ function addQuestion(btn) {
 	var wansw = "0";
 	var ordered = "0";
 	if(btn.name === "MC") {
-		wansw = window.prompt("Wrong answer count");
+		while(true) {
+			wansw = window.prompt("Wrong answer count");
+			if(isNaN(wansw) === false)
+				break;
+		}
 	} else if(btn.name === "MCA") {
-		cansw = window.prompt("Correct answer count");
-		wansw = window.prompt("Wrong answer count");
+		while(true) {
+			cansw = window.prompt("Correct answer count");
+			if(isNaN(cansw) === false)
+				break;
+		}
+		while (true) {
+			wansw = window.prompt("Wrong answer count");
+			if(isNaN(wansw) === false)
+				break;
+		}
 	} else if(btn.name === "MA") {
-		cansw = window.prompt("Correct answer count");
-		ordered = window.prompt("If answers are ORDERED - write 1 otherwise - 0");
+		while(true) {
+			cansw = window.prompt("Correct answer count");
+			if(isNaN(cansw) === false)
+				break;
+		}
+		while(true) {
+			ordered = window.prompt("If answers are ORDERED - write 1 otherwise - 0");
+			if(ordered === "1" || ordered === "0")
+				break;
+		}
 	}
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -154,7 +174,6 @@ function friendList(obj) {
 
 function showQuiz(obj) {
 	var quizid = obj.name
-	
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
     	if (xhttp.readyState == 4 && xhttp.status == 200) {

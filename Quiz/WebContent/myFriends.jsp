@@ -28,6 +28,9 @@
 </head>
 <body>
 
+<% if (getServletContext().getAttribute("formid") != null) %>
+		<% getServletContext().removeAttribute("formid"); %>
+
 <header>
 <a href="index.jsp">Quiz Web Site</a>
 </header>
@@ -58,8 +61,8 @@
 				<h2><a href="index.jsp">
 					<%= sCont.getAttribute("username") %>
 				</a></h2>
-				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
-				
+				<img src="<%= sCont.getAttribute("image") %>" alt="<%=sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
+								
 				<%@ include file="panel.jsp" %>
 				
 				<div class="form">
@@ -70,11 +73,10 @@
 			</nav>
 			<section>
 				<div id="content">
-					<script>sendNote();</script>
+					<script>friendFunc();</script>
 				</div>
 			</section>
 		<% } %>
-		
 <aside>
 	<input type="search" id="mySearch" placeholder="Search for friends..">
 	<input type="submit" onclick="searchFunc()"/>

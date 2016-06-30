@@ -21,7 +21,6 @@ import quiz.bean.PictureResponse;
 import quiz.bean.Question;
 import quiz.bean.QuestionResponse;
 import quiz.dao.QuestionDao;
-import quiz.dao.QuizDao;
 
 /**
  * Servlet implementation class StartQuiz
@@ -45,7 +44,6 @@ public class StartQuiz extends HttpServlet {
 		//int makeris = Integer.parseInt((String)getServletContext().getAttribute("id"));
 		
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
-		QuizDao qd = um.getQuizDao();
 		QuestionDao qsd = um.getQuestionDao();
 		Integer qid = Integer.parseInt((String) request.getParameter("quizid"));
 
@@ -57,7 +55,7 @@ public class StartQuiz extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		String html = "<form action=\"SubmitQuiz\" method=\"post\">";
+		String html = "<form action=\"SubmitQuiz\" method=\"post\">" ;
 		
 		for (int i=0; i< qstlist.size(); i++) {
 			html += QuestionForm(qstlist.get(i), i);
@@ -66,6 +64,9 @@ public class StartQuiz extends HttpServlet {
 		
 		html += "<br> <input type=\"hidden\" name=\"quizid\" id=\"quizid\" value=" + qid + "> "
 				+ "  <button> Submit </button></form>";
+		
+		getServletContext().setAttribute("qstlist", qstlist);
+		
 		PrintWriter out = response.getWriter();
 		out.write(html);
 	}
@@ -131,14 +132,12 @@ public class StartQuiz extends HttpServlet {
 		
 		Collections.shuffle(all);
 		
-		String html = "<br> <i>" + (pos+1) + ". " + q.getQuestion() + "</i> <br>"
-				+ "<form>";
+		String html = "<br> <i>" + (pos+1) + ". " + q.getQuestion() + "</i> <br>";
 		
 		for(int i=0; i<all.size(); i++) {
 			html +="<input type=\"radio\" name=\"" + pos + "\" value=\"" + all.get(i) + "\">" +  all.get(i) + "<br>"
 				+ "";
 		}
-		html += "</form>";
 		return html;
 	}
 	
@@ -154,27 +153,26 @@ public class StartQuiz extends HttpServlet {
 		Collections.shuffle(all);
 		
 		String html = "<br> <i>" + (pos+1) + ". " + q.getQuestion() + "</i> <br>"
-				+ "<form>";
-		String name = pos + "x";
+				+ "";
+		String name = pos +"";
 		for(int i=0; i<all.size(); i++) {
-			html +="<input type=\"checkbox\" name=\"" + name + i + "\" value=\"" + all.get(i) + "\">" +  all.get(i) + "<br>"
+			html +="<input type=\"checkbox\" name=\"" + name + "\" value=\"" + all.get(i) + "\">" +  all.get(i) + "<br>"
 				+ "";
 		}
-		html += "</form>";
+		html += "";
 		return html;
 	}
 	
 	
 	private String maForm(MultiAnswer q, int pos) {
 		java.util.List<String> answers = q.getAnswerList();
-		String html = "<br> <i>" + (pos+1) + ". " + q.getQuestion() + "</i> <br> <form>";
+		String html = "<br> <i>" + (pos+1) + ". " + q.getQuestion() + "</i> <br>";
 		String name = pos + "x";
 		
 		for(int i=0; i<answers.size(); i++) {
 			html +="<textarea rows=\"1\" cols=\"15\" name=" + name + i + "></textarea>"
 				+ "";
 		}
-		html += "</form>";
 		return html;
 	}
 	
