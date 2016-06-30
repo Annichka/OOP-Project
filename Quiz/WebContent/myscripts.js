@@ -185,3 +185,19 @@ function showQuiz(obj) {
    	xhttp.open("GET", "StartQuiz?quizid=" + quizid, true)
    	xhttp.send()
 }
+
+
+function challengeUser() {
+    var person = window.prompt("Challenge..");
+    var quizid = obj.name;
+    if (person != null && note != null) {
+    	var xhttp = new XMLHttpRequest();
+    	xhttp.onreadystatechange = function() {
+    		if (xhttp.readyState == 4 && xhttp.status == 200) {
+    			document.getElementById("content").innerHTML = xhttp.responseText;
+    		}
+    	};
+    	xhttp.open("POST", "Challenge?user="+person + "&quizid=" + quizid, true)
+    	xhttp.send() 
+    }
+}

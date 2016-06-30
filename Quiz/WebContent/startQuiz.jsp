@@ -88,9 +88,8 @@
 					ArrayList<Question> qstlist = qsd.getQuestionsByQuizId(qid); 
 					%>
 					
-					<br> 
 					<br>
-					<input type="button" value="Show Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
+					<input type="button" value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
 					<br>
 
 				</div>

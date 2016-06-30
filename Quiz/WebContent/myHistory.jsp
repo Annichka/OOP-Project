@@ -100,13 +100,24 @@
 			
 			<section>
 				<div id="content">
-					<br>
 					<br> 
-					<i> My History </i>
+					<% if(request.getAttribute("challenged") != null) { %>
+						<p style="color:red" > <i>
+				  			<font size="2"> <%= request.getAttribute("challenged") %> </font> 
+				  		</i> </p>
+				  		<% request.removeAttribute("challenged"); %>
+					<%}%>
+					
+					<h2> My History </h2>
 					<% for (int i=0; i<hist.size(); i++) { %>
-						<% String name = qdao.getNameByQuizId(hist.get(i).getQuiz_id()); %>				
-						<p> <%= (i+1) + ". " + name %> </p> <br>
-						<i>  <%= "     Score:  " + hist.get(i).getScore() %></i> <br> <br>	
+						<% String name = qdao.getNameByQuizId(hist.get(i).getQuiz_id());
+							int bestScore = qdao.getBestScore(uid, hist.get(i).getQuiz_id());
+						%>				
+						<p> <%= (i+1) + ". " %> <a href=<%= "startQuiz.jsp?quizid=" + hist.get(i).getQuiz_id()%>> <%= name %> </a></p>
+						<i>  <%= "   Score:  " + hist.get(i).getScore() %></i><br>
+						<i>  <small><%= "  Best Score:  " + bestScore %></small></i>  
+						<input type="Submit" value="Challenge User" name=<%=hist.get(i).getQuiz_id() %> onClick="challengeUser(this)"><br>
+					 <br>	
 					 <% } %>
 				</div>								
 			</section>

@@ -14,10 +14,8 @@ import manager.UserManager;
 import quiz.bean.FillInTheBlank;
 import quiz.bean.History;
 import quiz.bean.MultiAnswer;
-import quiz.bean.MultipleChoice;
 import quiz.bean.Question;
 import quiz.bean.Scoring;
-import quiz.dao.QuestionDao;
 import quiz.dao.QuizDao;
 import user.dao.UserDao;
 
@@ -57,6 +55,7 @@ public class SubmitQuiz extends HttpServlet {
 
 		int qid = Integer.parseInt((String) request.getParameter("quizid"));
 
+		@SuppressWarnings("unchecked")
 		ArrayList<Question> qstlist = (ArrayList<Question>) getServletContext().getAttribute("qstlist");
 		getServletContext().removeAttribute("qstlist");
 		
@@ -105,9 +104,7 @@ public class SubmitQuiz extends HttpServlet {
 			}
 			else if(q.getType().equals("MCA")) 
 			{
-				MultipleChoice q2 = (MultipleChoice)q;
 				ArrayList<String> s = new ArrayList<>();
-				
 				String[] checked = request.getParameterValues(i+"");				
 				for(int j=0; j<checked.length; j++) {
 					s.add(checked[j]);
@@ -138,12 +135,13 @@ public class SubmitQuiz extends HttpServlet {
 	private void SaveData(int userid, int quizid, int score, int time) {
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
 		QuizDao qd = um.getQuizDao();
-		History h = new History();
 		
+		History h = new History();		
 		h.setQuiz_id(quizid);
 		h.setUser_id(userid);
 		h.setScore(score);
 		h.setTime(time);
+		
 		qd.addUserHostory(h);
 	}
 

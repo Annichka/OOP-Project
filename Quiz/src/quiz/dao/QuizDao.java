@@ -261,4 +261,23 @@ public class QuizDao {
 		}
 	
 	}
+	
+	
+	public int getBestScore(int userid, int quizid) {
+		int score = 0;
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History Where user_id = " 
+				+ userid + " AND quiz_id = " + quizid + ";")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				while (rslt.next()) {
+						int curr = rslt.getInt("score");
+						if(curr > score)
+							score = curr;
+					}
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return score;
+	}
 }

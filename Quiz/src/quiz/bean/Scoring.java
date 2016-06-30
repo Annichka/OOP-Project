@@ -116,13 +116,11 @@ public class Scoring {
 			return score;
 		}
 		for (int i=0; i<input.size(); i++) {
-			System.out.println("INP    _  " + input.get(i) + "   Cont??   " + listed.contains(input.get(i)));
 			if (listed.contains(input.get(i))) 
 				score++;
 			else 
 				score--;
 		}
-		System.out.println("MCA   _   " + score);
 		return score;
 	}
 	

@@ -32,7 +32,15 @@ public class MessagesDao {
 			stmt.executeUpdate();
 		}
 	}
-
+	
+	public void addChallenge(Messages sms) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Messages (u_from, u_to, message, m_type, quiz_id) VALUE("
+				+ sms.getSender() +", " + sms.getReceiver() + ", '" + sms.getMessage() + "', '" 
+				+ sms.getMType() + "', " + sms.getQuizId() + ")")) {
+			stmt.executeUpdate();
+		}
+	}
+	
 	public void deleteMessageById(int id) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Messages WHERE id = ?")) {
 			stmt.setInt(1, id);
