@@ -185,9 +185,12 @@ public class QuestionDao {
 						curr_quest = new MultipleChoice();
 						((MultipleChoice) curr_quest).setWAnswers(rslt.getString("w_answer"));
 					} 
-					else if (type.equalsIgnoreCase("QR") || type.equalsIgnoreCase("FB"))
+					else if (type.equalsIgnoreCase("QR"))
 					{
 						curr_quest = new QuestionResponse();
+					}
+					else if (type.equalsIgnoreCase("FB")) {
+						curr_quest = new FillInTheBlank();
 					}
 					
 					curr_quest.setQuestionId(rslt.getInt("id"));

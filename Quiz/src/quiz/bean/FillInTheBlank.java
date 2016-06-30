@@ -1,5 +1,7 @@
 package quiz.bean;
 
+import java.util.Arrays;
+import java.util.List;
 
 /*
  * Am tipis kitxvis gaketebisas, shekitxvashi unda shaiweros '_'-ebi, da 
@@ -13,5 +15,11 @@ public class FillInTheBlank extends Question {
 	
 	public FillInTheBlank() {
 		super();
+	}
+	
+	public List<String> getCorrectAnsweList() {
+		String[] data = this.c_answer.split(";");
+		List<String> listed = Arrays.asList(data);
+		return listed;
 	}
 }

@@ -28,6 +28,15 @@
 </head>
 <body>
 
+			<%@ page import="java.util.List" %>
+			<%@ page import="quiz.bean.*" %>
+			<%@ page import="java.util.ArrayList" %>
+			<%@ page import="manager.*" %>
+			<%@ page import="quiz.dao.*" %>
+			<%@ page import="java.io.IOException" %>
+			<%@ page import="java.sql.SQLException" %>
+			<%@ page import ="javax.servlet.ServletContext" %>
+			<%@ page import ="java.util.*" %>
 <header>
 <a href="index.jsp">Quiz Web Site</a>
 </header>
@@ -77,13 +86,25 @@
 				<div id="content">
 					<br>
 					<br>
-					<i> <%= request.getAttribute("quizname") %></i>
+					<%
+					UserManager um = (UserManager) getServletContext().getAttribute("userM");
+					QuizDao qd = um.getQuizDao();
+					QuestionDao qsd = um.getQuestionDao();
+					Integer qid = Integer.parseInt((String) request.getParameter("quizid"));
+					ArrayList<Question> qstlist = qsd.getQuestionsByQuizId(qid); 
+					%>
+					
+					<br> 
+					
+					<input type="button" value="Show Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
 					<br>
-					<form action=StartQuiz>
-						<input type="hidden" name="quizid" value= <%=request.getAttribute("quizid") %>> 
+					
+					<br>
+					
+					<form action=StartQuiz method="get">
+						<input type="hidden" name="quizid" id="quizid" value=<%= qid %>> 
 						<button> Start Quiz</button>
 					</form>
-					
 				</div>
 			</section>
 		<% } %>

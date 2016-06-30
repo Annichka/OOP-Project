@@ -101,7 +101,6 @@
 								break; 
 							}%>							
 								<a href=<%= "startQuiz.jsp?quizid=" +  allquiz.get(i).getQuizId() 
-								+ "&quizname=" + allquiz.get(i).getQuizName()
 								%>><%= (i+1) +". " + allquiz.get(i).getQuizName() %></a><br>	  
 						<% } %>
 					</div>
@@ -120,7 +119,6 @@
 					<p> New Quizes </p>
 						<% for (int i = 0; i < newquiz.size(); i++) { %>						
 								<a href=<%= "startQuiz.jsp?quizid=" +  newquiz.get(i).getQuizId()
-								+ "&quizname=" + allquiz.get(i).getQuizName()
 								%>><%= (i+1) +". " + newquiz.get(i).getQuizName() %></a><br>	  
 						<% } %>
 					</div>

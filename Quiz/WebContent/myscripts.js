@@ -150,3 +150,19 @@ function friendList(obj) {
    	xhttp.open("GET", "UsersFriends?profile=" + user, true)
    	xhttp.send()
 }
+
+
+function showQuiz(obj) {
+	var quizid = obj.name
+	
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		var qst = document.getElementById("content")
+    		qst.innerHTML = xhttp.responseText;
+   		}
+    };
+    
+   	xhttp.open("GET", "StartQuiz?quizid=" + quizid, true)
+   	xhttp.send()
+}
