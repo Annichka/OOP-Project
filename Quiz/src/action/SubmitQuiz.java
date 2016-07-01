@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import manager.UserManager;
 import quiz.bean.FillInTheBlank;
 import quiz.bean.History;
+import quiz.bean.Matching;
 import quiz.bean.MultiAnswer;
 import quiz.bean.Question;
 import quiz.bean.Scoring;
@@ -112,6 +113,17 @@ public class SubmitQuiz extends HttpServlet {
 			else if(q.getType().equals("MA")) 
 			{
 				MultiAnswer q2 = (MultiAnswer)q;
+				ArrayList<String> s = new ArrayList<>();
+				int count = q2.getAnswerCount();
+				for(int j=0; j<count; j++) {
+					ans = request.getParameter(i + "x" + j);
+					s.add(ans);
+				}
+				answers.add(s);
+			}
+			else if(q.getType().equals("M")) 
+			{
+				Matching q2 = (Matching)q;
 				ArrayList<String> s = new ArrayList<>();
 				int count = q2.getAnswerCount();
 				for(int j=0; j<count; j++) {

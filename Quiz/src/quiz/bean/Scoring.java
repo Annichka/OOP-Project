@@ -41,6 +41,9 @@ public class Scoring {
 		else if(qtype.equals("MA")) {
 			score += maScoring(c_answ, input, ordered);
 		}
+		else if(qtype.equals("M")) {
+			score += mScoring(c_answ, input);
+		}
 		
 		return score;
 	}
@@ -61,7 +64,7 @@ public class Scoring {
 				if(c_answ.contains(input.get(i)))
 					c++;
 			}
-			if (c == input.size())
+			if (c >= input.size())
 				score++;
 		}
 		return score;
@@ -149,6 +152,22 @@ public class Scoring {
 					score--;
 			}
 		}
+		return score;
+	}
+	
+	private int mScoring(String c_answ, ArrayList<String> input) {
+		int score = 0;
+		
+		Matching m = new Matching();
+		m.setCAnswer(c_answ);
+		ArrayList<String> left = m.getFirstRow();
+		ArrayList<String> right = m.getSecondRow();
+		
+		for (int i=0; i<left.size(); i++) {
+			if(right.get(i).equals(input.get(i)))
+				score++;
+		}
+		
 		return score;
 	}
 }

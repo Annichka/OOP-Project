@@ -19,6 +19,7 @@ public class QuestionDao {
 	public void addQuestion(Question q) throws SQLException {
 		Statement stmt = (Statement) conn.createStatement();
 		String type = q.getType();
+
 		if (type.equals("QR") || type.equals("FB")) {
 			String sql = "INSERT INTO Questions (question, type, c_answer, answer_count, quiz_id) "
 					+ "VALUES('"
@@ -73,6 +74,20 @@ public class QuestionDao {
 					+ q.getAnswerCount()
 					+ "', '"
 					+ ((PictureResponse) q).getPicUrl()
+					+ "', '"
+					+ q.getQuizId() + "')";
+			stmt.executeUpdate(sql);
+		} 
+		else if (type.equals("M")) {
+			String sql = "INSERT INTO Questions (question, type, c_answer, answer_count, quiz_id) "
+					+ "VALUES('"
+					+ q.getQuestion()
+					+ "', '"
+					+ q.getType()
+					+ "', '"
+					+ q.getCAnswer()
+					+ "', '"
+					+ q.getAnswerCount()
 					+ "', '"
 					+ q.getQuizId() + "')";
 			stmt.executeUpdate(sql);
@@ -191,8 +206,10 @@ public class QuestionDao {
 					}
 					else if (type.equalsIgnoreCase("FB")) {
 						curr_quest = new FillInTheBlank();
+					}					
+					else if (type.equalsIgnoreCase("M")) {
+						curr_quest = new Matching();
 					}
-					
 					curr_quest.setQuestionId(rslt.getInt("id"));
 					curr_quest.setQuestion(rslt.getString("question"));
 					curr_quest.setCAnswer(rslt.getString("c_answer"));

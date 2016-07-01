@@ -18,6 +18,7 @@ import quiz.dao.QuestionDao;
 import quiz.bean.PictureResponse;
 import quiz.bean.MultiAnswer;
 import quiz.bean.MultipleChoice;
+import quiz.bean.Matching;
 
 /**
  * Servlet implementation class DisplayQuestions
@@ -60,7 +61,7 @@ public class DisplayQuestions extends HttpServlet {
 		for (int i=0; i<qList.size(); i++) {
 		 	Question curr = qList.get(i); 
 			String qType = curr.getType(); 
-			
+
 			if(qType.equals("QR") ||  qType.equals("FB")) 
 			{ 
 				jsp += General(curr);
@@ -84,6 +85,10 @@ public class DisplayQuestions extends HttpServlet {
 			{
 				curr = (PictureResponse) curr;
 				jsp += PictureResponse((PictureResponse)curr);
+			}
+			else if(qType.equals("M") ) 
+			{
+				jsp += Matching((Matching)curr);
 			}
 		}
 		
@@ -122,7 +127,7 @@ public class DisplayQuestions extends HttpServlet {
 						+ "<input type=\"text\" value=\"" + curr.getCAnswer() + "\" name=\"cansw\" /><br>"+
 						"<input type=\"hidden\" name=\"correctC\" value=\"1\" />"+
 						"<input type=\"hidden\" name=\"wrongC\" value=\"0\" />"+
-						"<button> Submit <button>" +
+						"<button> Edit <button>" +
 					"</form> " +
 			    "</div> <br>";
 		return html;
@@ -137,7 +142,7 @@ public class DisplayQuestions extends HttpServlet {
 				"<input type=\"hidden\" name=\"type\" value=\"MA\" />"+
 				"<input type=\"hidden\" name=\"ordered\" value=\"" + curr.getIsOrderd() + "\" />"+
 				GenerateMultipleCorrect(curr.getAnswerCount(), curr.getAnswerList()) + 
-				"<button> Submit <button>" +
+				"<button> Edit <button>" +
 				"</form> " +
 			    "</div> <br>";
 		return html;
@@ -153,7 +158,7 @@ public class DisplayQuestions extends HttpServlet {
 				+ "value=\"" + curr.getCAnswer() + "\" name=\"cansw\" /><br>"+
 				"<input type=\"hidden\" name=\"type\" value=\"MC\" />"+
 				GenerateMultipleWrong(curr.countWrongAnswers(), curr.getWrongAnsweList()) + 
-				"<button> Submit <button>" +
+				"<button> Edit <button>" +
 				"</form> " +
 			    "</div> <br>";
 
@@ -169,11 +174,39 @@ public class DisplayQuestions extends HttpServlet {
 				"<input type=\"hidden\" name=\"type\" value=\"MCA\" />"+
 				GenerateMultipleCorrectWrong(curr.countCorrectAnswers(), curr.countWrongAnswers(), 
 						curr.getCorrectAnsweList(), curr.getWrongAnsweList()) + 
-				"<button> Submit <button>"+
+				"<button> Edit <button>"+
 				"</form> " +
 			    "</div> <br>";
 
 		return html;
+	}
+	
+	
+	private String Matching(Matching curr) 
+	{
+		String html = 
+				"<div class=\"form\">"  +
+				"<form action=\"EditQuestion\" method=\"post\">"+ "<i>Question:  </i>" +
+				"<input type=\"text\" value=\"" + curr.getQuestion() + "\" name=\"quest\" /><br>"+
+				"<input type=\"hidden\" name=\"type\" value=\"M\" />"+
+				MultipleCouple(curr.getAnswerCount(), curr.getCouples()) + 
+				"<button> Edit <button>" +
+				"</form> " +
+			    "</div> <br>";
+		return html;
+	}
+	
+	private String MultipleCouple(int count, List<String> ans) {
+		String content = "";
+		for (int i=0; i<count; i++) {
+			content += 
+					"<i>Couple " + (i+1) + ": </i>" +
+					"<input type\"text\" value=\"" + ans.get(i) + "\" name=\"cansw" + (i+1) + "\" "
+					+ "id=\"cansw" + (i+1) + "\" /><br>";
+		}
+		
+		content += "<input type=\"hidden\" name=\"correctC\" value=\"" + count + "\" />";
+		return content;
 	}
 	
 	
@@ -228,6 +261,7 @@ public class DisplayQuestions extends HttpServlet {
 		content += "<input type=\"hidden\" name=\"wrongC\" value=\"" +count + "\" />";
 		return content;
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

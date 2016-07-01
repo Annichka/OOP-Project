@@ -34,9 +34,24 @@ public class QuestionForm extends HttpServlet {
 		 * Display question form for creator.
 		 * */
 		String type = (String) request.getParameter("type");
-		int ansc =  Integer.parseInt((String) request.getParameter("cansc"));
-		int wansc = Integer.parseInt((String) request.getParameter("wansc"));
-				
+		String c = (String) request.getParameter("cansc");
+		String w = (String) request.getParameter("wansc");
+		if(c.contains(".")) {
+			c = c.substring(0, c.indexOf("."));
+		} 
+		if (c.charAt(0) == '-') {
+			c = c.substring(1);
+		}
+		if(w.contains(".")) {
+			w = w.substring(0, w.indexOf("."));
+		}
+		if (w.charAt(0) == '-') {
+			w = w.substring(1);
+		}
+		
+		int ansc =  Integer.parseInt(c);
+		int wansc = Integer.parseInt(w);
+
 		String question = "";
 		
 		if (type.equals("QR") || type.equals("FB")) {
@@ -60,7 +75,8 @@ public class QuestionForm extends HttpServlet {
 			question += MultipleChoiceAnswer(cAnswCount, wAnswCount, type);
 		} 
 		else if(type.equals("M")) {
-			System.out.println("TODO: MATCHING TYPE");
+			Integer cAnswCount = ansc;
+			question += Matching(cAnswCount, type);
 		}
 		
 		getServletContext().setAttribute("questionshown", true);
@@ -117,7 +133,8 @@ public class QuestionForm extends HttpServlet {
 				"<input type=\"hidden\" name=\"type\" value=\"" + type + "\" />"+
 				"<input type=\"hidden\" name=\"ordered\" value=\"" + ordered + "\" />"+
 				GenerateMultipleCorrect(cAnswCount) + 
-				"<button> Submit <button>";
+				"<button> Submit <button> </form> " +
+			    "<div> <br>";;
 		return html;
 	}
 	
@@ -131,7 +148,8 @@ public class QuestionForm extends HttpServlet {
 				+ "laceholder=\"Correct answer..\" name=\"cansw\" /><br>"+
 				"<input type=\"hidden\" name=\"type\" value=\"" + type + "\" />"+
 				GenerateMultipleWrong(wAnswCount) + 
-				"<button> Submit <button>";
+				"<button> Submit <button></form> " +
+			    "<div> <br>";
 		return html;
 	}
 	
@@ -143,7 +161,8 @@ public class QuestionForm extends HttpServlet {
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
 				"<input type=\"hidden\" name=\"type\" value=\"" + type + "\" />"+
 				GenerateMultipleCorrectWrong(cAnswCount, wAnswCount) + 
-				"<button> Submit <button>";
+				"<button> Submit <button></form> " +
+			    "<div> <br>";
 		return html;
 	}
 	
@@ -197,6 +216,31 @@ public class QuestionForm extends HttpServlet {
 		
 		content += "<input type=\"hidden\" name=\"correctC\" value=\"" + 1 + "\" />";
 		content += "<input type=\"hidden\" name=\"wrongC\" value=\"" +count + "\" />";
+		return content;
+	}
+	
+	private String Matching(int couples, String type){
+		String html = 
+				"<div class=\"form\">"  +
+				"<form action=\"AddQuestion\" method=\"post\">"+ "<i>Question</i>" +
+				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
+				MultipleCouple(couples) +
+				"<input type=\"hidden\" name=\"type\" value=\"M\" />"+
+				"<button> Submit <button></form> " +
+			    "<div> <br>";
+		return html;
+	}
+	
+	private String MultipleCouple(int count) {
+		String content = "";
+		for (int i=0; i<count; i++) {
+			content += 
+					"<i>Couple " + (i+1) + ": </i>" +
+					"<input type\"text\" placeholder=\"Devide couple with '-' symbol\" name=\"cansw" + (i+1) + "\" "
+					+ "id=\"cansw" + (i+1) + "\" /><br>";
+		}
+		
+		content += "<input type=\"hidden\" name=\"correctC\" value=\"" + count + "\" />";
 		return content;
 	}
 	

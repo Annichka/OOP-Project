@@ -49,7 +49,7 @@ public class EditQuestion extends HttpServlet {
 		int qstid = Integer.parseInt((String)request.getParameter("questid"));
 		String wansw = "";
 		int ordered = 0;
-		int answCount = Integer.parseInt((String)request.getParameter("answcount"));
+		int answCount = Integer.parseInt((String)request.getParameter("correctC"));
 		
 		Question q = qDao.getQuestionById(qstid);
 		q.setQuestion(qst);

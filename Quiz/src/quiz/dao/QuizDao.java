@@ -82,7 +82,23 @@ public class QuizDao {
 	 * Return quiz list by Author 
 	 * */
 	public ArrayList<Quiz> getQuizByCreator(int authorid) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE author_id = ?")) {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE author_id = ? AND finished = 1;")) {
+			stmt.setInt(1, authorid);
+			try (ResultSet rslt = stmt.executeQuery()) {
+				ArrayList<Quiz> users_quiz = new ArrayList<>();
+				while (rslt.next()) {
+					Quiz curr_quiz = new Quiz();
+					curr_quiz.setQuizId(rslt.getInt("quiz_id"));
+					curr_quiz.setQuizName(rslt.getString("quiz_name"));
+					users_quiz.add(curr_quiz);
+				}
+				return users_quiz;
+			}
+		}
+	} 
+	
+	public ArrayList<Quiz> getUnfinishedQuizByCreator(int authorid) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE author_id = ? AND finished = 0;")) {
 			stmt.setInt(1, authorid);
 			try (ResultSet rslt = stmt.executeQuery()) {
 				ArrayList<Quiz> users_quiz = new ArrayList<>();
@@ -102,7 +118,7 @@ public class QuizDao {
 	 * Return quiz list by category 
 	 * */
 	public ArrayList<Quiz> getQuizByCategory(String category) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE category = ?")) {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE category = ? and finished = 1;")) {
 			stmt.setString(1, category);
 			try (ResultSet rslt = stmt.executeQuery()) {
 				ArrayList<Quiz> categorys_quiz= new ArrayList<>();
@@ -120,7 +136,7 @@ public class QuizDao {
 
 	public ArrayList<Quiz> getQuizList() throws SQLException {
 		try (Statement stmt = conn.createStatement()) {
-			try(ResultSet rslt = stmt.executeQuery("SELECT * FROM Quizes")) {
+			try(ResultSet rslt = stmt.executeQuery("SELECT * FROM Quizes WHERE finished = 1;")) {
 				ArrayList<Quiz> quiz_list = new ArrayList<>();
 				while (rslt.next()) {
 					Quiz curr_quiz = new Quiz();
@@ -133,9 +149,11 @@ public class QuizDao {
 		}
 	}
 	
+	
+	
 	public ArrayList<Quiz> getNewQuizes() throws SQLException {
 		try (Statement stmt = conn.createStatement()) {
-			try(ResultSet rslt = stmt.executeQuery("SELECT * FROM Quizes ORDER BY quiz_id DESC;")) {
+			try(ResultSet rslt = stmt.executeQuery("SELECT * FROM Quizes WHERE finished = 1 ORDER BY quiz_id DESC;")) {
 				ArrayList<Quiz> quiz_list = new ArrayList<>();
 				for (int i=0; i<5; i++) {
 					if (rslt.next()){
@@ -187,7 +205,7 @@ public class QuizDao {
 	
 	public ArrayList<Quiz> getTopQuizes() {
 		ArrayList<Quiz> top= new ArrayList<>();
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes ORDER BY filled DESC;")) {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE finished = 1 ORDER BY filled DESC;")) {
 			try (ResultSet rslt = stmt.executeQuery()) {
 				for(int i=0; i<5; i++) {
 					if (rslt.next()) {

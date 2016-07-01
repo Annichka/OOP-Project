@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import manager.UserManager;
+import quiz.bean.Matching;
 import quiz.bean.MultiAnswer;
 import quiz.bean.MultipleChoice;
 import quiz.bean.PictureResponse;
@@ -50,7 +51,7 @@ public class AddQuestion extends HttpServlet {
 		String question = (String) request.getParameter("quest");
 		
 		Question newquestion = new Question();
-		
+				
 		if(qtype.equals("QR") || qtype.equals("FB")) 
 		{
 			String answer = (String) request.getParameter("cansw");
@@ -82,7 +83,6 @@ public class AddQuestion extends HttpServlet {
 			{
 				wrongs += (String) request.getParameter("wansw" + (i+1)) + ";";
 			}
-			System.out.println(wrongs);
 			
 			newquestion.setQuestion(question);
 			newquestion.setCAnswer(answer);
@@ -125,6 +125,21 @@ public class AddQuestion extends HttpServlet {
 			newquestion.setQuestion(question);
 			newquestion.setCAnswer(corrects);
 			((MultiAnswer)newquestion).setIsOrdered(ordered);
+			newquestion.setAnswerCount(counter);
+		}
+		else if (qtype.equals("M"))
+		{
+			newquestion = new Matching();
+			int counter = Integer.parseInt((String) request.getParameter("correctC"));
+		
+			String corrects ="";
+			for (int i=0; i< counter; i++) 
+			{
+				corrects += (String) request.getParameter("cansw" + (i+1)) + ";";
+			}
+			newquestion.setType(qtype);			
+			newquestion.setQuestion(question);
+			newquestion.setCAnswer(corrects);
 			newquestion.setAnswerCount(counter);
 		}
 		

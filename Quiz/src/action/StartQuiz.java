@@ -21,6 +21,7 @@ import quiz.bean.PictureResponse;
 import quiz.bean.Question;
 import quiz.bean.QuestionResponse;
 import quiz.dao.QuestionDao;
+import quiz.dao.QuizDao;
 
 /**
  * Servlet implementation class StartQuiz
@@ -45,17 +46,22 @@ public class StartQuiz extends HttpServlet {
 		
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qsd = um.getQuestionDao();
+		QuizDao qd = um.getQuizDao();
 		Integer qid = Integer.parseInt((String) request.getParameter("quizid"));
 
 		ArrayList<Question> qstlist = null;
+		String quizName = "";
 		try {
 			qstlist = qsd.getQuestionsByQuizId(qid);
+			quizName = qd.getNameByQuizId(qid);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		String html = "<form action=\"SubmitQuiz\" method=\"post\">" ;
+		
+		String html = "<h1> " +  quizName + "</h1>"
+				+ "<form action=\"SubmitQuiz\" method=\"post\">" ;
 		
 		for (int i=0; i< qstlist.size(); i++) {
 			html += QuestionForm(qstlist.get(i), i);
@@ -179,6 +185,23 @@ public class StartQuiz extends HttpServlet {
 	
 	private String mForm(Matching q, int pos) {
 		String html = "";
+		ArrayList<String> fr = q.getFirstRow();
+		ArrayList<String> sr = q.getSecondRow();
+		int firstrow = fr.size();
+		int secondrow = sr.size();
+		String name = pos + "x";
+		
+		html += "<br><i>" + (pos+1) + ". " + q.getQuestion() + "</i>";
+		
+		for (int i=0; i< firstrow; i++) {
+			html += "<p>" + fr.get(i) ;
+			html += "<select name=\""+ name + i + "\">";
+			for (int j=0; j< secondrow; j++) {
+					html += "<option value=\"" + sr.get(j) +  "\">" + sr.get(j) + "</option>";	
+			}
+			html += "</select></p>";
+			
+		}
 		return html;
 	}
 

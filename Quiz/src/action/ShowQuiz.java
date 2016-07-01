@@ -42,6 +42,7 @@ public class ShowQuiz extends HttpServlet {
 		Integer quizId = Integer.parseInt(q);
 		
 		QuestionDao qDao = uM.getQuestionDao();
+
 		try {
 			ArrayList<Question> quesList = qDao.getQuestionsByQuizId(quizId);
 			request.setAttribute("questionlist", quesList);

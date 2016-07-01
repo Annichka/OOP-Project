@@ -33,6 +33,7 @@
 			<%@ page import="java.util.ArrayList" %>
 			<%@ page import="manager.*" %>
 			<%@ page import="quiz.dao.*" %>
+			<%@ page import="user.dao.*" %>
 			<%@ page import="java.io.IOException" %>
 			<%@ page import="java.sql.SQLException" %>
 			<%@ page import ="javax.servlet.ServletContext" %>
@@ -83,13 +84,17 @@
 					<%
 					UserManager um = (UserManager) getServletContext().getAttribute("userM");
 					QuizDao qd = um.getQuizDao();
+					UserDao ud = um.getPersonDao();
 					QuestionDao qsd = um.getQuestionDao();
 					Integer qid = Integer.parseInt((String) request.getParameter("quizid"));
 					String quiz_name = qd.getNameByQuizId(qid);
+					int author_id = qd.getQuizById(qid).getAuthorId();
 					ArrayList<Question> qstlist = qsd.getQuestionsByQuizId(qid); 
+					String author = ud.getUserById(author_id).getUserName();
 					%>
 					
 					<h2> <%="Quiz:   " + quiz_name %></h2>
+					<h4> <%="Author:   <a href=\"profile.jsp?profile=\"" + author + ">" + author + "</a>" %></h4>
 					
 					<br>
 					<input type="button" value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
