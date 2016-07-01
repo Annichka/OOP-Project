@@ -54,7 +54,9 @@
 			<script src="myscripts.js"></script>
 
 			<nav>
-				<% ServletContext sCont = request.getServletContext(); %>
+				<% ServletContext sCont = request.getServletContext(); 
+					
+				%>
 				<h2><a href="index.jsp">
 					<%= sCont.getAttribute("username") %>
 				</a></h2>
@@ -72,26 +74,27 @@
 			<section>
 			
 				<div id="content"> 
+					<input type="submit" id=<%=request.getParameter("quizid") %> value="Question-Response" name="QR" onClick="addQuestion(this)">
+					<input type="submit" id=<%=request.getParameter("quizid") %> value="Fill in the Blank" name="FB" onClick="addQuestion(this)">
+					<input type="submit" id=<%=request.getParameter("quizid") %> value="Multiple Choice" name="MC" onClick="addQuestion(this)">
+					<input type="submit" id=<%=request.getParameter("quizid") %> value="Matching" name="M" onClick="addQuestion(this)"><br>
+					<input type="submit" id=<%=request.getParameter("quizid") %> value="Picture-Response" name="PR" onClick="addQuestion(this)">
+					<input type="submit" id=<%=request.getParameter("quizid") %> value="Multi-Answer" name="MA" onClick="addQuestion(this)">
+					<input type="submit" id=<%=request.getParameter("quizid") %> value="Multiple Choice-Answers" name="MCA" onClick="addQuestion(this)"><br>
+					<br> <br> <br>
+					
+					<a href=<%="ShowQuiz?quizid=" + request.getParameter("quizid") %>>Preview</a><br>
+					
+				</div><br>
+ 
 				
-				</div>
-				
-				<script >
-						questionTypes();
-				</script>
+				<form action=<%= "SaveUnfinishedQuiz?quizid="+request.getParameter("quizid")%> method="post">
+				    <button> Save and Continue later </button>
+				</form><br>
 
-				<br> <br> <br>
-				
-				<form action="ShowQuiz" method="get">
-				    <button> View Quiz </button> 
-				</form>
-				<br> 
-				<form action="SaveUnfinishedQuiz" method="post">
-				    <button> Save and Continue later </button><br>
-				</form>
-				<br>
-				<form action="FinishQuizCreating" method="post">
-				    <button> Finish Quiz </button><br>
-				</form>
+				<form action=<%= "FinishQuizCreating?quizid="+request.getParameter("quizid")%> method="post">
+				    <button> Finish Quiz </button>
+				</form><br>
 				
 				
 			</section>

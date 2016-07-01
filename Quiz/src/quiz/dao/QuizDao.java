@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import quiz.bean.*;
+import user.bean.User;
 
 public class QuizDao {
 	
@@ -38,6 +39,7 @@ public class QuizDao {
 					curr_quiz.setQuizId(rslt.getInt("quiz_id"));
 					curr_quiz.setQuizName(rslt.getString("quiz_name"));
 					curr_quiz.setAuthorId(rslt.getInt("author_id"));
+					curr_quiz.setDescription(rslt.getString("description"));
 					curr_quiz.setCategory(rslt.getString("category"));
 					curr_quiz.setRandomized(rslt.getInt("isRandom"));
 					curr_quiz.setCorrection(rslt.getInt("correction"));
@@ -90,6 +92,8 @@ public class QuizDao {
 					Quiz curr_quiz = new Quiz();
 					curr_quiz.setQuizId(rslt.getInt("quiz_id"));
 					curr_quiz.setQuizName(rslt.getString("quiz_name"));
+					curr_quiz.setDescription(rslt.getString("description"));
+					curr_quiz.setAuthorId(rslt.getInt("author_id"));
 					users_quiz.add(curr_quiz);
 				}
 				return users_quiz;
@@ -106,6 +110,8 @@ public class QuizDao {
 					Quiz curr_quiz = new Quiz();
 					curr_quiz.setQuizId(rslt.getInt("quiz_id"));
 					curr_quiz.setQuizName(rslt.getString("quiz_name"));
+					curr_quiz.setDescription(rslt.getString("description"));
+					curr_quiz.setAuthorId(rslt.getInt("author_id"));
 					users_quiz.add(curr_quiz);
 				}
 				return users_quiz;
@@ -126,6 +132,7 @@ public class QuizDao {
 					Quiz curr_quiz = new Quiz();
 					curr_quiz.setQuizId(rslt.getInt("quiz_id"));
 					curr_quiz.setQuizName(rslt.getString("quiz_name"));
+					curr_quiz.setDescription(rslt.getString("description"));
 					curr_quiz.setAuthorId(rslt.getInt("author_id"));
 					categorys_quiz.add(curr_quiz);
 				}
@@ -178,11 +185,11 @@ public class QuizDao {
 		}
 	}
 	
-	public int createNewQuiz(String quizName, int authorId, String category, int isRandom, int finished) {
+	public int createNewQuiz(String quizName, String description, int authorId, String category, int isRandom, int finished) {
 		try {
 			Statement stmt = (Statement) conn.createStatement();
-			String sql = "INSERT INTO Quizes(quiz_name, author_id, category, isRandom, pages, correction, practice, finished)"
-				+ "VALUES('" + quizName +"', "+ authorId + ", '" +category +"', "+ isRandom + ", "
+			String sql = "INSERT INTO Quizes(quiz_name, author_id, description, category, isRandom, pages, correction, practice, finished)"
+				+ "VALUES('" + quizName +"', "+ authorId + ", '" + description + "', '" + category +"', "+ isRandom + ", "
 						+ "1, 0, 0, " + finished + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e1) {
@@ -224,6 +231,50 @@ public class QuizDao {
 		return top;
 	}
 	
+	public ArrayList<History> getRecentTakers(int quizid) {
+		ArrayList<History> recents = new ArrayList<>();
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History WHERE quiz_id = " + quizid + " ORDER BY id DESC;")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				for(int i=0; i<5; i++) {
+					if (rslt.next()) {
+						History curr = new History();
+						curr.setUser_id(rslt.getInt("user_id"));
+						curr.setId(rslt.getInt("quiz_id"));
+						curr.setScore(rslt.getInt("score"));
+						curr.setTime(rslt.getInt("f_time"));
+						recents.add(curr);
+					}
+				}
+				return recents;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return recents;
+	}
+	
+	public ArrayList<History> getTopScores(int quizid) {
+		ArrayList<History> top = new ArrayList<>();
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History WHERE quiz_id = " + quizid + " ORDER BY score DESC;")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				for(int i=0; i<5; i++) {
+					if (rslt.next()) {
+						History curr = new History();
+						curr.setUser_id(rslt.getInt("user_id"));
+						curr.setId(rslt.getInt("quiz_id"));
+						curr.setScore(rslt.getInt("score"));
+						curr.setTime(rslt.getInt("f_time"));
+						top.add(curr);
+					}
+				}
+				return top;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return top;
+	}
+	
 	public ArrayList<String> getCategories() {
 		ArrayList<String> cat= new ArrayList<>();
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Categories;")) {
@@ -239,6 +290,8 @@ public class QuizDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("CAT SIZE    " + cat);
 		return cat;
 	}
 	

@@ -45,7 +45,6 @@ public class GetByCategory extends HttpServlet {
 		
 		String c = (String) request.getParameter("cat");
 		
-		System.out.println(c);
 		try {
 			ArrayList<Quiz> bycat = qDao.getQuizByCategory(c);
 			String resp = "<div class=\"boxes\">  <p>" + c + " quizes</p> ";

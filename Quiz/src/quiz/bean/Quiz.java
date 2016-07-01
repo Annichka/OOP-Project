@@ -13,6 +13,7 @@ public class Quiz {
 		super();
 	}
 	protected String quizname;
+	protected String description;
 	protected int quizid;
 	protected int authorid;
 	protected int isRandom;
@@ -50,8 +51,8 @@ public class Quiz {
 		this.isRandom = r;
 	}
 	
-	public int getRandomized() {
-		return this.isRandom;
+	public boolean isRandomized() {
+		return this.isRandom == 1;
 	}
 	
 	public void setCorrection(int c) {
@@ -88,5 +89,13 @@ public class Quiz {
 	
 	public Vector<Question> GetQuestions(){
 		return this.questions;
+	}
+	
+	public void setDescription(String descr) {
+		this.description = descr;
+	}
+	
+	public String getDescription(){
+		return this.description;
 	}
 }

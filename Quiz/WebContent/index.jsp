@@ -24,6 +24,15 @@
 	     cursor:pointer;
 	
 	}
+	
+	.boxes {
+	   float: left;
+	   margin: 10px;
+	   padding: 10px;
+	   max-width: 130px;
+	   max-height: 3000px;
+	   border: 1px solid black;
+	}
 </style>
 </head>
 <body>
@@ -121,7 +130,7 @@
 					
 					<p> Quiz Categories </p>
 						<% for (int i = 0; i < categ.size(); i++) { %>						
-									<input type="submit" value="<%=categ.get(i) %>" name="<%=categ.get(i) %>" onClick="categoryQuizes(this)"><br>	  
+								<input type="submit" value="<%=categ.get(i) %>" name="<%=categ.get(i) %>" onClick="categoryQuizes(this)"><br>	  
 						<% } %>
 					</div>
 				</div>

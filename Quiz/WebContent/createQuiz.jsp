@@ -87,15 +87,18 @@
 					<br>
 					<br>
 				<%} %>
+					<h3> Create your own quiz :)</h3> <br>
 					<form action="StartCreating" method="post">
-						<input type="text" name="quizName">
-						<input type="checkbox" name="isRandom" value="random">Random Order<br>
-						<select name="category">
-							<option value="Art" selected="selected">Art</option>
-							<option value="History">History</option>
-							<option value="Music">Music</option>
-						</select>
+						<i>Quiz Name:</i> <input type="text" name="quizName"><br>
+						<i>Description: </i><br>
+						<textarea rows=3 cols=15 name="description"></textarea><br>
+						
+						<i>Category:</i> 
+						<%@ include file="quizCategories.jsp" %><br>
+						<i>Random Order:</i> <input type="checkbox" name="isRandom" value="random">
+						<br><br>
 						<button>Start new Quiz</button>
+						
 					</form>
 				</div>
 			</section>

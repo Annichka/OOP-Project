@@ -38,18 +38,18 @@ public class ShowQuiz extends HttpServlet {
 		 * 
 		 * */
 		UserManager uM = (UserManager)getServletContext().getAttribute("userM");
-		String q = (String) getServletContext().getAttribute("quizprocess");
-		Integer quizId = Integer.parseInt(q);
+
+		int quizid = Integer.parseInt((String) request.getParameter("quizid"));
 		
 		QuestionDao qDao = uM.getQuestionDao();
 
 		try {
-			ArrayList<Question> quesList = qDao.getQuestionsByQuizId(quizId);
+			ArrayList<Question> quesList = qDao.getQuestionsByQuizId(quizid);
 			request.setAttribute("questionlist", quesList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		response.sendRedirect("showQuiz.jsp");
+		response.sendRedirect("showQuiz.jsp?quizid=" + quizid);
 	}
 
 	/**

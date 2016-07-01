@@ -44,8 +44,7 @@ public class AddQuestion extends HttpServlet {
 		UserManager man = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qdao = man.getQuestionDao();
 				
-		String q = (String) getServletContext().getAttribute("quizprocess");
-		Integer quizid = Integer.parseInt(q);
+		Integer quizid = Integer.parseInt((String)request.getParameter("quizid"));
 		
 		String qtype = (String) request.getParameter("type");
 		String question = (String) request.getParameter("quest");
@@ -154,7 +153,7 @@ public class AddQuestion extends HttpServlet {
 		}
 		
 		getServletContext().removeAttribute("questionshown");
-		response.sendRedirect("startQuestionTypes.jsp");
+		response.sendRedirect("startQuestionTypes.jsp?quizid=" + quizid);
 	}
 
 	/**

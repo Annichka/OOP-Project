@@ -1,6 +1,6 @@
 
 
-	<input type="submit" value="Question-Response" name="QR" onClick="addQuestion(this)">
+	<input type="submit" id=<%=request.getParameter("quizid") %> value="Question-Response" name="QR" onClick="addQuestion(this)">
 	<input type="submit" value="Fill in the Blank" name="FB" onClick="addQuestion(this)">
 	<input type="submit" value="Multiple Choice" name="MC" onClick="addQuestion(this)">
 	<input type="submit" value="Matching" name="M" onClick="addQuestion(this)"><br>

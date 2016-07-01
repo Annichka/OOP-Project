@@ -20,6 +20,7 @@ import quiz.bean.MultipleChoice;
 import quiz.bean.PictureResponse;
 import quiz.bean.Question;
 import quiz.bean.QuestionResponse;
+import quiz.bean.Quiz;
 import quiz.dao.QuestionDao;
 import quiz.dao.QuizDao;
 
@@ -47,13 +48,21 @@ public class StartQuiz extends HttpServlet {
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qsd = um.getQuestionDao();
 		QuizDao qd = um.getQuizDao();
+		
 		Integer qid = Integer.parseInt((String) request.getParameter("quizid"));
-
+		
+		Quiz quiz = null;
 		ArrayList<Question> qstlist = null;
 		String quizName = "";
 		try {
 			qstlist = qsd.getQuestionsByQuizId(qid);
 			quizName = qd.getNameByQuizId(qid);
+			quiz = qd.getQuizById(qid);
+			
+			if(quiz.isRandomized()) {
+				Collections.shuffle(qstlist);
+			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -44,6 +44,8 @@ public class EditQuestion extends HttpServlet {
 		UserManager uM = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qDao = uM.getQuestionDao();
 		
+		int quizid = Integer.parseInt((String) request.getParameter("quizid"));
+				
 		String qst = (String) request.getParameter("quest");
 		String answ = (String) request.getParameter("cansw");
 		int qstid = Integer.parseInt((String)request.getParameter("questid"));
@@ -67,20 +69,17 @@ public class EditQuestion extends HttpServlet {
 		
 		qDao.updateQuestio(q);
 		
-		int quizId = q.getQuizId();
-		
-		
 		ArrayList<Question> quesList;
 		try {
-			quesList = qDao.getQuestionsByQuizId(quizId);  		
+			quesList = qDao.getQuestionsByQuizId(quizid);  		
 			request.setAttribute("questionlist", quesList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		// wavides mtliani quizis naxvaze
+		// wavides mtliani quizis sanaxavad
 		
-		response.sendRedirect("showQuiz.jsp");
+		response.sendRedirect("showQuiz.jsp?quizid=" + quizid);
 	}
 
 	/**

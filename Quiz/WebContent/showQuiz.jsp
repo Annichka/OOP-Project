@@ -54,7 +54,9 @@
 			<script src="myscripts.js"></script>
 
 			<nav>
-				<% ServletContext sCont = request.getServletContext(); %>
+				<% ServletContext sCont = request.getServletContext();
+					int quizid = Integer.parseInt((String)request.getParameter("quizid"));
+				%>
 				<h2><a href="index.jsp">
 					<%= sCont.getAttribute("username") %>
 				</a></h2>
@@ -77,20 +79,19 @@
 				
 				</div>
 				
-				<script> 
-					displayQuestions();
+				<script>
+				 	displayQuestions(<%=quizid%>)
 				</script>
 				
 				<br> <br>
-				<input type="submit" value="addQuestion" onClick="questionTypes()">
-				<br> <br>
-				<form action="SaveUnfinishedQuiz" method="post">
-				    <button> Save and Continue later </button><br>
-				</form>
-				<br> <br>
-				<form action="FinishQuizCreating" method="post">
+				
+				<a href=<%="startQuestionTypes.jsp?quizid=" + quizid  %>>Add Question</a> <br> <br>
+				<form action=<%= "SaveUnfinishedQuiz?quizid=" + quizid %>  method="post"> 
+				    <button> Save and Continue later </button><br> 
+				</form><br>
+				<form action=<%="FinishQuizCreating?quizid=" + quizid %> method="post">
 				    <button> Finish Quiz </button><br>
-				</form>
+				</form><br>
 			</section>
 		<% } %>
 		

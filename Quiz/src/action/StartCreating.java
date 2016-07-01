@@ -41,19 +41,22 @@ public class StartCreating extends HttpServlet {
 		QuizDao qzDao = uM.getQuizDao();
 		String quizName = request.getParameter("quizName");
 		String category = request.getParameter("category");
+		String description =request.getParameter("description");
+
 		int isRandom = -1;
 		int isFinished = 0;
-		String[] random= request.getParameterValues("isRandom");
+		String[] random = request.getParameterValues("isRandom");
 	    
 	    if(random == null) {
 	    	isRandom = 0;
 	    } else 
 	    	isRandom = 1;
 		Integer authorId = (Integer)getServletContext().getAttribute("id");
-		String quizid = "" + qzDao.createNewQuiz(quizName, authorId, category, isRandom, isFinished);
+		String quizid = "" + qzDao.createNewQuiz(quizName, description, authorId, category, isRandom, isFinished);
+		
 		getServletContext().setAttribute("quizprocess", quizid);
-			
-		response.sendRedirect("startQuestionTypes.jsp"); //gadasvla questenebis gasaketebel page-ze
+		System.out.println("START CREATING    quizid   =  "  +quizid);
+		response.sendRedirect("startQuestionTypes.jsp?quizid=" + quizid); //gadasvla questenebis gasaketebel page-ze
 	}
 
 	/**

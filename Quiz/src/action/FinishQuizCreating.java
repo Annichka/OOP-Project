@@ -33,8 +33,7 @@ public class FinishQuizCreating extends HttpServlet {
 		 * 
 		 * */
 		
-		String q = (String) getServletContext().getAttribute("quizprocess");
-		Integer quizid = Integer.parseInt(q);
+		Integer quizid = Integer.parseInt((String)request.getParameter("quizid"));  
 		
 		UserManager uM = (UserManager)getServletContext().getAttribute("userM");
 		QuizDao qzDao = uM.getQuizDao();

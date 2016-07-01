@@ -80,25 +80,75 @@
 			<section>
 				<div id="content">
 					<br>
-					<br>
 					<%
+					String myname = (String) sCont.getAttribute("username");
 					UserManager um = (UserManager) getServletContext().getAttribute("userM");
 					QuizDao qd = um.getQuizDao();
 					UserDao ud = um.getPersonDao();
 					QuestionDao qsd = um.getQuestionDao();
 					Integer qid = Integer.parseInt((String) request.getParameter("quizid"));
 					String quiz_name = qd.getNameByQuizId(qid);
-					int author_id = qd.getQuizById(qid).getAuthorId();
+					Quiz curr =  qd.getQuizById(qid);
+					
+					int author_id = curr.getAuthorId();
+					String description = curr.getDescription();
 					ArrayList<Question> qstlist = qsd.getQuestionsByQuizId(qid); 
 					String author = ud.getUserById(author_id).getUserName();
 					%>
 					
 					<h2> <%="Quiz:   " + quiz_name %></h2>
+					<% if(author.equals(myname)) {%>
+						<a href= <%= "showQuiz.jsp?quizid=" + qid %>>Edit quiz</a><br>
+					<% } %>
+					
 					<h4> <%="Author:   <a href=\"profile.jsp?profile=\"" + author + ">" + author + "</a>" %></h4>
 					
+					<p><b>Description:</b> <i> <%= description %></i></p>
+
 					<br>
-					<input type="button" value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
-					<br>
+					<input type="button" id= <%=qid %> value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
+					<br><br><hr>
+						
+						<%@ page import="java.util.List" %>
+						<%@ page import="quiz.bean.*" %>
+						<%@ page import="java.util.ArrayList" %>
+						<%@ page import="manager.*" %>
+						<%@ page import="quiz.dao.*" %>
+						<%@ page import="user.dao.*" %>
+						<%@ page import="java.io.IOException" %>
+						<%@ page import="java.sql.SQLException" %>
+						<%@ page import ="javax.servlet.ServletContext" %>
+						<%@ page import ="java.util.*" %>
+						
+						<% UserManager uM = (UserManager) getServletContext().getAttribute("userM");
+							QuizDao qDao = uM.getQuizDao();
+							UserDao uDao = uM.getPersonDao();
+							ArrayList<History> recents = qDao.getRecentTakers(qid);
+							ArrayList<History> top = qDao.getTopScores(qid);
+						%>
+						
+						<div class="boxes" >
+							Recent test takers:<br>
+							<% for (int i=0; i<recents.size(); i++) {%>
+								<% if (i > 5 ) break; 
+								String uName = uDao.getUserById(recents.get(i).getUser_id()).getUserName();
+								%>
+								<%=(i+1) +". "  %><a href=<%= "profile.jsp?profile=" +  uName
+								%>><%= uName %></a> <i><small> Score: <%=recents.get(i).getScore() %> </small></i><br>
+							<% } %>
+						</div>
+						
+						<div class="boxes" >
+							TOP 5 Scores:<br>
+							<% for (int i=0; i<top.size(); i++) {%>
+								<% if (i > 5 ) break; 
+								String uName = uDao.getUserById(top.get(i).getUser_id()).getUserName();
+								%>
+								<%=(i+1) +". "  %><a href=<%= "profile.jsp?profile=" +  uName
+								%>><%= uName %></a> <i><small> Score: <%=top.get(i).getScore() %> </small></i><br>
+							<% } %>
+						</div>
+						
 
 				</div>
 			</section>

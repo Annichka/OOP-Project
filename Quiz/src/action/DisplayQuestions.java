@@ -33,6 +33,8 @@ public class DisplayQuestions extends HttpServlet {
     public DisplayQuestions() {
         super();
     }
+    
+    private int quizid;
         
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,11 +45,13 @@ public class DisplayQuestions extends HttpServlet {
 		 * Generates html string for each type of question.
 		 * 
 		 * */
-		
+				
 		UserManager uM = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qDao = uM.getQuestionDao();
-		String q = (String) getServletContext().getAttribute("quizprocess");
-		Integer quizid = Integer.parseInt(q);
+		
+		Integer quizid = Integer.parseInt((String)request.getParameter("quizid")); 
+		this.quizid = quizid;
+		
 		ArrayList<Question> qList = null;
 		
 		try {
@@ -57,6 +61,7 @@ public class DisplayQuestions extends HttpServlet {
 		}
 		
 		String jsp  = "";
+		
 		
 		for (int i=0; i<qList.size(); i++) {
 		 	Question curr = qList.get(i); 
@@ -99,7 +104,7 @@ public class DisplayQuestions extends HttpServlet {
 	private String General(Question curr){
 		String html = 
 				"<div class=\"form\">" +
-					"<form action=\"EditQuestion\" method=\"post\">"+
+					"<form action=\"EditQuestion?quizid=" + this.quizid + "\" method=\"post\">"+
 						"<i>Question:  </i>"
 						+ "<input type=\"text\" value=\""+ curr.getQuestion() +
 						"\" name=\"quest\" /><br>" +
@@ -118,7 +123,7 @@ public class DisplayQuestions extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">" +
-					"<form action=\"EditQuestion\" method=\"post\">"+ 
+					"<form action=\"EditQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ 
 						"<i>Question</i>"
 						+ "<input type=\"text\" value=\"" + curr.getQuestion() + "\" name=\"quest\" /><br>" +
 						"<i>Picture: </i>"
@@ -137,7 +142,7 @@ public class DisplayQuestions extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">"  +
-				"<form action=\"EditQuestion\" method=\"post\">"+ "<i>Question:  </i>" +
+				"<form action=\"EditQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question:  </i>" +
 				"<input type=\"text\" value=\"" + curr.getQuestion() + "\" name=\"quest\" /><br>"+
 				"<input type=\"hidden\" name=\"type\" value=\"MA\" />"+
 				"<input type=\"hidden\" name=\"ordered\" value=\"" + curr.getIsOrderd() + "\" />"+
@@ -152,7 +157,7 @@ public class DisplayQuestions extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">"  +
-				"<form action=\"EditQuestion\" method=\"post\">"+ "<i>Question</i>" +
+				"<form action=\"EditQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question</i>" +
 				"<input type=\"text\" value=\"" + curr.getQuestion() + "\" name=\"quest\" /><br>" +
 				"<i>Correct answer:</i><input type=\"text\" "
 				+ "value=\"" + curr.getCAnswer() + "\" name=\"cansw\" /><br>"+
@@ -169,7 +174,7 @@ public class DisplayQuestions extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">"  +
-				"<form action=\"EditQuestion\" method=\"post\">"+ "<i>Question</i>" +
+				"<form action=\"EditQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question</i>" +
 				"<input type=\"text\" value=\"" + curr.getQuestion() + "\" name=\"quest\" /><br>" +
 				"<input type=\"hidden\" name=\"type\" value=\"MCA\" />"+
 				GenerateMultipleCorrectWrong(curr.countCorrectAnswers(), curr.countWrongAnswers(), 
@@ -186,7 +191,7 @@ public class DisplayQuestions extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">"  +
-				"<form action=\"EditQuestion\" method=\"post\">"+ "<i>Question:  </i>" +
+				"<form action=\"EditQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question:  </i>" +
 				"<input type=\"text\" value=\"" + curr.getQuestion() + "\" name=\"quest\" /><br>"+
 				"<input type=\"hidden\" name=\"type\" value=\"M\" />"+
 				MultipleCouple(curr.getAnswerCount(), curr.getCouples()) + 

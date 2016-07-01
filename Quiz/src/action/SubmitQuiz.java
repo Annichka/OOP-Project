@@ -139,7 +139,7 @@ public class SubmitQuiz extends HttpServlet {
 		int time = 0;
 		
 		SaveData(uid, qid, score, time);
-		response.sendRedirect("quizFinished.jsp?score="+score);
+		response.sendRedirect("quizFinished.jsp?quizid=" + qid + "&score="+score);
 	}
 	
 	private void SaveData(int userid, int quizid, int score, int time) {

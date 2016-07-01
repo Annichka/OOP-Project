@@ -72,22 +72,11 @@ function sendNote() {
     }
 }
 
-function questionTypes() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-    	if (xhttp.readyState == 4 && xhttp.status == 200) {
-    		document.getElementById("content").innerHTML = xhttp.responseText;
-    		document.getElementById("questions").innerHTML = "";
-   		}
-   	};
-   	xhttp.open("GET", "QuestionTypes", true)
-   	xhttp.send() 
-}
-
 function addQuestion(btn) {
 	var cansw = 0;
 	var wansw = 0;
 	var ordered = "0";
+	var quizid = btn.id
 	if(btn.name === "MC") {
 		while(true) {
 			wansw = window.prompt("Wrong answer count");
@@ -140,7 +129,7 @@ function addQuestion(btn) {
     		qst.innerHTML = xhttp.responseText;
    		}
     };
-   	xhttp.open("GET", "QuestionForm?type=" + btn.name + "&cansc=" + cansw + "&wansc=" + wansw + "&ord=" + ordered, true)
+   	xhttp.open("GET", "QuestionForm?quizid=" + quizid + "&type=" + btn.name + "&cansc=" + cansw + "&wansc=" + wansw + "&ord=" + ordered, true)
    	xhttp.send()
 }
 
@@ -148,7 +137,8 @@ function isInt(n) {
 	return n % 1 === 0;
 }
 
-function displayQuestions() {
+function displayQuestions(arg) {
+	var quizid = arg;
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
     	if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -156,7 +146,7 @@ function displayQuestions() {
     		qst.innerHTML = xhttp.responseText;
    		}
     };
-   	xhttp.open("GET", "DisplayQuestions", true)
+   	xhttp.open("GET", "DisplayQuestions?quizid=" + quizid, true)
    	xhttp.send()
 }
 

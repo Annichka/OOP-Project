@@ -24,6 +24,7 @@ public class QuestionForm extends HttpServlet {
         super();
     }
         
+    private int quizid;
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -36,6 +37,10 @@ public class QuestionForm extends HttpServlet {
 		String type = (String) request.getParameter("type");
 		String c = (String) request.getParameter("cansc");
 		String w = (String) request.getParameter("wansc");
+		
+		int quizid = Integer.parseInt((String)request.getParameter("quizid"));
+		this.quizid = quizid;
+
 		if(c.contains(".")) {
 			c = c.substring(0, c.indexOf("."));
 		} 
@@ -90,7 +95,7 @@ public class QuestionForm extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">" +
-					"<form action=\"AddQuestion\" method=\"post\">"+ 
+					"<form action=\"AddQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ 
 						"<i>Question</i>"
 						+ "<input type=\"text\" placeholder=\"Write question...\" name=\"quest\" /><br>" +
 						"<i>Answer:</i>"
@@ -108,7 +113,7 @@ public class QuestionForm extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">" +
-					"<form action=\"AddQuestion\" method=\"post\">"+ 
+					"<form action=\"AddQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ 
 						"<i>Question</i>"
 						+ "<input type=\"text\" placeholder=\"Write question...\" name=\"quest\" /><br>" +
 						"<i>Picture: </i>"
@@ -128,13 +133,13 @@ public class QuestionForm extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">"  +
-				"<form action=\"AddQuestion\" method=\"post\">"+ "<i>Question:  </i>" +
+				"<form action=\"AddQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question:  </i>" +
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>"+
 				"<input type=\"hidden\" name=\"type\" value=\"" + type + "\" />"+
 				"<input type=\"hidden\" name=\"ordered\" value=\"" + ordered + "\" />"+
 				GenerateMultipleCorrect(cAnswCount) + 
 				"<button> Submit <button> </form> " +
-			    "<div> <br>";;
+			    "<div> <br>";
 		return html;
 	}
 	
@@ -142,7 +147,7 @@ public class QuestionForm extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">"  +
-				"<form action=\"AddQuestion\" method=\"post\">"+ "<i>Question</i>" +
+				"<form action=\"AddQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question</i>" +
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
 				"<i>Correct answer:</i><input type=\"text\" p"
 				+ "laceholder=\"Correct answer..\" name=\"cansw\" /><br>"+
@@ -157,10 +162,22 @@ public class QuestionForm extends HttpServlet {
 	{
 		String html = 
 				"<div class=\"form\">"  +
-				"<form action=\"AddQuestion\" method=\"post\">"+ "<i>Question</i>" +
+				"<form action=\"AddQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question</i>" +
 				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
 				"<input type=\"hidden\" name=\"type\" value=\"" + type + "\" />"+
 				GenerateMultipleCorrectWrong(cAnswCount, wAnswCount) + 
+				"<button> Submit <button></form> " +
+			    "<div> <br>";
+		return html;
+	}
+	
+	private String Matching(int couples, String type){
+		String html = 
+				"<div class=\"form\">"  +
+				"<form action=\"AddQuestion?quizid=" + this.quizid + "\" method=\"post\">"+ "<i>Question</i>" +
+				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
+				MultipleCouple(couples) +
+				"<input type=\"hidden\" name=\"type\" value=\"M\" />"+
 				"<button> Submit <button></form> " +
 			    "<div> <br>";
 		return html;
@@ -219,17 +236,6 @@ public class QuestionForm extends HttpServlet {
 		return content;
 	}
 	
-	private String Matching(int couples, String type){
-		String html = 
-				"<div class=\"form\">"  +
-				"<form action=\"AddQuestion\" method=\"post\">"+ "<i>Question</i>" +
-				"<input type=\"text\" placeholder=\"Write question..\" name=\"quest\" /><br>" +
-				MultipleCouple(couples) +
-				"<input type=\"hidden\" name=\"type\" value=\"M\" />"+
-				"<button> Submit <button></form> " +
-			    "<div> <br>";
-		return html;
-	}
 	
 	private String MultipleCouple(int count) {
 		String content = "";
