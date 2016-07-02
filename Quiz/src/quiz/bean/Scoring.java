@@ -52,16 +52,16 @@ public class Scoring {
 	private int qrScoring(String c_answ, ArrayList<String> input) {
 		int score = 0;
 			
-		if(input.get(0) == null || input.get(0) == "")
+		if(input == null || input.get(0) == null || input.get(0) == "")
 			return score;
-		if(input.get(0).equals(c_answ))
+		if(input.get(0).equalsIgnoreCase(c_answ))
 			score++;
 		else {
 			int c = 0;
 			for (int i=0; i<input.size(); i++) {
 				if (input.get(i) == null  || input.get(i) == "")
 					continue;
-				if(c_answ.contains(input.get(i)))
+				if(c_answ.toLowerCase().contains(input.get(i).toLowerCase()))
 					c++;
 			}
 			if (c >= input.size())
@@ -76,7 +76,7 @@ public class Scoring {
 		for (int i=0; i < corr.length; i++) {
 			if (input.get(i) == null  || input.get(i) == "")
 				continue;
-			if(corr[i].equals(input.get(i))) {
+			if(corr[i].toLowerCase().equals(input.get(i).toLowerCase())) {
 				score++;
 			} else {
 				score--;
@@ -92,9 +92,9 @@ public class Scoring {
 		else {
 			int c = 0;
 			for (int i=0; i<input.size(); i++) {
-				if (input.get(i) == null || input.get(i) == "")
+				if (input == null || input.get(i) == null || input.get(i) == "")
 					continue;
-				if(c_answ.contains(input.get(i)))
+				if(c_answ.toLowerCase().contains(input.get(i).toLowerCase()))
 					c++;
 			}
 			if (c == input.size())
@@ -105,8 +105,8 @@ public class Scoring {
 
 	private int mcScoring(String c_answ, ArrayList<String> input) {
 		int score = 0;
-		if (input.get(0) != null)
-			if(c_answ.equals(input.get(0)))
+		if (input != null && input.get(0) != null)
+			if(c_answ.toLowerCase().equals(input.get(0).toLowerCase()))
 				score++;
 		return score;
 	}
@@ -114,12 +114,15 @@ public class Scoring {
 	private int mcaScoring(String c_answ, ArrayList<String> input) {
 		int score = 0;
 		String[] corr = c_answ.split(";");
+		for(int i=0; i<corr.length; i++) {
+			corr[i] = corr[i].toLowerCase();
+		}
 		List<String> listed = Arrays.asList(corr);
 		if(input == null) {
 			return score;
 		}
 		for (int i=0; i<input.size(); i++) {
-			if (listed.contains(input.get(i))) 
+			if (listed.contains(input.get(i).toLowerCase())) 
 				score++;
 			else 
 				score--;
@@ -130,13 +133,16 @@ public class Scoring {
 	private int maScoring(String c_answ, ArrayList<String> input, int ordered) {
 		int score = 0;
 		String[] corr = c_answ.split(";");
+		for(int i=0; i<corr.length; i++) {
+			corr[i] = corr[i].toLowerCase();
+		}
 		List<String> listed = Arrays.asList(corr);
 		
 		if(ordered == 1) {
 			for (int i=0; i<listed.size(); i++) {
-				if(input.get(i) == null || input.get(i) == "")
+				if(input == null || input.get(i) == null || input.get(i) == "")
 					continue;
-				if (listed.get(i).equals(input.get(i))) 
+				if (listed.get(i).equals(input.get(i).toLowerCase())) 
 					score++;
 				else 
 					score--;
@@ -146,7 +152,7 @@ public class Scoring {
 			for (int i=0; i<listed.size(); i++) {
 				if(input.get(i) == "" || input.get(i) == null)
 					continue;
-				if (listed.contains(input.get(i))) 
+				if (listed.contains(input.get(i).toLowerCase())) 
 					score++;
 				else 
 					score--;
@@ -164,7 +170,7 @@ public class Scoring {
 		ArrayList<String> right = m.getSecondRow();
 		
 		for (int i=0; i<left.size(); i++) {
-			if(right.get(i).equals(input.get(i)))
+			if(right.get(i).toLowerCase().equals(input.get(i).toLowerCase()))
 				score++;
 		}
 		

@@ -201,6 +201,7 @@ public class QuizDao {
 	}
 	
 	public int createNewQuiz(String quizName, String description, int authorId, String category, int isRandom, int finished, int multiPage) {
+			
 		try {
 			Statement stmt = (Statement) conn.createStatement();
 			String sql = "INSERT INTO Quizes(quiz_name, author_id, description, category, multiPage, isRandom, correction, practice, finished)"

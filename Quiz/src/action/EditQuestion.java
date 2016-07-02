@@ -67,7 +67,7 @@ public class EditQuestion extends HttpServlet {
 			((MultiAnswer) q).setIsOrdered(ordered);
 		}
 		
-		qDao.updateQuestio(q);
+		qDao.updateQuestion(q);
 		
 		ArrayList<Question> quesList;
 		try {

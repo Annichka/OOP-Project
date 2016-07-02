@@ -95,7 +95,7 @@ public class QuestionDao {
 	}
 	
 	
-	public void updateQuestio(Question q) {
+	public void updateQuestion(Question q) {
 		String sql = "";
 		if (q.getType().equals("QR") || q.getType().equals("FB")) {
 			sql = "UPDATE Questions SET question='" + q.getQuestion() + "', "
@@ -151,7 +151,7 @@ public class QuestionDao {
 						q = new MultiAnswer();
 						((MultiAnswer) q).setIsOrdered(rslt.getInt("ordered"));
 					} else if(type.equals("M")) {
-						// es ar vici jer rogor shevinaxo
+						q = new Matching();
 					}
 					q.setQuestionId(id);
 					q.setQuestion(rslt.getString("question"));
