@@ -7,6 +7,8 @@ public class History {
 	private int quiz_id;
 	private int score;
 	private int time;
+	private String starttime;
+	private String endtime;
 	/**
 	 * @return the score
 	 */
@@ -66,6 +68,30 @@ public class History {
 	 */
 	public void setTime(int time) {
 		this.time = time;
+	}
+	/**
+	 * @return the starttime
+	 */
+	public String getStarttime() {
+		return starttime;
+	}
+	/**
+	 * @param starttime the starttime to set
+	 */
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
+	/**
+	 * @return the endtime
+	 */
+	public String getEndtime() {
+		return endtime;
+	}
+	/**
+	 * @param endtime the endtime to set
+	 */
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
 	}
 
 }

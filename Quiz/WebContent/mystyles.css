@@ -67,7 +67,7 @@ input[type=button] {
    margin: 10px;
    padding: 10px;
    max-width: 130px;
-   max-height: 3000px;
+   max-height: 300px;
    border: 1px solid black;
 }
 
@@ -75,8 +75,10 @@ input[type=button] {
    float: left;
    margin: 10px;
    padding: 10px;
-   max-width: 130px;
+   max-width: 300px;
+   height: 150px;
    border: 1px solid black;
+   overflow: scroll;
 }
 
 a:link {

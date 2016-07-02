@@ -2,7 +2,10 @@ package action;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -104,9 +107,11 @@ public class SubmitQuiz extends HttpServlet {
 			else if(q.getType().equals("MCA")) 
 			{
 				ArrayList<String> s = new ArrayList<>();
-				String[] checked = request.getParameterValues(i+"");				
-				for(int j=0; j<checked.length; j++) {
-					s.add(checked[j]);
+				String[] checked = request.getParameterValues(i+"");
+				if (checked != null) {
+					for(int j=0; j<checked.length; j++) {
+						s.add(checked[j]);
+					}
 				}
 				answers.add(s);
 			}
@@ -134,15 +139,19 @@ public class SubmitQuiz extends HttpServlet {
 			}
 		}
 		
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		String starttime = (String) request.getSession().getAttribute("starttime");
+		String endtime = dateFormat.format(date);
+		
 		Scoring sc = new Scoring();
 		int score = sc.countForQuiz(qstlist, answers);
-		int time = 0;
+		int duration = SaveData(uid, qid, score, starttime, endtime);
 		
-		SaveData(uid, qid, score, time);
-		response.sendRedirect("quizFinished.jsp?quizid=" + qid + "&score="+score);
+		response.sendRedirect("quizFinished.jsp?quizid=" + qid + "&score="+score + "&time=" + duration);
 	}
 	
-	private void SaveData(int userid, int quizid, int score, int time) {
+	private int SaveData(int userid, int quizid, int score, String starttime, String endtime) {
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
 		QuizDao qd = um.getQuizDao();
 		
@@ -150,11 +159,24 @@ public class SubmitQuiz extends HttpServlet {
 		h.setQuiz_id(quizid);
 		h.setUser_id(userid);
 		h.setScore(score);
-		h.setTime(time);
+		h.setStarttime(starttime);
+		h.setEndtime(endtime);
+		int duration = getSeconds(endtime) - getSeconds(starttime);
+		h.setTime(duration);
 		
 		qd.addUserHostory(h);
+		return duration;
 	}
 
+	private int getSeconds(String time) {
+		String[] units = time.split(":");
+		int hours = Integer.parseInt(units[0]);
+		int minutes = Integer.parseInt(units[1]); 
+		int seconds = Integer.parseInt(units[2]); 
+		int transf = 3600 * hours + 60 * minutes + seconds;
+		return transf;
+	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

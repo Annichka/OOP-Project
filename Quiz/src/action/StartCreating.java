@@ -42,20 +42,26 @@ public class StartCreating extends HttpServlet {
 		String quizName = request.getParameter("quizName");
 		String category = request.getParameter("category");
 		String description =request.getParameter("description");
-
+		
 		int isRandom = -1;
 		int isFinished = 0;
+		int isMultiPage = -1;
 		String[] random = request.getParameterValues("isRandom");
-	    
+	    String[] multiP = request.getParameterValues("multiPage");
 	    if(random == null) {
 	    	isRandom = 0;
 	    } else 
 	    	isRandom = 1;
+	    
+	    if(multiP == null) {
+	    	isMultiPage = 0;
+	    } else 
+	    	isMultiPage = 1;
+	    
 		Integer authorId = (Integer)getServletContext().getAttribute("id");
-		String quizid = "" + qzDao.createNewQuiz(quizName, description, authorId, category, isRandom, isFinished);
+		String quizid = "" + qzDao.createNewQuiz(quizName, description, authorId, category, isRandom, isFinished, isMultiPage);
 		
 		getServletContext().setAttribute("quizprocess", quizid);
-		System.out.println("START CREATING    quizid   =  "  +quizid);
 		response.sendRedirect("startQuestionTypes.jsp?quizid=" + quizid); //gadasvla questenebis gasaketebel page-ze
 	}
 

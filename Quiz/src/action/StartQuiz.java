@@ -3,8 +3,11 @@ package action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +46,6 @@ public class StartQuiz extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//int makeris = Integer.parseInt((String)getServletContext().getAttribute("id"));
 		
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
 		QuestionDao qsd = um.getQuestionDao();
@@ -81,6 +83,11 @@ public class StartQuiz extends HttpServlet {
 				+ "  <button> Submit </button></form>";
 		
 		getServletContext().setAttribute("qstlist", qstlist);
+		
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		
+		request.getSession().setAttribute("starttime", dateFormat.format(date));
 		
 		PrintWriter out = response.getWriter();
 		out.write(html);

@@ -26,9 +26,9 @@ public class MessagesDao {
 	}
 	
 	public void addFriendRequest(Messages sms) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Messages (u_from, u_to, message, m_type) VALUE("
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Messages (u_from, u_to, message, m_type, seen) VALUE("
 				+ sms.getSender() +", " + sms.getReceiver() + ", '" + sms.getMessage() + "', '" 
-				+ sms.getMType() + "')")) {
+				+ sms.getMType() + "', 0)")) {
 			stmt.executeUpdate();
 		}
 	}
@@ -142,6 +142,36 @@ public class MessagesDao {
 				}
 				return user_messages;
 			}
+		}
+	}
+	
+	public List<Messages> getUnseen(int usrId, String type) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Messages WHERE u_to = " + usrId 
+				+ " AND m_type = '" + type + "' AND seen = 0;")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				List<Messages> unseen = new ArrayList<>();
+				while(rslt.next()) {
+					Messages msg = new Messages();
+					msg.setId(rslt.getInt("id"));
+					msg.setSender(rslt.getInt("u_from"));
+					msg.setReceiver(rslt.getInt("u_to"));
+					msg.setMessage(rslt.getString("message"));
+					msg.setMType(rslt.getString("m_type"));
+					unseen.add(msg);
+				}
+				return unseen;
+			}
+		}
+	}
+	
+	public void setSeen(int usrId, String type) throws SQLException {
+		String sql = "UPDATE TABLE Messages SET seen = 1 WHERE"
+				+ " u_to = " + usrId + " AND m_type = '" + type + "'";
+		
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

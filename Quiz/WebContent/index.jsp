@@ -22,17 +22,18 @@
 	     display:inline-block
 	     text-decoration:underline;
 	     cursor:pointer;
-	
 	}
 	
 	.boxes {
 	   float: left;
 	   margin: 10px;
 	   padding: 10px;
-	   max-width: 130px;
-	   max-height: 3000px;
+	   max-width: 300px;
+	   height: 200px;
 	   border: 1px solid black;
+	   overflow: scroll;
 	}
+
 </style>
 </head>
 <body>
@@ -83,21 +84,30 @@
 			<%@ page import="java.util.ArrayList" %>
 			<%@ page import="manager.*" %>
 			<%@ page import="quiz.dao.*" %>
+			<%@ page import="user.dao.*" %>
+			<%@ page import="user.bean.*" %>
 			<%@ page import="java.io.IOException" %>
 			<%@ page import="java.sql.SQLException" %>
 			<%@ page import ="javax.servlet.ServletContext" %>
 			<%@ page import ="java.util.*" %>
 			
 			<% UserManager uM = (UserManager) getServletContext().getAttribute("userM");
+				UserDao uDao = uM.getPersonDao();
+				MessagesDao mDao = ((MessageManager)getServletContext().getAttribute("mesM")).getMessageDao();
+				User me = uDao.getUserByName((String)sCont.getAttribute("username"));
 				QuizDao qDao = uM.getQuizDao();
 				ArrayList<Quiz> allquiz = qDao.getQuizList();
 				ArrayList<Quiz> topquiz = qDao.getTopQuizes();
 				ArrayList<Quiz> newquiz = qDao.getNewQuizes();
 				ArrayList<String> categ = qDao.getCategories();
+				//ArrayList<History> friends = qDao.getFriendsLastActivities(me.getUserId());
+				//ArrayList<History> notCreated = qDao.getRecentNeverCreated(me.getUserId());	
+				//List<Messages> unseen = mDao.getUnseen(me.getUserId(), "friendrequests");
 			%>
 				<div id="content">
+					<h3 style="color: red;">ადმინისტრაციის წერილი: ქვიზი 1 - ვინ ცხოვრებს ყველაზე მაღალ სართულზე?</h3>
+
 					<div class="boxes">
-					
 					<p> Quiz List </p>
 						<% for (int i = 0; i < allquiz.size(); i++) { %>
 							<% if (i > 10) {
@@ -109,7 +119,6 @@
 					</div>
 					
 					<div class="boxes">
-					
 					<p> Top Quizes </p>
 						<% for (int i = 0; i < topquiz.size(); i++) { %>						
 								<a href=<%= "startQuiz.jsp?quizid=" +  topquiz.get(i).getQuizId() 
@@ -118,7 +127,6 @@
 					</div> 
 					
 					<div class="boxes">
-					
 					<p> New Quizes </p>
 						<% for (int i = 0; i < newquiz.size(); i++) { %>						
 								<a href=<%= "startQuiz.jsp?quizid=" +  newquiz.get(i).getQuizId()
@@ -127,12 +135,12 @@
 					</div>
 					
 					<div class="boxes">
-					
 					<p> Quiz Categories </p>
 						<% for (int i = 0; i < categ.size(); i++) { %>						
 								<input type="submit" value="<%=categ.get(i) %>" name="<%=categ.get(i) %>" onClick="categoryQuizes(this)"><br>	  
 						<% } %>
 					</div>
+					
 				</div>
 			</section>
 		<% } %>

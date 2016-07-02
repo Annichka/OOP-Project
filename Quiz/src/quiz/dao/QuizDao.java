@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import quiz.bean.*;
-import user.bean.User;
+
 
 public class QuizDao {
 	
@@ -43,13 +43,27 @@ public class QuizDao {
 					curr_quiz.setCategory(rslt.getString("category"));
 					curr_quiz.setRandomized(rslt.getInt("isRandom"));
 					curr_quiz.setCorrection(rslt.getInt("correction"));
-					curr_quiz.setPages(rslt.getInt("pages"));
+					curr_quiz.setPages(rslt.getInt("multiPage"));
 					curr_quiz.setPractice(rslt.getInt("practice"));
 					return curr_quiz;
 				}
 				return null;
 			}
 		}
+	}
+	
+	
+	public int isMultiPage(int quizid) throws SQLException {
+		int isMP = 0;
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE quiz_id = ?")) {
+			stmt.setInt(1, quizid);
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if (rslt.next()) {
+					isMP = rslt.getInt("multiPage");
+				}
+			}
+		}
+		return isMP;
 	}
 	
 	/*
@@ -99,7 +113,8 @@ public class QuizDao {
 				return users_quiz;
 			}
 		}
-	} 
+	}
+	
 	
 	public ArrayList<Quiz> getUnfinishedQuizByCreator(int authorid) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE author_id = ? AND finished = 0;")) {
@@ -185,12 +200,12 @@ public class QuizDao {
 		}
 	}
 	
-	public int createNewQuiz(String quizName, String description, int authorId, String category, int isRandom, int finished) {
+	public int createNewQuiz(String quizName, String description, int authorId, String category, int isRandom, int finished, int multiPage) {
 		try {
 			Statement stmt = (Statement) conn.createStatement();
-			String sql = "INSERT INTO Quizes(quiz_name, author_id, description, category, isRandom, pages, correction, practice, finished)"
-				+ "VALUES('" + quizName +"', "+ authorId + ", '" + description + "', '" + category +"', "+ isRandom + ", "
-						+ "1, 0, 0, " + finished + ")";
+			String sql = "INSERT INTO Quizes(quiz_name, author_id, description, category, multiPage, isRandom, correction, practice, finished)"
+				+ "VALUES('" + quizName +"', "+ authorId + ", '" + description + "', '" + category +"', "+ multiPage + ", "  +isRandom + ", "
+						+ "0, 0, " + finished + ")";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -253,9 +268,55 @@ public class QuizDao {
 		return recents;
 	}
 	
+	public ArrayList<History> getRecentNeverCreated(int userid) {
+		ArrayList<History> recents = new ArrayList<>();
+		try (PreparedStatement stmt = conn.prepareStatement("select * from quizes where quiz_id in "
+				+ "(Select quiz_id from history where user_id = 1) group by quiz_id;")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				for(int i=0; i<5; i++) {
+					if (rslt.next()) {
+						History curr = new History();
+						curr.setUser_id(rslt.getInt("user_id"));
+						curr.setId(rslt.getInt("quiz_id"));
+						curr.setScore(rslt.getInt("score"));
+						curr.setTime(rslt.getInt("f_time"));
+						recents.add(curr);
+					}
+				}
+				return recents;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return recents;
+	}
+	
+	
+	public ArrayList<History> getFriendsLastActivities(int userid) {
+		ArrayList<History> recents = new ArrayList<>();
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History WHERE user_id IN "
+				+ " (SELECT friend_id FROM Friends WHERE user_id =  " + userid + ") ORDER BY id DESC;")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				while(rslt.next()) {
+					History h = new History();
+					h.setUser_id(rslt.getInt("user_id"));
+					h.setQuiz_id(rslt.getInt("quiz_id"));
+					h.setScore(rslt.getInt("score"));
+					h.setTime(rslt.getInt("f_time"));
+					recents.add(h);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return recents;
+	}
+	
+	
 	public ArrayList<History> getTopScores(int quizid) {
 		ArrayList<History> top = new ArrayList<>();
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History WHERE quiz_id = " + quizid + " ORDER BY score DESC;")) {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History WHERE quiz_id = " + quizid +
+				" ORDER BY score DESC, f_time;")) {
 			try (ResultSet rslt = stmt.executeQuery()) {
 				for(int i=0; i<5; i++) {
 					if (rslt.next()) {
@@ -323,8 +384,9 @@ public class QuizDao {
 		Statement stmt;
 		try {
 			stmt = (Statement) conn.createStatement();
-			String sql = "INSERT INTO History(user_id, quiz_id, score, f_time)" 
-					+ "VALUES("+ h.getUser_id() + ", " + h.getQuiz_id() +", "+ h.getScore() + ", " + h.getTime() + ")";
+			String sql = "INSERT INTO History(user_id, quiz_id, score, f_time, start_time, end_time)" 
+					+ "VALUES("+ h.getUser_id() + ", " + h.getQuiz_id() +", "+ h.getScore() + ", " + h.getTime() + ", '"
+					+h.getStarttime() + "', '" + h.getEndtime() + "')";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

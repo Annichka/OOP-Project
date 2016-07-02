@@ -69,6 +69,7 @@
 			</nav>
 			<section>
 				<br>
+				<i> <%= "You finished this quiz in " + request.getParameter("time") + " seconds"%> </i>
 				<i> <%= "Your Score is " + request.getParameter("score") %> </i>
 			</section>
 		<% } %>

@@ -94,6 +94,7 @@
 					String description = curr.getDescription();
 					ArrayList<Question> qstlist = qsd.getQuestionsByQuizId(qid); 
 					String author = ud.getUserById(author_id).getUserName();
+					int isMultiPage = curr.getPages();
 					%>
 					
 					<h2> <%="Quiz:   " + quiz_name %></h2>
@@ -101,12 +102,16 @@
 						<a href= <%= "showQuiz.jsp?quizid=" + qid %>>Edit quiz</a><br>
 					<% } %>
 					
-					<h4> <%="Author:   <a href=\"profile.jsp?profile=\"" + author + ">" + author + "</a>" %></h4>
+					<h4> <%="Author:   <a href=\"profile.jsp?profile=\"" + author + "\">" + author + "</a>" %></h4>
 					
 					<p><b>Description:</b> <i> <%= description %></i></p>
 
 					<br>
-					<input type="button" id= <%=qid %> value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
+					<% if (isMultiPage == 0) { %>
+						<input type="button" id= <%=qid %> value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
+					<% } else { %>
+						<input type="button" id= <%=qid %> value="Start Quiz" name=<%=qid %> onClick="showQuiz(this)"><br>
+					<% } %>
 					<br><br><hr>
 						
 						<%@ page import="java.util.List" %>
@@ -134,18 +139,19 @@
 								String uName = uDao.getUserById(recents.get(i).getUser_id()).getUserName();
 								%>
 								<%=(i+1) +". "  %><a href=<%= "profile.jsp?profile=" +  uName
-								%>><%= uName %></a> <i><small> Score: <%=recents.get(i).getScore() %> </small></i><br>
+								%>><%= uName %></a> <i> Score: <%=recents.get(i).getScore() %> </i><br>
 							<% } %>
 						</div>
 						
 						<div class="boxes" >
-							TOP 5 Scores:<br>
+							TOP 5:<br>
 							<% for (int i=0; i<top.size(); i++) {%>
 								<% if (i > 5 ) break; 
 								String uName = uDao.getUserById(top.get(i).getUser_id()).getUserName();
 								%>
 								<%=(i+1) +". "  %><a href=<%= "profile.jsp?profile=" +  uName
-								%>><%= uName %></a> <i><small> Score: <%=top.get(i).getScore() %> </small></i><br>
+								%>><%= uName %></a> <i> Score: <%=top.get(i).getScore() %> </i>&nbsp;&nbsp;
+								 <i> Time: <%=top.get(i).getTime() %> </i><br>
 							<% } %>
 						</div>
 						

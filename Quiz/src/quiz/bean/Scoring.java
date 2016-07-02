@@ -11,7 +11,7 @@ public class Scoring {
 	
 	public int countForQuiz(ArrayList<Question> qlist, ArrayList<ArrayList<String>> anslist) {
 		int score = 0;
-		for (int i =0; i< qlist.size(); i++) {
+		for (int i =0; i< anslist.size(); i++) {
 			int ord = 0;
 			if(qlist.get(i).getType().equals("MA"))
 				ord = ((MultiAnswer)qlist.get(i)).getIsOrderd();
@@ -115,7 +115,7 @@ public class Scoring {
 		int score = 0;
 		String[] corr = c_answ.split(";");
 		List<String> listed = Arrays.asList(corr);
-		if(input.get(0) == null) {
+		if(input == null) {
 			return score;
 		}
 		for (int i=0; i<input.size(); i++) {
