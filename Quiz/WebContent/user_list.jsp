@@ -18,8 +18,7 @@
 	
 	<h2> Users </h2>
 	<% try { %>
-		<% ServletContext cont = request.getServletContext(); %>
-		<% ArrayList<User> all_user = (ArrayList<User>) cont.getAttribute("alluser");  %>
+		<% ArrayList<User> all_user = (ArrayList<User>) session.getAttribute("alluser");  %>
 		<% Collections.shuffle(all_user); %>
 		<% for (int i = 0; i < all_user.size(); i++) { %>
 			<% if (i > 10) break; %>

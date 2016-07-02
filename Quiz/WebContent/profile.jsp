@@ -36,11 +36,8 @@
 	<%@ page import="java.io.IOException" %>
 	<%@ page import="java.sql.SQLException" %>
 
-	<% if (getServletContext().getAttribute("formid") != null) %>
-		<% getServletContext().removeAttribute("formid"); %>
-		
 	<% 
-	Integer logged_user_id = (Integer) request.getServletContext().getAttribute("id");
+	Integer logged_user_id = (Integer) session.getAttribute("id");
 	UserDao uDao = ((UserManager)getServletContext().getAttribute("userM")).getPersonDao();
 	FriendsDao fDao = ((FriendManager)getServletContext().getAttribute("friM")).getFriendDao();
 	User curr_user = uDao.getUserByName(request.getParameter("profile"));

@@ -42,7 +42,7 @@ public class Notes extends HttpServlet {
 		 *
 		 * */
 		
-		String user = (String) getServletContext().getAttribute("username");
+		String user = (String) request.getSession().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
 		User me = null;

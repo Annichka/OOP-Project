@@ -152,7 +152,7 @@ public class AddQuestion extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		getServletContext().removeAttribute("questionshown");
+		request.getSession().removeAttribute("questionshown");
 		response.sendRedirect("startQuestionTypes.jsp?quizid=" + quizid);
 	}
 

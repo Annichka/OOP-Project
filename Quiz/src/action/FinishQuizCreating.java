@@ -39,7 +39,7 @@ public class FinishQuizCreating extends HttpServlet {
 		QuizDao qzDao = uM.getQuizDao();
 		qzDao.setQuizFinished(quizid);
 		
-		getServletContext().removeAttribute("quizprocess");
+	    request.getSession().removeAttribute("quizprocess");
 		request.getSession().setAttribute("quizfinished", true);
 		response.sendRedirect("createQuiz.jsp");
 	}

@@ -49,7 +49,7 @@ public class SubmitQuiz extends HttpServlet {
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
 		UserDao ud = um.getPersonDao();
 	
-		String me = (String) getServletContext().getAttribute("username");
+		String me = (String) request.getSession().getAttribute("username");
 		int uid = -1;;
 		try {
 			uid = ud.getUserByName(me).getUserId();
@@ -60,8 +60,8 @@ public class SubmitQuiz extends HttpServlet {
 		int qid = Integer.parseInt((String) request.getParameter("quizid"));
 
 		@SuppressWarnings("unchecked")
-		ArrayList<Question> qstlist = (ArrayList<Question>) getServletContext().getAttribute("qstlist");
-		getServletContext().removeAttribute("qstlist");
+		ArrayList<Question> qstlist = (ArrayList<Question>) request.getSession().getAttribute("qstlist");
+		request.getSession().removeAttribute("qstlist");
 		
 		int quest_count = qstlist.size();
 		ArrayList<ArrayList<String>> answers = new ArrayList<>();
@@ -142,6 +142,7 @@ public class SubmitQuiz extends HttpServlet {
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
 		String starttime = (String) request.getSession().getAttribute("starttime");
+		request.getSession().removeAttribute("starttime");
 		String endtime = dateFormat.format(date);
 		
 		Scoring sc = new Scoring();

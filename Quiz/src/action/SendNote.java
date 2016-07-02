@@ -49,7 +49,7 @@ public class SendNote extends HttpServlet {
 		StringBuffer text = new StringBuffer(request.getParameter("note"));
 
 	    String msg_to = (String) request.getParameter("user");
-		String from_me = (String) getServletContext().getAttribute("username");
+		String from_me = (String) request.getSession().getAttribute("username");
 		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
 		MessagesDao msgD = msgM.getMessageDao();
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");

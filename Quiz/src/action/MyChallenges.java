@@ -37,7 +37,7 @@ public class MyChallenges extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String user = (String) getServletContext().getAttribute("username");
+		String user = (String) request.getSession().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
 		QuizDao qd = usrM.getQuizDao();

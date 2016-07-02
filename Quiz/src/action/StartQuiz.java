@@ -82,7 +82,7 @@ public class StartQuiz extends HttpServlet {
 		html += "<br> <input type=\"hidden\" name=\"quizid\" id=\"quizid\" value=" + qid + "> "
 				+ "  <button> Submit </button></form>";
 		
-		getServletContext().setAttribute("qstlist", qstlist);
+		request.getSession().setAttribute("qstlist", qstlist);
 		
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();

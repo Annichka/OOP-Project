@@ -40,7 +40,7 @@ public class Search extends HttpServlet {
 		 * */
 		
 		String search_name = (String)request.getParameter("searching");
-		String myname = (String) getServletContext().getAttribute("username");
+		String myname = (String) request.getSession().getAttribute("username");
 		String resp = "";
 		
 		UserDao uDao = ((UserManager)getServletContext().getAttribute("userM")).getPersonDao();

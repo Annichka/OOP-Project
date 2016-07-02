@@ -53,7 +53,7 @@ public class Unfriend extends HttpServlet {
 		User me;
 		User friend;
 		try {
-			String myname = (String) getServletContext().getAttribute("username");
+			String myname = (String) request.getSession().getAttribute("username");
 			me = usrD.getUserByName(myname);
 			String fr_name =  request.getParameter("unfriendTo");
 			friend = usrD.getUserByName(fr_name);

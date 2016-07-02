@@ -68,11 +68,10 @@
 			<script src="myscripts.js"></script>
 
 			<nav>
-				<% ServletContext sCont = request.getServletContext(); %>
 				<h2><a href="index.jsp">
-					<%= sCont.getAttribute("username") %>
+					<%= session.getAttribute("username") %>
 				</a></h2>
-				<img src="<%= sCont.getAttribute("image") %>" alt="<%=sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
+				<img src="<%= session.getAttribute("image") %>" alt="<%=session.getAttribute("username") %>" style="width:90px;height:90px;"><br>
 								
 				<%@ include file="panel.jsp" %>
 				
@@ -87,7 +86,7 @@
 			UserManager man = (UserManager) getServletContext().getAttribute("userM");
 			QuizDao qdao = man.getQuizDao();
 			UserDao udao = man.getPersonDao();
-			User me = udao.getUserByName((String)sCont.getAttribute("username"));
+			User me = udao.getUserByName((String)session.getAttribute("username"));
 			
 			int uid = me.getUserId();
 			

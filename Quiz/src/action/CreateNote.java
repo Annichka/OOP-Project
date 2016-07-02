@@ -44,7 +44,7 @@ public class CreateNote extends HttpServlet {
 		
 		String msg_to = (String) request.getParameter("user");
 		String text = (String) request.getParameter("note");
-		String from_me = (String) getServletContext().getAttribute("username");
+		String from_me = (String) request.getSession().getAttribute("username");
 		MessageManager msgM = (MessageManager) getServletContext().getAttribute("mesM");
 		MessagesDao msgD = msgM.getMessageDao();
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");

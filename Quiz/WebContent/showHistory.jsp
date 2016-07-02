@@ -70,7 +70,7 @@
 			UserDao udao = man.getPersonDao();
 			String username = (String) request.getParameter("profile"); 
 			User usr = null;
-			Integer logged_user_id = (Integer) request.getServletContext().getAttribute("id");
+			Integer logged_user_id = (Integer) session.getAttribute("id");
 			FriendsDao fDao = ((FriendManager)getServletContext().getAttribute("friM")).getFriendDao();
 			ArrayList<quiz.bean.History> hist = null;
 

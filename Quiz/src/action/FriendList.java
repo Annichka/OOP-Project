@@ -45,7 +45,7 @@ public class FriendList extends HttpServlet {
 		 * */
 		
 		ServletContext sCont = request.getServletContext();
-    	String user = (String) sCont.getAttribute("username");
+    	String user = (String)  request.getSession().getAttribute("username");
 	    UserManager usrM = null;
 	    FriendManager frM = null;
 	    User me = null;

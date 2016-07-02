@@ -46,7 +46,7 @@ public class AcceptRequest extends HttpServlet {
 		 * */
 		
 		String req_from = (String) request.getParameter("acceptfrom");
-		String req_to = (String) getServletContext().getAttribute("username");
+		String req_to = (String) request.getSession().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
 		

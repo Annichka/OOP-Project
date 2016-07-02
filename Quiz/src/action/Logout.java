@@ -2,7 +2,6 @@ package action;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,9 +36,7 @@ public class Logout extends HttpServlet {
         session.setAttribute("logout", true);
         session.removeAttribute("authorized");
         session.removeAttribute("id");
-        ServletContext sCont = request.getServletContext();
-        sCont.removeAttribute("username");
-        sCont.removeAttribute("quizprocess");
+        session.removeAttribute("username");
         session.invalidate();
         response.sendRedirect("index.jsp");
 	}

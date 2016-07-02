@@ -48,7 +48,7 @@ public class CancelRequest extends HttpServlet {
 		 *  */
 		
 		String req_to = (String) request.getParameter("cancelTo");
-		String me = (String) getServletContext().getAttribute("username");
+		String me = (String)  request.getSession().getAttribute("username");
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
 

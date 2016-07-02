@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,15 +55,18 @@ public class Login extends HttpServlet {
 			if (found_acc != null && found_acc.getHashedPassword().equals(acc.getHashedPassword())) {
 				HttpSession session = request.getSession();
 		        session.setAttribute("authorized", true);
-				ServletContext sCont = request.getServletContext();
-				sCont.setAttribute("username", user);
-				sCont.setAttribute("image", found_acc.getUserpic());
-				sCont.setAttribute("id", found_acc.getUserId());
+				//ServletContext sCont = request.getServletContext();
+				//sCont.setAttribute("username", user);
+				//sCont.setAttribute("image", found_acc.getUserpic());
+			//	sCont.setAttribute("id", found_acc.getUserId());
 				
 				/* All User List */
 				ArrayList<User> all_user = (ArrayList<User>) dao.allUserExcept(found_acc.getUserId());
-				sCont.setAttribute("alluser", all_user);
-				
+				//sCont.setAttribute("alluser", all_user);
+				session.setAttribute("alluser", all_user);
+				session.setAttribute("username", user);
+				session.setAttribute("image", found_acc.getUserpic());
+				session.setAttribute("id", found_acc.getUserId());
 		        response.sendRedirect("index.jsp");
 			} else {
 				HttpSession session = request.getSession();

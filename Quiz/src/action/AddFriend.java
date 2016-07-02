@@ -3,7 +3,6 @@ package action;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,9 +48,9 @@ public class AddFriend extends HttpServlet {
 		 *  */
 		UserManager usrM = (UserManager) getServletContext().getAttribute("userM");
 		UserDao usrD = usrM.getPersonDao();
-		ServletContext sCont = request.getServletContext();
+
 		try {
-			String name = (String) sCont.getAttribute("username");
+			String name = (String)  request.getSession().getAttribute("username");
 			User me = usrD.getUserByName(name);
 			String fr_name =  (String) request.getParameter("messageTo");
 			User user = usrD.getUserByName(fr_name);

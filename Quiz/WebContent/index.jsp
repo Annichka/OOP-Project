@@ -64,11 +64,11 @@
 			<script src="myscripts.js"></script>
 
 			<nav>
-				<% ServletContext sCont = request.getServletContext(); %>
+				<%// HttpSession session = request.getSession(); %>
 				<h2><a href="index.jsp">
-					<%= sCont.getAttribute("username") %>
+					<%= session.getAttribute("username") %>
 				</a></h2>
-				<img src="<%= sCont.getAttribute("image") %>" alt="<%= sCont.getAttribute("username") %>" style="width:90px;height:90px;"><br>
+				<img src="<%= session.getAttribute("image") %>" alt="<%= session.getAttribute("username") %>" style="width:90px;height:90px;"><br>
 				
 				<%@ include file="panel.jsp" %>
 								
@@ -94,7 +94,7 @@
 			<% UserManager uM = (UserManager) getServletContext().getAttribute("userM");
 				UserDao uDao = uM.getPersonDao();
 				MessagesDao mDao = ((MessageManager)getServletContext().getAttribute("mesM")).getMessageDao();
-				User me = uDao.getUserByName((String)sCont.getAttribute("username"));
+				User me = uDao.getUserByName((String)request.getSession().getAttribute("username"));
 				QuizDao qDao = uM.getQuizDao();
 				ArrayList<Quiz> allquiz = qDao.getQuizList();
 				ArrayList<Quiz> topquiz = qDao.getTopQuizes();

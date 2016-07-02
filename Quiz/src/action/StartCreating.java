@@ -34,8 +34,8 @@ public class StartCreating extends HttpServlet {
 		 * Redirects to Types-Page.
 		 * 
 		 * */
-		if (getServletContext().getAttribute("quizprocess") != null)
-			getServletContext().removeAttribute("quizprocess");
+		if (request.getSession().getAttribute("quizprocess") != null)
+			request.getSession().removeAttribute("quizprocess");
 		
 		UserManager uM =  (UserManager) getServletContext().getAttribute("userM");
 		QuizDao qzDao = uM.getQuizDao();
@@ -58,10 +58,10 @@ public class StartCreating extends HttpServlet {
 	    } else 
 	    	isMultiPage = 1;
 	    
-		Integer authorId = (Integer)getServletContext().getAttribute("id");
+		Integer authorId = (Integer)request.getSession().getAttribute("id");
 		String quizid = "" + qzDao.createNewQuiz(quizName, description, authorId, category, isRandom, isFinished, isMultiPage);
 		
-		getServletContext().setAttribute("quizprocess", quizid);
+		request.getSession().setAttribute("quizprocess", quizid);
 		response.sendRedirect("startQuestionTypes.jsp?quizid=" + quizid); //gadasvla questenebis gasaketebel page-ze
 	}
 

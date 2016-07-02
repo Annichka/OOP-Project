@@ -40,7 +40,7 @@ public class Challenge extends HttpServlet {
 
 		String quiz = (String) request.getParameter("quizid");
 		String toname = (String) request.getParameter("user");
-		String myname = (String) getServletContext().getAttribute("username");
+		String myname = (String)  request.getSession().getAttribute("username");
 		
 		UserManager um = (UserManager) getServletContext().getAttribute("userM");
 		QuizDao qd = um.getQuizDao();
