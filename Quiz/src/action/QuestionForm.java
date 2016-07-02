@@ -158,7 +158,7 @@ public class QuestionForm extends HttpServlet {
 		return html;
 	}
 	
-	private String MultipleChoiceAnswer(int wAnswCount, int cAnswCount, String type) 
+	private String MultipleChoiceAnswer(int cAnswCount, int wAnswCount, String type) 
 	{
 		String html = 
 				"<div class=\"form\">"  +
