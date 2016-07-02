@@ -102,7 +102,7 @@
 						<a href= <%= "showQuiz.jsp?quizid=" + qid %>>Edit quiz</a><br>
 					<% } %>
 					
-					<h4> <%="Author:   <a href=\"profile.jsp?profile=\"" + author + "\">" + author + "</a>" %></h4>
+					<h4> Author: &nbsp; <a href=<%= "profile.jsp?profile=" + author %>> <%= author %> </a></h4>
 					
 					<p><b>Description:</b> <i> <%= description %></i></p>
 

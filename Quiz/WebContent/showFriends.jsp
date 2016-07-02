@@ -88,7 +88,9 @@
 			
 			<% if (areFriends) { %>
 			<nav>
-				<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+				<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
+				
 				<img src="<%= usr.getUserpic() %>" alt="<%= usr.getUserName()%>" style="width:90px;height:90px;"/>
 				<div class="form">
 					<form action="Unfriend" method="post">
@@ -99,10 +101,12 @@
 				
 				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href="society.jsp"> Society </a><br>
 			</nav>
 		<% } else if (reverseRequested){%>
 				<nav>		
-				<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+				<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
 				
 				<img src="<%= usr.getUserpic() %>" alt="<%= usr.getUserName()%>" style="width:90px;height:90px;"/>
 	
@@ -122,9 +126,10 @@
 					
 		<% } else { %>
 			<nav>		
-				<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+				<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
 				
-				<img src="<%= usr.getUserpic() %>" alt="<%= usr.getUserName()%>" style="width:90px;height:90px;"/>
+				<img src= <%= usr.getUserpic() %> alt=<%= usr.getUserName()%> style="width:90px;height:90px;"/>
 	
 				<% if (isRequested) { %>
 					<div class="form">
@@ -160,9 +165,9 @@
 							<%User f =  udao.getUserById(frs.get(i).getFriendId());
 							String f_name = f.getUserName(); %>
 							
-							<div class="friends"> <a href= <%="profile.jsp?profile=" +  f_name %>> f_name </a><br>
+							<div class="friends"> <a href= <%="profile.jsp?profile=" +  f_name %>> <%= f_name %> </a><br>
 								<a href= <%="profile.jsp?profile=" + f_name %>>
-								<img src=<%=f.getUserpic() %> alt=<%= f_name %> 
+								<img src="<%=f.getUserpic() %>" alt= "<%= f_name %>" 
 								style="width:70px;height:70px;"> </a>
 							</div>
 								

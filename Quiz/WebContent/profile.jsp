@@ -53,10 +53,16 @@
 		<a href="index.jsp">Quiz Web Site</a>
 	</header>
 
+	<% if(logged_user_id == curr_user.getUserId()) { %>
+		<jsp:forward page = "index.jsp" />
+	<% } %>
+	
 	<% /* მეგობრობა */ %>
 	<% if (areFriends) { %>
 		<nav>
-			<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+			<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
+				
 			<img src="<%= curr_user.getUserpic() %>" alt="<%= curr_user.getUserName()%>" style="width:90px;height:90px;"/>
 			<div class="form">
 				<form action="Unfriend" method="post">
@@ -67,10 +73,12 @@
 			
 			<a href=<%= "showFriends.jsp?profile=" +  curr_user.getUserName() %>> Friends </a><br>
 			<a href=<%= "showHistory.jsp?profile=" +  curr_user.getUserName() %>> History </a><br>
+			<a href="society.jsp"> Society </a><br>
 		</nav>
 	<% } else if (reverseRequested){%>
 			<nav>		
-			<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+			<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
 			
 			<img src="<%= curr_user.getUserpic() %>" alt="<%= curr_user.getUserName()%>" style="width:90px;height:90px;"/>
 
@@ -84,11 +92,13 @@
 			
 			<a href=<%= "showFriends.jsp?profile=" +  curr_user.getUserName() %>> Friends </a><br>
 			<a href=<%= "showHistory.jsp?profile=" +  curr_user.getUserName() %>> History </a><br>
+			<a href="society.jsp"> Society </a><br>
 		</nav>
 				
 	<% } else { %>
 		<nav>		
-			<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+			<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
 			
 			<img src="<%= curr_user.getUserpic() %>" alt="<%= curr_user.getUserName()%>" style="width:90px;height:90px;"/>
 
@@ -121,7 +131,7 @@
 	<div class="content">
 		<h2> Send Message</h2>
 		<form action="SendNote" method="Post">
-		    <input type="text" placeholder="Write message..." name="note" />
+			<textarea placeholder="Write message..." rows=3 cols=25 name="note"></textarea><br>
 		    <input type="hidden" name="user" value=<%= curr_user.getUserName() %> />
 		    <button> Send note </button>
 		</form>

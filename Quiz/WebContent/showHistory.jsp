@@ -89,7 +89,9 @@
 			
 			<% if (areFriends) { %>
 			<nav>
-				<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+				<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
+				
 				<img src="<%= usr.getUserpic() %>" alt="<%= usr.getUserName()%>" style="width:90px;height:90px;"/>
 				<div class="form">
 					<form action="Unfriend" method="post">
@@ -98,12 +100,14 @@
 					</form>
 				</div>
 				
-				<input type="button" value="Friends" name= <%= usr.getUserName() %> onClick="friendList(this)"><br>
+				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href="society.jsp"> Society </a><br>
 			</nav>
 		<% } else if (reverseRequested){%>
 				<nav>		
-				<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+				<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
 				
 				<img src="<%= usr.getUserpic() %>" alt="<%= usr.getUserName()%>" style="width:90px;height:90px;"/>
 	
@@ -115,13 +119,15 @@
 				   </form>
 				</div>
 				
-				<input type="button" value="Friends" name= <%= usr.getUserName() %> onClick="friendList(this)"><br>
+				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href="society.jsp"> Society </a><br>
 			</nav>
 					
 		<% } else { %>
 			<nav>		
-				<p style="color:blue;"><%= request.getParameter("profile") %>'s Profile</p>
+				<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
+				<%= request.getParameter("profile") + "'s Profile" %></a></p>
 				
 				<img src="<%= usr.getUserpic() %>" alt="<%= usr.getUserName()%>" style="width:90px;height:90px;"/>
 	
@@ -153,8 +159,9 @@
 					<h2> History </h2>
 					<% for (int i=0; i<hist.size(); i++) { %>
 						<% String name = qdao.getNameByQuizId(hist.get(i).getQuiz_id()); %>				
-						<p> <%= (i+1) + ". " + name %> </p> <br>
-						<i>  <%= "     Score:  " + hist.get(i).getScore() %></i> <br> <br>	
+						<p> <%= (i+1) + ". " %> <a href=<%="startQuiz.jsp?quizid=" + hist.get(i).getQuiz_id() %>><%= name %></a>
+						&nbsp;&nbsp;&nbsp;
+						<i>  <%= "Score: " + hist.get(i).getScore() %></i> </p>	
 					 <% } %>
 				</div>								
 			</section>
