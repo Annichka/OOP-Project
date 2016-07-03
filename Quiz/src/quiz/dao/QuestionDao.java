@@ -138,8 +138,10 @@ public class QuestionDao {
 			try(ResultSet rslt = stmt.executeQuery("SELECT * FROM Questions WHERE id = " + id + ";")) {
 				if(rslt.next()) {
 					String type = rslt.getString("type");
-					if(type.equals("QR") || type.equals("FB")) {
+					if(type.equals("QR")) {
 						q = new QuestionResponse();
+					} else if(type.equals("FB")) {
+						q = new FillInTheBlank();
 					} else if(type.equals("PR")) {
 						q = new PictureResponse();
 						((PictureResponse) q).setPicUrl(rslt.getString("pic_url"));
