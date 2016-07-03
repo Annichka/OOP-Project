@@ -23,6 +23,7 @@ public class UserDao {
 		String sql = "INSERT INTO Users (username, pass, e_mail, pic_url) " + "VALUES('" + usr.getUserName()
 		+ "', '" + usr.getHashedPassword()+ "', '" + usr.getEMail() + "', '" + usr.getUserpic() +"')";
 		stmt.executeUpdate(sql);
+		addUserPriority(getUserByName(usr.getUserName()).getUserId(), 0);
 	}
 
 	public User getUserByName(String username) throws SQLException {
@@ -36,6 +37,7 @@ public class UserDao {
 					usr.setHashedPassword(rslt.getString("pass"));
 					usr.setEMail(rslt.getString("e_mail"));
 					usr.setPicURL(rslt.getString("pic_url"));
+					usr.setPriority(getUserPriority(usr.getUserId()));
 					return usr;
 				}
 				return null;
@@ -54,6 +56,7 @@ public class UserDao {
 					usr.setHashedPassword(rslt.getString("pass"));
 					usr.setEMail(rslt.getString("e_mail"));
 					usr.setPicURL(rslt.getString("pic_url"));
+					usr.setPriority(getUserPriority(usr.getUserId()));
 					lst.add(usr);
 				}
 				return lst;
@@ -72,6 +75,7 @@ public class UserDao {
 					usr.setHashedPassword(rslt.getString("pass"));
 					usr.setEMail(rslt.getString("e_mail"));
 					usr.setPicURL(rslt.getString("pic_url"));
+					usr.setPriority(getUserPriority(usr.getUserId()));
 					lst.add(usr);
 				}
 				return lst;
@@ -89,6 +93,7 @@ public class UserDao {
 					usr.setHashedPassword(rslt.getString("pass"));
 					usr.setEMail(rslt.getString("e_mail"));
 					usr.setPicURL(rslt.getString("pic_url"));
+					usr.setPriority(getUserPriority(usr.getUserId()));
 					return usr;
 				}
 				return null;
@@ -103,7 +108,7 @@ public class UserDao {
 				if (rslt.next()){
 					return rslt.getString("pass");
 				}
-					return null;
+				return null;
 			}
 		}
 	}
@@ -113,4 +118,34 @@ public class UserDao {
 			return false;
 		return true;
 	}
+	
+	public void addUserPriority(int user, int priority) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO administrators(user_id, priority) VALUES(?, ?)")) {
+			stmt.setInt(1, user);
+			stmt.setInt(2, priority);
+			stmt.executeUpdate();
+		}
+	}
+	
+	public void changePriority(int user, int priority) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("UPDATE administrators SET priority = ? WHERE user_id = ?")) {
+			stmt.setInt(1, priority);
+			stmt.setInt(2, user);
+			stmt.executeUpdate();
+		}
+	}
+	
+	public int getUserPriority(int user) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM administrators WHERE user_id = ?")) {
+			stmt.setInt(1, user);
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if (rslt.next()) {
+					int priority = rslt.getInt("priority");
+					return priority;
+				}
+				return 0;
+			}
+		}
+	}
+	
 }

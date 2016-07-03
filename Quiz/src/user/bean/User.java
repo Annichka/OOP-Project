@@ -13,6 +13,7 @@ public class User {
 	private String email;
 	private String userpic;
 	private String hashedpass;
+	private int priority;
 	
 	public List<Achievement> getAchievements() {
 		return achievements;
@@ -78,4 +79,13 @@ public class User {
 		Hasher hashing = new Hasher();
 		return this.hashedpass = hashing.getHashedPassword(password);
 	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+	
 }

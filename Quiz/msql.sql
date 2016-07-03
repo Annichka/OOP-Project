@@ -84,3 +84,10 @@ CREATE TABLE user_achievements(
 	achieve_id int(11) not null
 );
 
+CREATE TABLE administrators(
+	id int(4) not null auto_increment primary key,
+	user_id int(4) not null,
+	-- High priority means higher access level-- 
+	priority int(11) default 0
+);
+
