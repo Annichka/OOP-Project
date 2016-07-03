@@ -146,6 +146,7 @@ function displayQuestions(arg) {
     		qst.innerHTML = xhttp.responseText;
    		}
     };
+    alert("Sending quiz id" + quizid);
    	xhttp.open("GET", "DisplayQuestions?quizid=" + quizid, true)
    	xhttp.send()
 }
@@ -196,6 +197,7 @@ function friendList(obj) {
 
 function showQuiz(obj) {
 	var quizid = obj.name
+	console.log(obj);
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
     	if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -210,8 +212,8 @@ function showQuiz(obj) {
 
 function multiPageQuiz(obj) {
 	var quizid = obj.name;
-	if (quizid == null)
-		quizid = obj;
+	console.log("obj: " + obj);
+	
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
     	if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -220,7 +222,7 @@ function multiPageQuiz(obj) {
    		}
     };
     
-   	xhttp.open("GET", "StartMultiPageQuiz?quizid=" + quizid, true)
+   	xhttp.open("GET", "StartMultiPageQuiz?quizid=" + quizid, true);
    	xhttp.send()
 }
 
@@ -242,5 +244,39 @@ function challengeUser(obj) {
    	
    	xhttp.open("POST", "Challenge?user="+person + "&quizid=" + quizid, true)
    	xhttp.send()
+}
+
+function multiPageAdvance() {
+	var quizid = $("#quizid").val();
+	var question = $("#question").val();
+	var text = $("#callForm").serialize();
+	console.log("StartMultiPageQuiz?" + text);
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		var qst = document.getElementById("content")
+    		qst.innerHTML = xhttp.responseText;
+   		}
+    };
+    
+   	xhttp.open("POST", "StartMultiPageQuiz?" + text, true);
+   	xhttp.send();
+}
+
+function multiPageFinish() {
+	var quizid = $("#quizid").val();
+	var question = $("#question").val();
+	var text = $("#callForm").serialize();
+	console.log("StartMultiPageQuiz?" + text);
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+    	if (xhttp.readyState == 4 && xhttp.status == 200) {
+    		var qst = document.getElementById("content")
+    		$("html").html(xhttp.responseText);
+   		}
+    };
+    
+   	xhttp.open("POST", "StartMultiPageQuiz?" + text, true);
+   	xhttp.send();
 }
 
