@@ -111,6 +111,10 @@ public class StartMultiPageQuiz extends HttpServlet {
 		QuestionDao questionDao = manager.getQuestionDao();
 		
 		Integer quizID = Integer.parseInt((String) request.getParameter("quizid"));
+		Scoring sc = new Scoring();
+		
+		boolean displayMessage = false;
+		boolean correctAnswer = false;
 		
 		String questionStr = request.getParameter("question");
 		Integer questionNumber = 0;
@@ -159,7 +163,21 @@ public class StartMultiPageQuiz extends HttpServlet {
 			}
 			
 			current = questionList.get(questionNumber - 1);
-			answers.add(getAnswerType(request, current, questionNumber-1));
+			
+			ArrayList<String> currentAnswer = getAnswerType(request, current, questionNumber-1);
+			int ordered = 0;
+			if (current.getType().equals("MA")) {
+				ordered = ((MultiAnswer)current).getIsOrderd();
+			}
+			if (quiz.getCorrection() == 1) {
+				displayMessage = true;
+			}
+			correctAnswer = false;
+			int score = sc.getScore(current.getCAnswer(), currentAnswer, current.getType(), ordered);
+			if (score > 0) {
+				correctAnswer = true;
+			}
+			answers.add(currentAnswer);
 		}
 		
 		QuestionFormatter formatter = new QuestionFormatter();
@@ -169,6 +187,13 @@ public class StartMultiPageQuiz extends HttpServlet {
 		String html = "";
 		
 		html += "<br>\n";
+		if (displayMessage) {
+			if (correctAnswer) {
+				html += String.format("<span style='background: #00FF00;'> Your answer for question number %s was correct </span>", questionNumber);
+			} else {
+				html += String.format("<span style='background: RED;'> Your answer for question number %s was incorrect </span>", questionNumber);
+			}
+		}
 		html += "<form id=\"callForm\" onsubmit=\"return false;\">";
 		html += formatter.QuestionForm(current, questionNumber);
 		html += String.format("<input id=\"%s\" name=\"%s\" value=%s type=\"hidden\" /> <br>\n", "quizid", "quizid", quizID);
@@ -197,7 +222,6 @@ public class StartMultiPageQuiz extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			Scoring sc = new Scoring();
 			int score = sc.countForQuiz((ArrayList<Question>) questionList, answers);
 			int duration = SaveData(uid, quizID, score, starttime, endtime);
 			request.getSession().removeAttribute("answers");

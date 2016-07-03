@@ -95,7 +95,8 @@
 						<i>Category:</i> 
 						<%@ include file="quizCategories.jsp" %><br>
 						<i>Random Order:</i> <input type="checkbox" name="isRandom" value="random"><br>
-						<i>Multiple Page:</i> <input type="checkbox" name="multiPage" value="multi">
+						<i>Multiple Page:</i> <input type="checkbox" name="multiPage" value="multi"> <br>
+						<i>Correction:</i> <input type="checkbox" name="correction" value="correction">
 						<br><br>
 						<button>Start new Quiz</button>
 						

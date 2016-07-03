@@ -46,8 +46,10 @@ public class StartCreating extends HttpServlet {
 		int isRandom = -1;
 		int isFinished = 0;
 		int isMultiPage = -1;
+		int isCorrected = 0;
 		String[] random = request.getParameterValues("isRandom");
 	    String[] multiP = request.getParameterValues("multiPage");
+	    String[] correction = request.getParameterValues("correction");
 	    if(random == null) {
 	    	isRandom = 0;
 	    } else 
@@ -58,8 +60,13 @@ public class StartCreating extends HttpServlet {
 	    } else 
 	    	isMultiPage = 1;
 	    
+	    if(correction == null) {
+	    	isCorrected = 0;
+	    } else {
+	    	isCorrected = 1;
+	    }
 		Integer authorId = (Integer)request.getSession().getAttribute("id");
-		String quizid = "" + qzDao.createNewQuiz(quizName, description, authorId, category, isRandom, isFinished, isMultiPage);
+		String quizid = "" + qzDao.createNewQuiz(quizName, description, authorId, category, isRandom, isFinished, isMultiPage, isCorrected);
 		
 		request.getSession().setAttribute("quizprocess", quizid);
 		response.sendRedirect("startQuestionTypes.jsp?quizid=" + quizid); //gadasvla questenebis gasaketebel page-ze

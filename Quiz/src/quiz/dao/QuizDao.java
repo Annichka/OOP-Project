@@ -226,6 +226,32 @@ public class QuizDao {
 		return lastid;
 	}
 	
+	public int createNewQuiz(String quizName, String description, int authorId, String category, int isRandom, int finished, int multiPage, int correction) {
+		
+		try {
+			Statement stmt = (Statement) conn.createStatement();
+			String sql = "INSERT INTO Quizes(quiz_name, author_id, description, category, multiPage, isRandom, correction, practice, finished)"
+				+ "VALUES('" + quizName +"', "+ authorId + ", '" + description + "', '" + category +"', "+ multiPage + ", "  +isRandom + ", "
+						+ correction + ", 0, " + finished + ")";
+			stmt.executeUpdate(sql);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		int lastid = -1;
+		try (Statement stmt2 = conn.createStatement()) {
+			try(ResultSet rslt = stmt2.executeQuery("SELECT * FROM Quizes WHERE author_id = " + authorId +" "
+					+ "ORDER BY quiz_id DESC;")) {
+				if(rslt.next()) {
+					lastid = rslt.getInt("quiz_id");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lastid;
+	}
+	
 	public ArrayList<Quiz> getTopQuizes() {
 		ArrayList<Quiz> top= new ArrayList<>();
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Quizes WHERE finished = 1 ORDER BY filled DESC;")) {
