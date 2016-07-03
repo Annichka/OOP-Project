@@ -4,3 +4,6 @@
 =======
 *.classpath
 >>>>>>> branch 'master' of https://github.com/Annichka/OOP-Project.git
+bin/
+.settings/*
+src/connection/MyDBInfo.java
