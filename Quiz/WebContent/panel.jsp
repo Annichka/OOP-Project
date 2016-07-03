@@ -9,6 +9,7 @@
 	<a href="requests.jsp"> Requests </a><br>
 	<a href="myChallenges.jsp"> Challenges </a><br>
 	<a href="notes.jsp"> Notes </a><br>
+	<a href="Achievements"> Achievements </a><br>
 	<a href= "myHistory.jsp?"> History </a><br>
 	<a href="myQuizes.jsp"> My Quizes </a><br>
 	<a href="society.jsp"> Society </a><br>

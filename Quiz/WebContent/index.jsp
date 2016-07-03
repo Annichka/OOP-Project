@@ -119,7 +119,7 @@
 					</div>
 					
 					<div class="boxes">
-					<p> Top Quizes </p>
+					<p> Top Quizzes </p>
 						<% for (int i = 0; i < topquiz.size(); i++) { %>						
 								<a href=<%= "startQuiz.jsp?quizid=" +  topquiz.get(i).getQuizId() 
 								%>><%= (i+1) +". " + topquiz.get(i).getQuizName() %></a><br>	  
@@ -127,7 +127,7 @@
 					</div> 
 					
 					<div class="boxes">
-					<p> New Quizes </p>
+					<p> New Quizzes </p>
 						<% for (int i = 0; i < newquiz.size(); i++) { %>						
 								<a href=<%= "startQuiz.jsp?quizid=" +  newquiz.get(i).getQuizId()
 								%>><%= (i+1) +". " + newquiz.get(i).getQuizName() %></a><br>	  

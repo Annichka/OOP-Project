@@ -43,7 +43,6 @@ public class StartMultiPageQuiz extends HttpServlet {
      */
     public StartMultiPageQuiz() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     private ArrayList<String> getAnswerType(HttpServletRequest request, Question q, int i) {
