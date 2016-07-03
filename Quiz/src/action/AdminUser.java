@@ -90,7 +90,10 @@ public class AdminUser extends HttpServlet {
 		String action = request.getParameter("action");
 		int user = Integer.parseInt(request.getParameter("user_id"));
 		try {
-			if (action.equals("Remove Account")) {
+			int adminID = (int) request.getSession().getAttribute("id");
+			User admin = userDao.getUserById(adminID);
+			User item = userDao.getUserById(user);
+			if (admin.getPriority() > item.getPriority() && action.equals("Remove Account")) {
 				userDao.removeAccount(user);
 				String html = "<div class='message thank-message'>";
 				html += String.format("<p> <strong> User %s has been removed </p> </strong>", user);
@@ -98,8 +101,7 @@ public class AdminUser extends HttpServlet {
 				response.getWriter().write(html);
 				return;
 			}
-			if (action.equals("Save Changes")) {
-				User item = userDao.getUserById(user);
+			if (admin.getPriority() > item.getPriority() && action.equals("Save Changes")) {
 				String email = request.getParameter("user_email");
 				if (email == null || email.equals("")) {
 					email = item.getEMail();
@@ -112,20 +114,16 @@ public class AdminUser extends HttpServlet {
 				if (priorityString == null || priorityString.equals("")) {
 					priorityString = "" + item.getPriority();
 				}
-				int adminID = (int) request.getSession().getAttribute("id");
-				User admin = userDao.getUserById(adminID);
-				if (admin.getPriority() >= item.getPriority()) {
-					item.setEMail(email);
-					item.setUserName(name);
-					item.setPriority(Integer.parseInt(priorityString));
-					item.setUserId(user);
-					userDao.updateUser(user, item);
-					String html = "<div class='message thank-message'>";
-					html += String.format("<p> <strong> User %s has been updated </p> </strong>", user);
-					html += "</div>";
-					response.getWriter().write(html);
-					return;
-				}
+				item.setEMail(email);
+				item.setUserName(name);
+				item.setPriority(Integer.parseInt(priorityString));
+				item.setUserId(user);
+				userDao.updateUser(user, item);
+				String html = "<div class='message thank-message'>";
+				html += String.format("<p> <strong> User %s has been updated </p> </strong>", user);
+				html += "</div>";
+				response.getWriter().write(html);
+				return;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

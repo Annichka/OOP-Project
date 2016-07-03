@@ -51,11 +51,7 @@ public class AdminLogin extends HttpServlet {
 			if (found_acc != null && found_acc.getHashedPassword().equals(acc.getHashedPassword()) && found_acc.getPriority() > 0) {
 				HttpSession session = request.getSession();
 		        session.setAttribute("authorized", true);
-				//ServletContext sCont = request.getServletContext();
-				//sCont.setAttribute("username", user);
-				//sCont.setAttribute("image", found_acc.getUserpic());
-			//	sCont.setAttribute("id", found_acc.getUserId());
-				
+		        
 				/* All User List */
 				session.setAttribute("id", found_acc.getUserId());
 		        response.sendRedirect("adminpanel.jsp");
@@ -73,7 +69,6 @@ public class AdminLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
