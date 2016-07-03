@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import manager.AchievementManager;
 import manager.UserManager;
 import quiz.dao.QuizDao;
 
@@ -67,6 +68,9 @@ public class StartCreating extends HttpServlet {
 	    }
 		Integer authorId = (Integer)request.getSession().getAttribute("id");
 		String quizid = "" + qzDao.createNewQuiz(quizName, description, authorId, category, isRandom, isFinished, isMultiPage, isCorrected);
+		
+		AchievementManager manager = new AchievementManager(uM);
+		manager.addAchievement(authorId);
 		
 		request.getSession().setAttribute("quizprocess", quizid);
 		response.sendRedirect("startQuestionTypes.jsp?quizid=" + quizid); //gadasvla questenebis gasaketebel page-ze

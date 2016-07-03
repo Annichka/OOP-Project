@@ -1,15 +1,30 @@
 package user.bean;
 
+import java.util.List;
+
 import action.Hasher;
 
 public class User {
 
 	private int user_id;
+	private List<Achievement> achievements;
 	private String username;
 	private String password;
 	private String email;
 	private String userpic;
 	private String hashedpass;
+	
+	public List<Achievement> getAchievements() {
+		return achievements;
+	}
+	
+	public void setAchievements(List<Achievement> achievements) {
+		this.achievements = achievements;
+	}
+	
+	public void addAchievement(Achievement achievement) {
+		this.achievements.add(achievement);
+	}
 
 	public void setUserId(int user_id) {
 		this.user_id = user_id;

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import manager.AchievementManager;
 import manager.QuestionFormatter;
 import manager.UserManager;
 import quiz.bean.FillInTheBlank;
@@ -105,6 +106,7 @@ public class StartMultiPageQuiz extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserManager manager = (UserManager) getServletContext().getAttribute("userM");
 		QuizDao quizDao = manager.getQuizDao();
@@ -151,7 +153,6 @@ public class StartMultiPageQuiz extends HttpServlet {
 			request.getSession().setAttribute("starttime", dateFormat.format(date));
 			
 		} else {
-			BufferedReader reader = request.getReader();
 			try {
 				quiz = quizDao.getQuizById(quizID);
 			} catch (SQLException e) {
@@ -224,6 +225,9 @@ public class StartMultiPageQuiz extends HttpServlet {
 			
 			int score = sc.countForQuiz((ArrayList<Question>) questionList, answers);
 			int duration = SaveData(uid, quizID, score, starttime, endtime);
+			
+			AchievementManager achieveManager = new AchievementManager(manager);
+			achieveManager.addHighScoreAchievement(uid, quizID);
 			request.getSession().removeAttribute("answers");
 			request.getSession().removeAttribute("question_ids");
 			response.sendRedirect("quizFinished.jsp?quizid=" + quizID + "&score="+score + "&time=" + duration);

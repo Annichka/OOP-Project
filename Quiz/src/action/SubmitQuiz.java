@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import manager.AchievementManager;
 import manager.UserManager;
 import quiz.bean.FillInTheBlank;
 import quiz.bean.History;
@@ -148,6 +149,9 @@ public class SubmitQuiz extends HttpServlet {
 		Scoring sc = new Scoring();
 		int score = sc.countForQuiz(qstlist, answers);
 		int duration = SaveData(uid, qid, score, starttime, endtime);
+		
+		AchievementManager achieveManager = new AchievementManager(um);
+		achieveManager.addHighScoreAchievement(uid, qid);
 		
 		response.sendRedirect("quizFinished.jsp?quizid=" + qid + "&score="+score + "&time=" + duration);
 	}

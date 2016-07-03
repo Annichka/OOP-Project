@@ -72,3 +72,15 @@ CREATE TABLE Categories (
 	id int(2) not null auto_increment primary key,
     c_name varchar(100) not null
 );
+
+CREATE TABLE achievements(
+	id int(11) not null auto_increment primary key,
+	name varchar(30) not null,
+	description varchar(100) not null
+);
+
+CREATE TABLE user_achievements(
+	user_id int(4) not null,
+	achieve_id int(11) not null
+);
+
