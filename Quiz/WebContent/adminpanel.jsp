@@ -7,6 +7,7 @@
 	<title>Free CSS template by ChocoTemplates.com</title>
 	<link rel="stylesheet" href="style/admin.css" type="text/css" media="all" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<script src="http://malsup.github.com/jquery.form.js"></script> 
 	<script src="js/script.js"></script>
 </head>
 <body>

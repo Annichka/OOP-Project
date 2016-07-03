@@ -47,6 +47,32 @@ a:hover { color:#000; }
 }
 
 
+.user_edit {
+	padding: 25px;
+	margin: 10px;
+	font-weight: bold;
+}
+
+.user_edit input {
+	position: absolute;
+	left: 100px;
+	padding: 5px;
+	display: inline-block;
+}
+
+.input_item {
+	height: 30px;
+	position: relative;
+	padding: 5px;
+	display: block;
+	margin: 10px;
+}
+
+.input_text {
+	display: inline-block;
+}
+
+
 h1, h2, h3, h4, h5 { font-family: "Trebuchet MS", Arial, sans-serif; padding-bottom:8px; }
 h1 { font-size:18px; line-height:22px; }
 h2 { font-size:17px; line-height:21px; }

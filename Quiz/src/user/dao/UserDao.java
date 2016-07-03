@@ -113,6 +113,23 @@ public class UserDao {
 		}
 	}
 	
+	public void updateUser(int id, User user) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("UPDATE Users SET username = ?, e_mail = ? WHERE user_id = ?")) {
+			stmt.setString(1, user.getUserName());
+			stmt.setString(2, user.getEMail());
+			stmt.setInt(3, id);
+			stmt.executeUpdate();
+			changePriority(id, user.getPriority());
+		}
+	}
+	
+	public void removeAccount(int user) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Users WHERE user_id = ?")) {
+			stmt.setInt(1, user);
+			stmt.executeUpdate();
+		}
+	}
+	
 	public boolean accountExists(String username) throws SQLException {
 		if(getUserByName(username) == null)
 			return false;
@@ -129,6 +146,7 @@ public class UserDao {
 	
 	public void changePriority(int user, int priority) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("UPDATE administrators SET priority = ? WHERE user_id = ?")) {
+			System.out.println(user + " " + priority);
 			stmt.setInt(1, priority);
 			stmt.setInt(2, user);
 			stmt.executeUpdate();
