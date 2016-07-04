@@ -77,72 +77,78 @@
 		 		</form>
 				
 			</nav>
-			<section>
 			
-			<%@ page import="java.util.List" %>
-			<%@ page import="quiz.bean.*" %>
-			<%@ page import="java.util.ArrayList" %>
-			<%@ page import="manager.*" %>
-			<%@ page import="quiz.dao.*" %>
-			<%@ page import="user.dao.*" %>
-			<%@ page import="user.bean.*" %>
-			<%@ page import="java.io.IOException" %>
-			<%@ page import="java.sql.SQLException" %>
-			<%@ page import ="javax.servlet.ServletContext" %>
-			<%@ page import ="java.util.*" %>
-			
-			<% UserManager uM = (UserManager) getServletContext().getAttribute("userM");
-				UserDao uDao = uM.getPersonDao();
-				MessagesDao mDao = ((MessageManager)getServletContext().getAttribute("mesM")).getMessageDao();
-				User me = uDao.getUserByName((String)request.getSession().getAttribute("username"));
-				QuizDao qDao = uM.getQuizDao();
-				ArrayList<Quiz> allquiz = qDao.getQuizList();
-				ArrayList<Quiz> topquiz = qDao.getTopQuizes();
-				ArrayList<Quiz> newquiz = qDao.getNewQuizes();
-				ArrayList<String> categ = qDao.getCategories();
-				//ArrayList<History> friends = qDao.getFriendsLastActivities(me.getUserId());
-				//ArrayList<History> notCreated = qDao.getRecentNeverCreated(me.getUserId());	
-				//List<Messages> unseen = mDao.getUnseen(me.getUserId(), "friendrequests");
-			%>
-				<div id="content">
-					<h3 style="color: red;">ადმინისტრაციის წერილი: ქვიზი 1 - ვინ ცხოვრებს ყველაზე მაღალ სართულზე?</h3>
-
-					<div class="boxes">
-					<p> Quiz List </p>
-						<% for (int i = 0; i < allquiz.size(); i++) { %>
-							<% if (i > 10) {
-								break; 
-							}%>							
-								<a href=<%= "startQuiz.jsp?quizid=" +  allquiz.get(i).getQuizId() 
-								%>><%= (i+1) +". " + allquiz.get(i).getQuizName() %></a><br>	  
-						<% } %>
+			<% if(session.getAttribute("deactivated") != null) { %>
+				<section> <h1> <%= session.getAttribute("deactivated") + "'s account is Deactivated" %></h1></section>
+				<% session.removeAttribute("deactivated"); %>
+			<% } else { %>
+				<section>
+				
+				<%@ page import="java.util.List" %>
+				<%@ page import="quiz.bean.*" %>
+				<%@ page import="java.util.ArrayList" %>
+				<%@ page import="manager.*" %>
+				<%@ page import="quiz.dao.*" %>
+				<%@ page import="user.dao.*" %>
+				<%@ page import="user.bean.*" %>
+				<%@ page import="java.io.IOException" %>
+				<%@ page import="java.sql.SQLException" %>
+				<%@ page import ="javax.servlet.ServletContext" %>
+				<%@ page import ="java.util.*" %>
+				
+				<% UserManager uM = (UserManager) getServletContext().getAttribute("userM");
+					UserDao uDao = uM.getPersonDao();
+					MessagesDao mDao = ((MessageManager)getServletContext().getAttribute("mesM")).getMessageDao();
+					User me = uDao.getUserByName((String)request.getSession().getAttribute("username"));
+					QuizDao qDao = uM.getQuizDao();
+					ArrayList<Quiz> allquiz = qDao.getQuizList();
+					ArrayList<Quiz> topquiz = qDao.getTopQuizes();
+					ArrayList<Quiz> newquiz = qDao.getNewQuizes();
+					ArrayList<String> categ = qDao.getCategories();
+					//ArrayList<History> friends = qDao.getFriendsLastActivities(me.getUserId());
+					//ArrayList<History> notCreated = qDao.getRecentNeverCreated(me.getUserId());	
+					//List<Messages> unseen = mDao.getUnseen(me.getUserId(), "friendrequests");
+				%>
+					<div id="content">
+						<h3 style="color: red;">ადმინისტრაციის წერილი: ქვიზი 1 - ვინ ცხოვრებს ყველაზე მაღალ სართულზე?</h3>
+	
+						<div class="boxes">
+						<p> Quiz List </p>
+							<% for (int i = 0; i < allquiz.size(); i++) { %>
+								<% if (i > 10) {
+									break; 
+								}%>							
+									<a href=<%= "startQuiz.jsp?quizid=" +  allquiz.get(i).getQuizId() 
+									%>><%= (i+1) +". " + allquiz.get(i).getQuizName() %></a><br>	  
+							<% } %>
+						</div>
+						
+						<div class="boxes">
+						<p> Top Quizzes </p>
+							<% for (int i = 0; i < topquiz.size(); i++) { %>						
+									<a href=<%= "startQuiz.jsp?quizid=" +  topquiz.get(i).getQuizId() 
+									%>><%= (i+1) +". " + topquiz.get(i).getQuizName() %></a><br>	  
+							<% } %>
+						</div> 
+						
+						<div class="boxes">
+						<p> New Quizzes </p>
+							<% for (int i = 0; i < newquiz.size(); i++) { %>						
+									<a href=<%= "startQuiz.jsp?quizid=" +  newquiz.get(i).getQuizId()
+									%>><%= (i+1) +". " + newquiz.get(i).getQuizName() %></a><br>	  
+							<% } %>
+						</div>
+						
+						<div class="boxes">
+						<p> Quiz Categories </p>
+							<% for (int i = 0; i < categ.size(); i++) { %>						
+									<input type="submit" value="<%=categ.get(i) %>" name="<%=categ.get(i) %>" onClick="categoryQuizes(this)"><br>	  
+							<% } %>
+						</div>
+						
 					</div>
-					
-					<div class="boxes">
-					<p> Top Quizzes </p>
-						<% for (int i = 0; i < topquiz.size(); i++) { %>						
-								<a href=<%= "startQuiz.jsp?quizid=" +  topquiz.get(i).getQuizId() 
-								%>><%= (i+1) +". " + topquiz.get(i).getQuizName() %></a><br>	  
-						<% } %>
-					</div> 
-					
-					<div class="boxes">
-					<p> New Quizzes </p>
-						<% for (int i = 0; i < newquiz.size(); i++) { %>						
-								<a href=<%= "startQuiz.jsp?quizid=" +  newquiz.get(i).getQuizId()
-								%>><%= (i+1) +". " + newquiz.get(i).getQuizName() %></a><br>	  
-						<% } %>
-					</div>
-					
-					<div class="boxes">
-					<p> Quiz Categories </p>
-						<% for (int i = 0; i < categ.size(); i++) { %>						
-								<input type="submit" value="<%=categ.get(i) %>" name="<%=categ.get(i) %>" onClick="categoryQuizes(this)"><br>	  
-						<% } %>
-					</div>
-					
-				</div>
-			</section>
+				</section>
+			<% } %>
 		<% } %>
 		
 <aside>

@@ -101,6 +101,7 @@
 				
 				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href=<%= "showUsersQuizes.jsp?profile=" +  usr.getUserName() %>> Quizes </a><br>
 				<a href="society.jsp"> Society </a><br>
 			</nav>
 		<% } else if (reverseRequested){%>
@@ -120,6 +121,7 @@
 				
 				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href=<%= "showUsersQuizes.jsp?profile=" +  usr.getUserName() %>> Quizes </a><br>
 				<a href="society.jsp"> Society </a><br>
 				
 			</nav>
@@ -150,6 +152,7 @@
 				
 				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
+				<a href=<%= "showUsersQuizes.jsp?profile=" +  usr.getUserName() %>> Quizes </a><br>
 				<a href="society.jsp"> Society </a><br>
 			</nav>
 		<% } %>

@@ -72,18 +72,17 @@
 			User usr = null;
 			Integer logged_user_id = (Integer) session.getAttribute("id");
 			FriendsDao fDao = ((FriendManager)getServletContext().getAttribute("friM")).getFriendDao();
-			ArrayList<quiz.bean.History> hist = null;
-
+	
 			try {
-				usr = udao.getUserByName(username);
-				hist = qdao.getUserHistory(usr.getUserId());
+				usr = udao.getUserByName(username);				
 			 } catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				 e.printStackTrace();
 			}
 			boolean areFriends = fDao.isFriend(logged_user_id, usr.getUserId());
 			boolean isRequested = fDao.isRequested(logged_user_id, usr.getUserId());
 			boolean reverseRequested = fDao.isRequested(usr.getUserId(), logged_user_id);
+			
+			ArrayList<Friends> frs = (ArrayList<Friends>) fDao.getFriendList(usr.getUserId());
 			
 			%>
 			
@@ -116,7 +115,6 @@
 				  <form action="AcceptRequest" method="post">
 				  	<input type="hidden" name="acceptfrom" value="<%=usr.getUserName() %>">
 				  	<input type="hidden" name="returntouser" value="<%=usr.getUserName() %>">
-				  	
 				    <input type="submit" value="Accept Request" />
 				   </form>
 				</div>
@@ -125,6 +123,7 @@
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
 				<a href=<%= "showUsersQuizes.jsp?profile=" +  usr.getUserName() %>> Quizes </a><br>
 				<a href="society.jsp"> Society </a><br>
+				
 			</nav>
 					
 		<% } else { %>
@@ -132,7 +131,7 @@
 				<p style="color:blue;"> <a href=<%= "profile.jsp?profile=" + request.getParameter("profile") %>>
 				<%= request.getParameter("profile") + "'s Profile" %></a></p>
 				
-				<img src="<%= usr.getUserpic() %>" alt="<%= usr.getUserName()%>" style="width:90px;height:90px;"/>
+				<img src= <%= usr.getUserpic() %> alt=<%= usr.getUserName()%> style="width:90px;height:90px;"/>
 	
 				<% if (isRequested) { %>
 					<div class="form">
@@ -150,23 +149,25 @@
 					 </div>
 				<% } %>
 				
+				
 				<a href=<%= "showFriends.jsp?profile=" +  usr.getUserName() %>> Friends </a><br>
 				<a href=<%= "showHistory.jsp?profile=" +  usr.getUserName() %>> History </a><br>
 				<a href=<%= "showUsersQuizes.jsp?profile=" +  usr.getUserName() %>> Quizes </a><br>
 				<a href="society.jsp"> Society </a><br>
 			</nav>
 		<% } %>
-			
+			<% 
+			UserDao uDao = ((UserManager)getServletContext().getAttribute("userM")).getPersonDao();
+			User curr_user = uDao.getUserByName(request.getParameter("profile"));
+			QuizDao qDao = ((UserManager)getServletContext().getAttribute("userM")).getQuizDao();
+			ArrayList<Quiz> quizes = qDao.getQuizByCreator(curr_user.getUserId());
+			%>
 			<section>
 				<div id="content">
 					<br> 
-					<h2> History </h2>
-					<% for (int i=0; i<hist.size(); i++) { %>
-						<% String name = qdao.getNameByQuizId(hist.get(i).getQuiz_id()); %>				
-						<p> <%= (i+1) + ". " %> <a href=<%="startQuiz.jsp?quizid=" + hist.get(i).getQuiz_id() %>><%= name %></a>
-						&nbsp;&nbsp;&nbsp;
-						<i>  <%= "Score: " + hist.get(i).getScore() %></i> </p>	
-					 <% } %>
+					<% for (int i=0; i<quizes.size(); i++) { %>
+						<%= (i+1) + ". " %> <a href=<%="startQuiz.jsp?quizid=" + quizes.get(i).getQuizId() %>> <%= quizes.get(i).getQuizName() %></a> <br>
+					<% } %>
 				</div>								
 			</section>
 		<% } %>
