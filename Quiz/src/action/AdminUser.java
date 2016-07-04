@@ -50,6 +50,7 @@ public class AdminUser extends HttpServlet {
 			while ((line = reader.readLine()) != null) {
 				userHtml += line;
 			}
+			reader.close();
 			if (request.getParameter("user_id") == null) {
 				for (User user: users) {
 					line = new String(userHtml);

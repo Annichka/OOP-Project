@@ -26,4 +26,12 @@ $(function() {
 				$("#content").html(data);
 		});
 	});
+	
+	$("#content").on("click", ".quiz_button", function(event) {
+		var quiz = $(this).parents(".quiz").attr("id");
+		var target = "/Quiz/AdminQuiz?quiz_id=" + quiz + "&action=" + $(this).data("action");
+		$.post(target, function(data, status) {
+			$("#content").html(data);
+		});
+	});
 });

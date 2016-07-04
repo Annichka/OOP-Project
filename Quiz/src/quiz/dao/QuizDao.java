@@ -164,6 +164,11 @@ public class QuizDao {
 					Quiz curr_quiz = new Quiz();
 					curr_quiz.setQuizId(rslt.getInt("quiz_id"));
 					curr_quiz.setQuizName(rslt.getString("quiz_name"));
+					curr_quiz.setDescription(rslt.getString("description"));
+					curr_quiz.setAuthorId(rslt.getInt("author_id"));
+					curr_quiz.setRandomized(rslt.getInt("isRandom"));
+					curr_quiz.setPages(rslt.getInt("multiPage"));
+					curr_quiz.setCorrection(rslt.getInt("correction"));
 					quiz_list.add(curr_quiz);
 				}
 				return quiz_list;
@@ -425,7 +430,7 @@ public class QuizDao {
 	
 	public int getBestScore(int userid, int quizid) {
 		int score = 0;
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History Where user_id = " 
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM History WHERE user_id = " 
 				+ userid + " AND quiz_id = " + quizid + ";")) {
 			try (ResultSet rslt = stmt.executeQuery()) {
 				while (rslt.next()) {
@@ -439,5 +444,12 @@ public class QuizDao {
 				e.printStackTrace();
 			}
 		return score;
+	}
+	
+	public void deleteHistory(int quiz) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM History WHERE quiz_id = ?")) {
+			stmt.setInt(1, quiz);
+			stmt.executeUpdate();
+		}
 	}
 }
