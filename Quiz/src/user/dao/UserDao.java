@@ -124,7 +124,7 @@ public class UserDao {
 	}
 	
 	public void removeAccount(int user) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("UPDATE Users SET deleted = 0 WHERE user_id = ?")) {
+		try (PreparedStatement stmt = conn.prepareStatement("UPDATE Users SET deleted = 1 WHERE user_id = ?")) {
 			stmt.setInt(1, user);
 			stmt.executeUpdate();
 		}
