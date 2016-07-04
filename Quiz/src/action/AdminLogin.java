@@ -2,6 +2,7 @@ package action;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,7 +52,11 @@ public class AdminLogin extends HttpServlet {
 				HttpSession session = request.getSession();
 		        session.setAttribute("authorized", true);
 		        
+		        ArrayList<User> all_user = (ArrayList<User>) dao.allUserExcept(found_acc.getUserId());
 				/* All User List */
+		        session.setAttribute("alluser", all_user);
+				session.setAttribute("username", user);
+				session.setAttribute("image", found_acc.getUserpic());
 				session.setAttribute("id", found_acc.getUserId());
 		        response.sendRedirect("adminpanel.jsp");
 			} else {

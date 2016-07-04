@@ -39,8 +39,38 @@ public class AdminQuiz extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserManager userManager = (UserManager) getServletContext().getAttribute("userM");
+		
+		// Check if user is authorized to access admin panel
+		Object authorized = request.getSession().getAttribute("authorized");
+		Object userAccess = request.getSession().getAttribute("id");
+		if (authorized == null || userAccess == null) {
+			response.sendRedirect("admin.jsp");
+			request.getSession().setAttribute("authorized", false);
+			return;
+		}
+		boolean isAuthorized = (boolean) authorized;
+		int userStr = (int) userAccess;
+		if (userStr == 0 || isAuthorized == false) {
+			response.sendRedirect("admin.jsp");
+			return;
+		}
+		UserDao dao = userManager.getPersonDao();
+		User accessUser = null;
+		try {
+			accessUser = dao.getUserById(userStr);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (accessUser == null || accessUser.getPriority() == 0) {
+			response.sendRedirect("admin.jsp");
+			request.getSession().setAttribute("authorized", false);
+			return;
+		}
+		// End of check if user is authorized to access admin panel
+		
 		QuizDao quizDao = userManager.getQuizDao();
 		UserDao userDao = userManager.getPersonDao();
+		
 		String html = "";
 		try {
 			List<Quiz> quizList = quizDao.getQuizList();
