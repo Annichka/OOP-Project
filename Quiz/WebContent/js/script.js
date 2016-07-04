@@ -34,4 +34,6 @@ $(function() {
 			$("#content").html(data);
 		});
 	});
+	
+	$("#adminStatistic").trigger("click");
 });

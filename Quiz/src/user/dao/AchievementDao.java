@@ -105,5 +105,16 @@ public class AchievementDao {
 			return stmt.executeUpdate(); 
 		}
 	}
+
+	public int getAchievementCount() throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT count(*) as achieve_count FROM achievements")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if (rslt.next()) {
+					return rslt.getInt("achieve_count");
+				}
+			}
+		}
+		return 0;
+	}
 	
 }

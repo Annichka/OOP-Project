@@ -118,6 +118,7 @@ a:hover { color:#000; }
 	left: 0px;
 	margin-left: 30px;
 	margin-right: 30px;
+	cursor: pointer;
 }
 .quiz_buttons {
 	text-align: center;
@@ -128,6 +129,33 @@ a:hover { color:#000; }
 	line-height: 65px;
 	top: 166px;
 	border-radius: 0px 0 12px 12px;
+}
+
+.statistics {
+	width: 350px;
+	height: 200px;
+	border: 1px solid black;
+	border-radius: 12px;
+	padding: 15px;
+	display: inline-block;
+	position: relative;
+	margin-right: 10px;
+	vertical-align: top;
+	margin-bottom: 10px;
+}
+.stat_title {
+	width: 350px;
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
+	border-bottom: 1px solid black;
+}
+.stat_value, .stat_description {
+	width: 350px;
+	text-align: left;
+	font-size: 16px;
+	font-style: italic;
+	margin-top: 30px;
 }
 
 h1, h2, h3, h4, h5 { font-family: "Trebuchet MS", Arial, sans-serif; padding-bottom:8px; }

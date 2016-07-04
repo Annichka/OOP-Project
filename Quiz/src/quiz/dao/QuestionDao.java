@@ -227,4 +227,15 @@ public class QuestionDao {
 		}
 	}
 
+	public int getQuestionCount() throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT count(*) as questions FROM Questions")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if (rslt.next()) {
+					return rslt.getInt("questions");
+				}
+			}
+		}
+		return 0;
+	}
+
 }

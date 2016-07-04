@@ -452,4 +452,15 @@ public class QuizDao {
 			stmt.executeUpdate();
 		}
 	}
+
+	public int getHistoryCount() throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT count(*) as history_count FROM achievements")) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if (rslt.next()) {
+					return rslt.getInt("history_count");
+				}
+			}
+		}
+		return 0;
+	}
 }
