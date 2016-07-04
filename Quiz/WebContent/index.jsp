@@ -83,7 +83,6 @@
 				<% session.removeAttribute("deactivated"); %>
 			<% } else { %>
 				<section>
-				
 				<%@ page import="java.util.List" %>
 				<%@ page import="quiz.bean.*" %>
 				<%@ page import="java.util.ArrayList" %>
