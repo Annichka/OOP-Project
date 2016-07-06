@@ -209,9 +209,9 @@ public class QuizDao {
 			
 		try {
 			Statement stmt = (Statement) conn.createStatement();
-			String sql = "INSERT INTO Quizes(quiz_name, author_id, description, category, multiPage, isRandom, correction, practice, finished)"
+			String sql = "INSERT INTO Quizes(quiz_name, author_id, description, category, multiPage, isRandom, correction, practice, finished, filled)"
 				+ "VALUES('" + quizName +"', "+ authorId + ", '" + description + "', '" + category +"', "+ multiPage + ", "  +isRandom + ", "
-						+ "0, 0, " + finished + ")";
+						+ "0, 0, " + finished + ", 0)";
 			stmt.executeUpdate(sql);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -372,11 +372,9 @@ public class QuizDao {
 		ArrayList<String> cat= new ArrayList<>();
 		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Categories;")) {
 			try (ResultSet rslt = stmt.executeQuery()) {
-				for(int i=0; i<5; i++) {
-					if (rslt.next()) {
-						String c = rslt.getString("c_name");
-						cat.add(c);
-					}
+				while (rslt.next()) {
+					String c = rslt.getString("c_name");
+					cat.add(c);
 				}
 				return cat;
 			}
@@ -463,4 +461,25 @@ public class QuizDao {
 		}
 		return 0;
 	}
+	
+	public void quizFilled(int quizid) {
+		int was = -1;
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM quizes WHERE quiz_id=" + quizid)) {
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if(rslt.next()) {
+					was = rslt.getInt("filled");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		was = was + 1;
+		try (PreparedStatement stmt2 = conn.prepareStatement(""
+				+ "UPDATE Quizes SET filled = " +was + " WHERE quiz_id=" +quizid)) {
+			stmt2.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

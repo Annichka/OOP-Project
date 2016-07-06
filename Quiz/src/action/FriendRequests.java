@@ -78,7 +78,6 @@ public class FriendRequests extends HttpServlet {
 					  		"<input type=\"hidden\" name=\"cancelTo\" value=\"" + sender_name + "\">"+ 
 						    "<input type=\"submit\" value=\"Cancel\" />"+
 						 "</form></div></li></ul>";
-				msgD.setSeen(me.getUserId(), "friendrequests");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

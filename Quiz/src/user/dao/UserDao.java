@@ -20,10 +20,24 @@ public class UserDao {
 	
 	public void addUser(User usr) throws SQLException {
 		Statement stmt = (Statement) conn.createStatement();
-		String sql = "INSERT INTO Users (username, pass, e_mail, pic_url) " + "VALUES('" + usr.getUserName()
-		+ "', '" + usr.getHashedPassword()+ "', '" + usr.getEMail() + "', '" + usr.getUserpic() +"')";
+		String sql = "INSERT INTO Users (username, pass, e_mail, pic_url, deleted) " + "VALUES('" + usr.getUserName()
+		+ "', '" + usr.getHashedPassword()+ "', '" + usr.getEMail() + "', '" + usr.getUserpic() +"', 0)";
 		stmt.executeUpdate(sql);
 		addUserPriority(getUserByName(usr.getUserName()).getUserId(), 0);
+	}
+	
+	public boolean checkUser(User usr) {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Users WHERE username = ?")) {
+			stmt.setString(1, usr.getUserName());
+			try (ResultSet rslt = stmt.executeQuery()) {
+				if (rslt.next()) {
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public User getUserByName(String username) throws SQLException {

@@ -146,7 +146,6 @@ function displayQuestions(arg) {
     		qst.innerHTML = xhttp.responseText;
    		}
     };
-    alert("Sending quiz id" + quizid);
    	xhttp.open("GET", "DisplayQuestions?quizid=" + quizid, true)
    	xhttp.send()
 }

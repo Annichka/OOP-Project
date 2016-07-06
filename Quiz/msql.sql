@@ -1,4 +1,3 @@
-DROP SCHEMA WebData;
 CREATE SCHEMA WebData;
 USE WebData;
 
@@ -33,9 +32,10 @@ CREATE TABLE Questions(
 CREATE TABLE Users (
 	user_id int(4) not null auto_increment primary key,
     username varchar(20) not null,
-    pass varchar(100) not null,
+    pass varchar (100) not null,
     e_mail varchar(50) not null,
-    pic_url varchar(3000)
+    pic_url varchar(3000),
+    deleted int(1)
 );
 
 CREATE TABLE Friends (

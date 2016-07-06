@@ -21,7 +21,7 @@
 		<% ArrayList<User> all_user = (ArrayList<User>) session.getAttribute("alluser");  %>
 		<% Collections.shuffle(all_user); %>
 		<% for (int i = 0; i < all_user.size(); i++) { %>
-			<% if (i > 10) break; %>
+			<% if (i > 20) break; %>
 			<div class="friends">
 				<a href=<%= "profile.jsp?profile=" +  all_user.get(i).getUserName()%>><%= all_user.get(i).getUserName() %></a><br>
 			    <a href=<%= "profile.jsp?profile=" +  all_user.get(i).getUserName()%>>

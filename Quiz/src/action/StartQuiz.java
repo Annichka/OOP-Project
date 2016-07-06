@@ -207,6 +207,7 @@ public class StartQuiz extends HttpServlet {
 		int secondrow = sr.size();
 		String name = pos + "x";
 		
+		Collections.shuffle(sr);
 		html += "<br><i>" + (pos+1) + ". " + q.getQuestion() + "</i>";
 		
 		for (int i=0; i< firstrow; i++) {

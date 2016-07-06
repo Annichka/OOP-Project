@@ -166,10 +166,9 @@ public class MessagesDao {
 	
 	public void setSeen(int usrId, String type) throws SQLException {
 		String sql = "UPDATE TABLE Messages SET seen = 1 WHERE"
-				+ " u_to = " + usrId + " AND m_type = '" + type + "'";
-		
+				+ " u_to = " + usrId + " AND m_type = '" + type + "";
 		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.executeUpdate(sql);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

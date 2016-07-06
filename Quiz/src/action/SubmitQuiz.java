@@ -150,6 +150,8 @@ public class SubmitQuiz extends HttpServlet {
 		int score = sc.countForQuiz(qstlist, answers);
 		int duration = SaveData(uid, qid, score, starttime, endtime);
 		
+		QuizDao qDao = ((UserManager)getServletContext().getAttribute("userM")).getQuizDao();
+		qDao.quizFilled(qid);
 		AchievementManager achieveManager = new AchievementManager(um);
 		achieveManager.addHighScoreAchievement(uid, qid);
 		
